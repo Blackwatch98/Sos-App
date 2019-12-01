@@ -1,4 +1,4 @@
-package com.example.sos_app_ui.ui.last_activity;
+package com.example.sos_app_ui.ui.current_activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sos_app_ui.R;
 
-public class LastActivityFragment extends Fragment {
+public class CurrentActivityFragment extends Fragment {
 
-    private LastActivityViewModel dashboardViewModel;
+    private CurrentActivityViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
-                ViewModelProviders.of(this).get(LastActivityViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_last_activity, container, false);
+                ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_current_activity, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
         dashboardViewModel.getText().observe(this, new Observer<String>() {
             @Override

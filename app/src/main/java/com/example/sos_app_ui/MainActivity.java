@@ -11,6 +11,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
+    private ListView listViewConfiguration;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
 
     @Override
@@ -48,8 +50,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        //loadConfigurationListView();
     }
 
+    public void loadConfigurationListView(){
+        listViewConfiguration = (ListView) this.findViewById(R.id.listViewConfiguration);
+        ArrayList<String> listOfConfigurations = new ArrayList<String>();
+        listOfConfigurations.add("Contacts");
+        listOfConfigurations.add("SMS text");
+        listOfConfigurations.add("Your data");
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.configuration_list_items,listOfConfigurations);
+        listViewConfiguration.setAdapter(arrayAdapter);
+    }
 
     public void btnLoad_AndroidContacts_onClick(View view) {
         listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);

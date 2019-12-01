@@ -1,16 +1,16 @@
-package com.example.sos_app_ui.ui.last_activity;
+package com.example.sos_app_ui.ui.current_activity;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LastActivityViewModel extends ViewModel {
+public class CurrentActivityViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public LastActivityViewModel() {
+    public CurrentActivityViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is yor last activity");
+        mText.setValue("Check your activity!");
     }
 
     public LiveData<String> getText() {
