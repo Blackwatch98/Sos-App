@@ -17,9 +17,9 @@
         android:label="@string/title_lastActivity"
         tools:layout="@layout/fragment_last_activity" />
 
-`    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.sos_app_ui.ui.contacts.ContactsFragment"
-        android:label="@string/title_contacts"
-        tools:layout="@layout/fragment_contacts" />
+    `    <fragment
+    android:id="@+id/navigation_notifications"
+    android:name="com.example.sos_app_ui.ui.contacts.ContactsFragment"
+    android:label="@string/title_contacts"
+    tools:layout="@layout/fragment_contacts" />
 </navigation>
