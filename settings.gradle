@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='SosApp'
+rootProject.name='SOS-App-UI'
