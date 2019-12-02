@@ -1,4 +1,4 @@
-package com.sosapp;
+package com.example.sos_app_ui;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.sosapp", appContext.getPackageName());
+        assertEquals("com.example.sos_app_ui", appContext.getPackageName());
     }
 }

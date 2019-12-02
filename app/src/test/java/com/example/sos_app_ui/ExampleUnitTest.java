@@ -1,4 +1,4 @@
-package com.sosapp;
+package com.example.sos_app_ui;
 
 import org.junit.Test;
 

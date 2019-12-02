@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.RoundedCornerMaterialButton" parent="TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/round_shape_btn</item>
+    </style>
 </resources>

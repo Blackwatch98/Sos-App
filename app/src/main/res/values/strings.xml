@@ -1,6 +1,7 @@
+
 <resources>
-    <string name="app_name">SosApp</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">SOS-App-UI</string>
+    <string name="title_configuration">Configuration</string>
+    <string name="title_currentActivity">Current activity</string>
+    <string name="title_last_activity">Last activity</string>
 </resources>

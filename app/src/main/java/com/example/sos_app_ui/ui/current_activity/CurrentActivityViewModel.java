@@ -1,16 +1,16 @@
-package com.sosapp.ui.notifications;
+package com.example.sos_app_ui.ui.current_activity;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class CurrentActivityViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public CurrentActivityViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("Check your activity!");
     }
 
     public LiveData<String> getText() {
