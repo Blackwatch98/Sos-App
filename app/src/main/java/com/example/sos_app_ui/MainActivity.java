@@ -1,7 +1,6 @@
 package com.example.sos_app_ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -27,11 +26,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
-    private ListView listViewConfiguration;
+    private ListView list ;
+    private ArrayAdapter<String> adapter ;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
 
     @Override
@@ -55,14 +56,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadConfigurationListView(){
-        listViewConfiguration = (ListView) this.findViewById(R.id.listViewConfiguration);
-        ArrayList<String> listOfConfigurations = new ArrayList<String>();
-        listOfConfigurations.add("Contacts");
-        listOfConfigurations.add("SMS text");
-        listOfConfigurations.add("Your data");
+        list = (ListView) findViewById(R.id.listView1);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.configuration_list_items,listOfConfigurations);
-        listViewConfiguration.setAdapter(arrayAdapter);
+        String cars[] = {"Mercedes", "Fiat", "Ferrari", "Aston Martin", "Lamborghini", "Skoda", "Volkswagen", "Audi", "Citroen"};
+
+        ArrayList<String> carL = new ArrayList<String>();
+        carL.addAll( Arrays.asList(cars) );
+
+        adapter = new ArrayAdapter<String>(this, R.layout.row, carL);
+
+        list.setAdapter(adapter);
     }
 
     public void btnLoad_AndroidContacts_onClick(View view) {
