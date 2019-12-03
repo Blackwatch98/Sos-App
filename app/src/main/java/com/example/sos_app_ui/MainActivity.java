@@ -1,10 +1,16 @@
 package com.example.sos_app_ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -34,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
     private ListView list ;
     private ArrayAdapter<String> adapter ;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        checkPermission();
+        checkPermissionContacts();
+        //checkPermissionLocation();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -155,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             // ----------------</ fp_get_Android_Contacts() >----------------
     }
 
-    public void checkPermission(){
+    public void checkPermissionContacts(){
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.READ_CONTACTS)
@@ -180,6 +188,21 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             // Permission has already been granted
+        }
+    }
+
+    public void checkPermissionLocation() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.LOCATION_HARDWARE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.LOCATION_HARDWARE)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
         }
     }
 
