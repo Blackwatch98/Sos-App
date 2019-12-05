@@ -1,22 +1,45 @@
 package com.example.sos_app_ui.ui.configuration;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.CheckBox;
+
+import com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.sos_app_ui.R;
 
 public class AdditionalSettingsPanel extends AppCompatActivity {
 
-
+    private CheckBox ch1;
+    private CheckBox ch2;
+    private CheckBox ch3;
+    private CheckBox ch4;
+    private CheckBox ch5;
+    private CheckBox ch6;
+    private CheckBox ch7;
+    private CheckBox ch8;
+    private CheckBox ch9;
+    private CheckBox ch10;
+    Button btn;
+    private int STORAGE_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,33 +49,98 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         checkBoxSettings();
-
     }
 
 
     public void checkBoxSettings()
     {
-        CheckBox ch1 = (CheckBox) findViewById(R.id.checkBox1);
-        CheckBox ch2 = (CheckBox) findViewById(R.id.checkBox2);
-        CheckBox ch3 = (CheckBox) findViewById(R.id.checkBox3);
-        CheckBox ch4 = (CheckBox) findViewById(R.id.checkBox4);
-        CheckBox ch5 = (CheckBox) findViewById(R.id.checkBox5);
-        CheckBox ch6 = (CheckBox) findViewById(R.id.checkBox6);
-        CheckBox ch7 = (CheckBox) findViewById(R.id.checkBox7);
-        CheckBox ch8 = (CheckBox) findViewById(R.id.checkBox8);
-        CheckBox ch9 = (CheckBox) findViewById(R.id.checkBox9);
-        CheckBox ch10 = (CheckBox) findViewById(R.id.checkBox10);
+        this.ch1 = findViewById(R.id.checkBox1);
+        this.ch2 = findViewById(R.id.checkBox2);
+        this.ch3 = findViewById(R.id.checkBox3);
+        this.ch4 = findViewById(R.id.checkBox4);
+        this.ch5 = findViewById(R.id.checkBox5);
+        this.ch6 = findViewById(R.id.checkBox6);
+        this.ch7 = findViewById(R.id.checkBox7);
+        this.ch8 = findViewById(R.id.checkBox8);
+        this.ch9 = findViewById(R.id.checkBox9);
+        this.ch10 = findViewById(R.id.checkBox10);
+
+
+        btn = findViewById(R.id.confirmBtn1);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v)
+            {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(AdditionalSettingsPanel.this);
+                builder1.setMessage("You did not fill all the options. Would you like to continue?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+
+
+                if(!ch1.isChecked() && !ch2.isChecked())
+                    alert11.show();
+                else if(!ch3.isChecked() && !ch4.isChecked())
+                    alert11.show();
+                else if(!ch5.isChecked() && !ch6.isChecked())
+                    alert11.show();
+                else if(!ch7.isChecked() && !ch8.isChecked())
+                    alert11.show();
+                else if(!ch9.isChecked() && !ch10.isChecked())
+                    alert11.show();
+                else
+                {
+                    //metoda do pobrania danych
+                    //setContentView(R.layout.smile_popup);
+                    Intent i = new Intent(AdditionalSettingsPanel.this,PopActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
 
         ch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch2 = (CheckBox) findViewById(R.id.checkBox2);
-                if ( isChecked )
-                    ch2.setClickable(false);
+                if(isChecked == true)
+                {
+                    ch2.setChecked(false);
+                    ch2.setSelected(false);
+
+
+                    if (ContextCompat.checkSelfPermission(AdditionalSettingsPanel.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(AdditionalSettingsPanel.this, "You have already granted this permission!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        requestLocationAccess();
+                    }
+                }
                 else
-                    ch2.setClickable(true);
+                {
+
+                }
+
             }
         });
 
@@ -61,11 +149,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch1= (CheckBox) findViewById(R.id.checkBox1);
-                if ( isChecked )
-                    ch1.setClickable(false);
-                else
-                    ch1.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch1.setChecked(false);
+                    ch1.setSelected(false);
+                }
             }
         });
 
@@ -74,11 +162,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch4 = (CheckBox) findViewById(R.id.checkBox4);
-                if ( isChecked )
-                    ch4.setClickable(false);
-                else
-                    ch4.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch4.setChecked(false);
+                    ch4.setSelected(false);
+                }
             }
         });
 
@@ -87,11 +175,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch3 = (CheckBox) findViewById(R.id.checkBox3);
-                if ( isChecked )
-                    ch3.setClickable(false);
-                else
-                    ch3.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch3.setChecked(false);
+                    ch3.setSelected(false);
+                }
             }
         });
 
@@ -100,11 +188,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch6 = (CheckBox) findViewById(R.id.checkBox6);
-                if ( isChecked )
-                    ch6.setClickable(false);
-                else
-                    ch6.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch6.setChecked(false);
+                    ch6.setSelected(false);
+                }
             }
         });
 
@@ -113,11 +201,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch5 = (CheckBox) findViewById(R.id.checkBox5);
-                if ( isChecked )
-                    ch5.setClickable(false);
-                else
-                    ch5.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch5.setChecked(false);
+                    ch5.setSelected(false);
+                }
             }
         });
 
@@ -126,11 +214,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch8 = (CheckBox) findViewById(R.id.checkBox8);
-                if ( isChecked )
-                    ch8.setClickable(false);
-                else
-                    ch8.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch8.setChecked(false);
+                    ch8.setSelected(false);
+                }
             }
         });
 
@@ -139,11 +227,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch7 = (CheckBox) findViewById(R.id.checkBox7);
-                if ( isChecked )
-                    ch7.setClickable(false);
-                else
-                    ch7.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch7.setChecked(false);
+                    ch7.setSelected(false);
+                }
             }
         });
 
@@ -152,11 +240,11 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch10 = (CheckBox) findViewById(R.id.checkBox10);
-                if ( isChecked )
-                    ch10.setClickable(false);
-                else
-                    ch10.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch10.setChecked(false);
+                    ch10.setSelected(false);
+                }
             }
         });
 
@@ -165,13 +253,53 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                CheckBox ch9 = (CheckBox) findViewById(R.id.checkBox9);
-                if ( isChecked )
-                    ch9.setClickable(false);
-                else
-                    ch9.setClickable(true);
+                if(isChecked == true)
+                {
+                    ch9.setChecked(false);
+                    ch9.setSelected(false);
+                }
             }
         });
+    }
+
+    private void requestLocationAccess() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("If you don't agree, warnings will be send without your location. Do you want to continue?")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(AdditionalSettingsPanel.this,
+                                    new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+        }
+        else {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSION_CODE)  {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
