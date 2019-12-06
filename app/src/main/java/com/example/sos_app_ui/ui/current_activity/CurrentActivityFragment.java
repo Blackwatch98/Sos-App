@@ -2,6 +2,7 @@ package com.example.sos_app_ui.ui.current_activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -30,10 +31,14 @@ import com.example.sos_app_ui.R;
 import static android.content.Context.SENSOR_SERVICE;
 
 public class CurrentActivityFragment extends Fragment {
-
-    private FileHelper fileHelper;
-    private StringBuilder strBuilder;
+    private StringBuilder gyroscopeStrX = new StringBuilder();
+    private StringBuilder gyroscopeStrY = new StringBuilder();
+    private StringBuilder gyroscopeStrZ = new StringBuilder();
+    private StringBuilder accelerometerStrX = new StringBuilder();
+    private StringBuilder accelerometerStrY = new StringBuilder();
+    private StringBuilder accelerometerStrZ = new StringBuilder();
     private CurrentActivityViewModel dashboardViewModel;
+    private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,10 +51,13 @@ public class CurrentActivityFragment extends Fragment {
                 textView.setText(s);
             }
         });
-        strBuilder = new StringBuilder();
-        fileHelper = new FileHelper("test.txt");
+        context = getContext();
 
-        readGyroscope(root, textView);
+        //FileHelper fileHelper = new FileHelper("test.txt", context);
+        //fileHelper.writeToFile("test zapisu");
+
+        if(!readGyroscope(root, textView));
+            textView.setText("Sensors Error");
         return root;
     }
 
@@ -65,78 +73,104 @@ public class CurrentActivityFragment extends Fragment {
         Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-
-        if(gyroscopeSensor == null) {
-            System.out.println("gyroscope sensor not finded");
+        if(!checkSensors(accelerometerSensor, gyroscopeSensor))
             return false;
-        }
 
-        if(accelerometerSensor == null) {
-            System.out.println("acceleromete sensor not finded");
-            return false;
-        }
 
-        // Create a gyroscope listener
-        SensorEventListener gyroscopeSensorListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                Float value = sensorEvent.values[0];
-                strBuilder.append("gyroscope X: "+value+"\n");
-                gyroscopeX.setText(value.toString());
+        SensorEventListener accelerometerListener = setAccelerometerEventListener(accelerometerX, accelerometerY, accelerometerZ);
+        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-                value = sensorEvent.values[1];
-                strBuilder.append("gyroscope Y: "+value+"\n");
-                gyroscopeY.setText(value.toString());
+        SensorEventListener gyroscopeSensorListener = setGyroscopeEventListener(gyroscopeX, gyroscopeY, gyroscopeZ);
+        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-                value = sensorEvent.values[2];
-                strBuilder.append("gyroscope Z: "+value+"\n");
-                gyroscopeZ.setText(value.toString());
-            }
+        setButton(view, textView);
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
+        return true;
+    }
 
-        // Create a gyroscope listener
+    private SensorEventListener setAccelerometerEventListener(final TextView aX, final TextView aY, final TextView aZ){
         SensorEventListener accelerometerListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 Float value = sensorEvent.values[0];
-                strBuilder.append("accelerometer X: "+value+"\n");
-                accelerometerX.setText(value.toString());
+                accelerometerStrX.append(value+"\n");
+                aX.setText(value.toString());
 
                 value = sensorEvent.values[1];
-                strBuilder.append("accelerometer Y: "+value+"\n");
-                accelerometerY.setText(value.toString());
+                accelerometerStrY.append(value+"\n");
+                aY.setText(value.toString());
 
                 value = sensorEvent.values[2];
-                strBuilder.append("accelerometer Z: "+value+"\n\n");
-                accelerometerZ.setText(value.toString());
+                accelerometerStrZ.append(value+"\n");
+                aZ.setText(value.toString());
             }
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int i) {
             }
         };
+        return accelerometerListener;
+    }
 
-        // Register the listeners
-        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    private SensorEventListener setGyroscopeEventListener(final TextView gX, final TextView gY, final TextView gZ){
+        SensorEventListener gyroscopeSensorListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                Float value = sensorEvent.values[0];
+                gyroscopeStrX.append(value+"\n");
+                gX.setText(value.toString());
 
+                value = sensorEvent.values[1];
+                gyroscopeStrY.append(value+"\n");
+                gY.setText(value.toString());
+
+                value = sensorEvent.values[2];
+                gyroscopeStrZ.append(value+"\n");
+                gZ.setText(value.toString());
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+            }
+        };
+        return gyroscopeSensorListener;
+    }
+
+    private boolean checkSensors(Sensor accelerometer, Sensor gyroscope){
+        if(gyroscope == null) {
+            System.out.println("gyroscope sensor not finded");
+            return false;
+        }
+
+        if(accelerometer == null) {
+            System.out.println("acceleromete sensor not finded");
+            return false;
+        }
+        return true;
+    }
+
+    private void setButton(View view, final TextView textView){
         Button btnSaveFile = view.findViewById(R.id.saveTest);
 
         btnSaveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!fileHelper.writeToFile(strBuilder.toString()))
-                    textView.setText("write error");
+                FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
+                FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
+                FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
+
+                FileHelper fileGyroscopeX = new FileHelper("gyroX.txt", context);
+                FileHelper fileGyroscopeY = new FileHelper("gyroY.txt", context);
+                FileHelper fileGyroscopeZ = new FileHelper("gyroZ.txt", context);
+
+                if(fileAccelerometerX.writeToFile(accelerometerStrX.toString()) && fileAccelerometerY.writeToFile(accelerometerStrY.toString()) &&
+                fileAccelerometerZ.writeToFile(accelerometerStrZ.toString()) && fileGyroscopeX.writeToFile(gyroscopeStrX.toString()) &&
+                fileGyroscopeY.writeToFile(gyroscopeStrY.toString()) && fileGyroscopeZ.writeToFile(gyroscopeStrZ.toString()))
+                    textView.setText("files saved");
                 else
-                    textView.setText(fileHelper.getPath());
+                    textView.setText("files saving error");
             }
         });
-
-        return true;
     }
 
 }
