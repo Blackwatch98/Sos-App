@@ -78,10 +78,10 @@ public class CurrentActivityFragment extends Fragment {
 
 
         SensorEventListener accelerometerListener = setAccelerometerEventListener(accelerometerX, accelerometerY, accelerometerZ);
-        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
         SensorEventListener gyroscopeSensorListener = setGyroscopeEventListener(gyroscopeX, gyroscopeY, gyroscopeZ);
-        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
         setButton(view, textView);
 
