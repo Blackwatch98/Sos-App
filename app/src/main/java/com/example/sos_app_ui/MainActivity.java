@@ -1,10 +1,19 @@
 package com.example.sos_app_ui;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,14 +27,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private ListView listView_Android_Contacts;
     private ListView list ;
     private ArrayAdapter<String> adapter ;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
-
-    public MainActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +52,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
+/*
+    public void btnLoad_AndroidContacts_onClick(View view) {
+        listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);
+        fp_get_Android_Contacts();
+    }
+*/
+}
+
 
