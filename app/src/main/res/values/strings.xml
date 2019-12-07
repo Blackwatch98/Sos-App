@@ -1,7 +1,9 @@
-
 <resources>
     <string name="app_name">SOS-App</string>
     <string name="title_configuration">Configuration</string>
     <string name="title_currentActivity">Current activity</string>
     <string name="title_last_activity">Last activity</string>
+    <string name="title_activity_personal_data_panel">PersonalDataPanel</string>
+    <string name="title_activity_additional_settings_panel">AdditionalSettingsPanel</string>
+    <string name="load_contacts_button">Load contacts</string>
 </resources>
