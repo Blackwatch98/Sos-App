@@ -42,7 +42,7 @@ public class ConfigurationFragment extends Fragment {
 
         ListView list = (ListView) root.findViewById(R.id.listView1);
 
-        String functions[] = {"Personal Data", "Phone number", "Warning Targets", "Additional settings"};
+        String functions[] = {"Personal Data", "Message", "Warning Targets", "Settings"};
 
         ArrayList<String> carL = new ArrayList<String>();
         carL.addAll( Arrays.asList(functions) );
@@ -57,6 +57,16 @@ public class ConfigurationFragment extends Fragment {
                 if(position == 0)
                 {
                     Intent appInfo = new Intent(view.getContext(),PersonalDataPanel.class);
+                    startActivity(appInfo);
+                }
+                if(position == 1)
+                {
+                    Intent appInfo = new Intent(view.getContext(),MessagePanel.class);
+                    startActivity(appInfo);
+                }
+                if(position == 2)
+                {
+                    Intent appInfo = new Intent(view.getContext(),WarningTargets.class);
                     startActivity(appInfo);
                 }
                 if(position == 3)

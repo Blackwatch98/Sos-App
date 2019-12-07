@@ -1,10 +1,19 @@
 package com.example.sos_app_ui;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,19 +27,18 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private ListView listView_Android_Contacts;
     private ListView list ;
     private ArrayAdapter<String> adapter ;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
 
-    public MainActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        checkPermission();
+        //checkPermission();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -43,50 +51,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-        //loadConfigurationListView();
     }
-
-
-    public void loadConfigurationListView(){
-        list = (ListView) findViewById(R.id.listView1);
-
-        String cars[] = {"Mercedes", "Fiat", "Ferrari", "Aston Martin", "Lamborghini", "Skoda", "Volkswagen", "Audi", "Citroen"};
-
-        ArrayList<String> carL = new ArrayList<String>();
-        carL.addAll( Arrays.asList(cars) );
-
-        adapter = new ArrayAdapter<String>(this, R.layout.row, carL);
-
-        list.setAdapter(adapter);
+/*
+    public void btnLoad_AndroidContacts_onClick(View view) {
+        listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);
+        fp_get_Android_Contacts();
     }
-
-
-    public void checkPermission(){
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.READ_CONTACTS)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            // Permission has already been granted
-        }
-    }
+*/
 }
+
+
