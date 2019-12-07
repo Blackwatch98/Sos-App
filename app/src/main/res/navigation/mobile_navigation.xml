@@ -8,18 +8,22 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.sos_app_ui.ui.configuration.ConfigurationFragment"
-        android:label="@string/title_configuration"
+        android:icon="@drawable/logo_white"
+        android:title="@string/app_name"
         tools:layout="@layout/fragment_configuration" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment"
-        android:label="@string/title_currentActivity"
+        android:icon="@drawable/logo_white"
+        android:title="@string/app_name"
         tools:layout="@layout/fragment_current_activity" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.sos_app_ui.ui.contacts.ContactsFragment"
-        android:label="@string/title_last_activity"
+        android:icon="@drawable/logo_white"
+
+        android:title="@string/app_name"
         tools:layout="@layout/fragment_last_activity" />
 </navigation>

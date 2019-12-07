@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +41,17 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
 
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(R.string.app_name);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.logo_white);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+//        ActionBar actionBar= getSupportActionBar();
+//        actionBar.setIcon(R.drawable.logo_white);
+//        actionBar.setTitle(R.string.app_name);
+//        actionBar.setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

@@ -10,7 +10,7 @@ public class CurrentActivityViewModel extends ViewModel {
 
     public CurrentActivityViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Check your activity!");
+        mText.setValue("Sos App");
     }
 
     public LiveData<String> getText() {
