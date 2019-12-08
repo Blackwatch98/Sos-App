@@ -53,9 +53,6 @@ public class CurrentActivityFragment extends Fragment {
         });
         context = getContext();
 
-        //FileHelper fileHelper = new FileHelper("test.txt", context);
-        //fileHelper.writeToFile("test zapisu");
-
         if(!readGyroscope(root, textView));
             textView.setText("Sensors Error");
         return root;
