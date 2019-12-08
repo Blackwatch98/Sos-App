@@ -89,27 +89,14 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-
-//        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
-//            //saveButton.setEnabled(false);
-//            System.out.println(">>>>>>>>>>>>>>>>>>>>> POBEM");
-//        }
-//        else {
-//            //myExternalFile = new File(getExternalFilesDir(filepath), filename);
-//            //myExternalFile = new File(Environment.getExternalStorageDirectory() + File.separator + "sosAppTest"+ File.separator + "test.txt");
-//        }
-//
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream(myExternalFile);
-//            fos.write(myData.getBytes());
-//            fos.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
+/*
+    public void btnLoad_AndroidContacts_onClick(View view) {
+        listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);
+        fp_get_Android_Contacts();
+    }
+*/
+}
 
     private static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();

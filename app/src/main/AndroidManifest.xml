@@ -4,6 +4,7 @@
     <uses-permission android:name = "android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name = "android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature android:name="android.hardware.sensor.gyroscope" android:required="true" />
     <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
@@ -15,10 +16,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.configuration.ContactsList"></activity>
+        <activity
+            android:name=".ui.configuration.WarningTargets"
+            android:label="@string/title_activity_warning_targets"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.configuration.MessagePanel"
+            android:label="@string/title_activity_message_panel"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.configuration.PopActivity" />
         <activity
             android:name=".ui.configuration.AdditionalSettingsPanel"
             android:label="@string/title_activity_additional_settings_panel"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.configuration.PersonalDataPanel"
             android:label="@string/title_activity_personal_data_panel"
