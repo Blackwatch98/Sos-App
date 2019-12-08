@@ -37,15 +37,15 @@ public class CurrentActivityFragment extends Fragment {
     private StringBuilder accelerometerStrX = new StringBuilder();
     private StringBuilder accelerometerStrY = new StringBuilder();
     private StringBuilder accelerometerStrZ = new StringBuilder();
-    private CurrentActivityViewModel dashboardViewModel;
+    private CurrentActivityViewModel currentActivitzViewModel;
     private Context context;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
+        currentActivitzViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_current_activity, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(this, new Observer<String>() {
+        currentActivitzViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
@@ -53,12 +53,12 @@ public class CurrentActivityFragment extends Fragment {
         });
         context = getContext();
 
-        if(!readGyroscope(root, textView));
+        if(!readSensors(root, textView));
             textView.setText("Sensors Error");
         return root;
     }
 
-    private boolean readGyroscope(View view, final TextView textView){
+    private boolean readSensors(View view, final TextView textView){
         final TextView gyroscopeX = view.findViewById(R.id.gyroscopeX);
         final TextView gyroscopeY = view.findViewById(R.id.gyroscopeY);
         final TextView gyroscopeZ = view.findViewById(R.id.gyroscopeZ);

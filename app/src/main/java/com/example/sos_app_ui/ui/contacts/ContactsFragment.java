@@ -27,18 +27,18 @@ public class ContactsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        contatsViewModel =
-                ViewModelProviders.of(this).get(ContatsViewModel.class);
+        //contatsViewModel =
+                //ViewModelProviders.of(this).get(ContatsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_last_activity, container, false);
 
-        Button button = root.findViewById(R.id.btnLoad_AndroidContacts);
-        listView_Android_Contacts = (ListView) root.findViewById(R.id.listView_Android_Contacts);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContactsFragment.this.fp_get_Android_Contacts();
-            }
-        });
+//        Button button = root.findViewById(R.id.btnLoad_AndroidContacts);
+//        listView_Android_Contacts = (ListView) root.findViewById(R.id.listView_Android_Contacts);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ContactsFragment.this.fp_get_Android_Contacts();
+//            }
+//        });
 
         return root;
     }
@@ -84,12 +84,12 @@ public class ContactsFragment extends Fragment {
                     }
 
                     // Add the contact to the ArrayList
-                    arrayList_Android_Contacts.add(android_contact);
+                    //arrayList_Android_Contacts.add(android_contact);
                 }
 
                 //< show results >
-                ContactsAdapter adapter = new ContactsAdapter(getContext(), arrayList_Android_Contacts);
-                listView_Android_Contacts.setAdapter(adapter);
+                //ContactsAdapter adapter = new ContactsAdapter(getContext(), arrayList_Android_Contacts);
+                //listView_Android_Contacts.setAdapter(adapter);
                 //</ show results >
             }
         }

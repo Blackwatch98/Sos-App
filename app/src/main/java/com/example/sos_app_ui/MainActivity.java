@@ -48,18 +48,13 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
-    private ListView list ;
-    private ArrayAdapter<String> adapter ;
+    private ListView list;
+    private ArrayAdapter<String> adapter;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
     private static final int PERMISSION_REQUEST_CODE = 100;
-
-    private String filename = "test.txt";
-    private String filepath = "sosAppTest";
-    File myExternalFile;
-    String myData = "testestestest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //checkPermissionWriteExternalStorage();
         //checkPermissionReadExternalStorage();
         //checkPermissionLocation();
-        if(!checkPermission())
+        if (!checkPermission())
             requestPermission();
 
 //        ActivityCompat.requestPermissions(MainActivity.this,
@@ -96,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         fp_get_Android_Contacts();
     }
 */
-}
 
     private static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();
