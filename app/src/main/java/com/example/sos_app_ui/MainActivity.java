@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.hardware.Sensor;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 import com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        startService(new Intent(this, BackgroundNotificationService.class));
 
     }
 /*
