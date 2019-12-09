@@ -1,10 +1,6 @@
 package com.example.sos_app_ui.ui.current_activity;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -18,14 +14,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -40,6 +32,11 @@ public class CurrentActivityFragment extends Fragment {
     private CurrentActivityViewModel currentActivitzViewModel;
     private Context context;
 
+    private CalculateSensorClass calculateAccX;
+    private CalculateSensorClass calculateAccY;
+    private CalculateSensorClass calculateAccZ;
+    private CalculateFallClass calculateFall;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         currentActivitzViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
@@ -52,6 +49,12 @@ public class CurrentActivityFragment extends Fragment {
             }
         });
         context = getContext();
+
+        calculateAccX = new CalculateSensorClass(3, "X");
+        calculateAccY = new CalculateSensorClass(3,"Y");
+        calculateAccZ = new CalculateSensorClass(3, "Z");
+        calculateFall = new CalculateFallClass(4,40,1000,
+                                                200,-9000,-100,500,-500);
 
         if(!readSensors(root, textView));
             textView.setText("Sensors Error");
@@ -91,15 +94,26 @@ public class CurrentActivityFragment extends Fragment {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 Float value = sensorEvent.values[0];
                 accelerometerStrX.append(value+"\n");
-                aX.setText(value.toString());
+                //aX.setText(value.toString());
+                calculateFall.setAccXPercent(calculateAccX.addElement(value));
+
+                    //aX.setText(calculateAccX.display());
 
                 value = sensorEvent.values[1];
                 accelerometerStrY.append(value+"\n");
-                aY.setText(value.toString());
+                //aY.setText(value.toString());
+                calculateFall.setAccYPercent(calculateAccY.addElement(value));
+
+                   // aY.setText(calculateAccY.display());
 
                 value = sensorEvent.values[2];
                 accelerometerStrZ.append(value+"\n");
-                aZ.setText(value.toString());
+                //aZ.setText(value.toString());
+                calculateFall.setAccZPercent(calculateAccZ.addElement(value));
+                //aZ.setText(calculateAccZ.display());
+
+                if(calculateFall.calculate())
+                    aX.setText("UPADEK");
             }
 
             @Override
