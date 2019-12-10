@@ -37,11 +37,13 @@ public class CurrentActivityFragment extends Fragment {
     private CalculateSensorClass calculateAccZ;
     private CalculateFallClass calculateFall;
 
+    TextView textView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         currentActivitzViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_current_activity, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
+        textView = root.findViewById(R.id.text_dashboard);
         currentActivitzViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -50,11 +52,12 @@ public class CurrentActivityFragment extends Fragment {
         });
         context = getContext();
 
-        calculateAccX = new CalculateSensorClass(3, "X");
-        calculateAccY = new CalculateSensorClass(3,"Y");
-        calculateAccZ = new CalculateSensorClass(3, "Z");
-        calculateFall = new CalculateFallClass(4,40,1000,
-                                                200,-9000,-100,500,-500);
+        calculateAccX = new CalculateSensorClass(4, "X");
+        calculateAccY = new CalculateSensorClass(4,"Y");
+        calculateAccZ = new CalculateSensorClass(4, "Z");
+        calculateFall = new CalculateFallClass(2,500,25,
+                                                8,-100,-100,
+                                                    100,2);
 
         if(!readSensors(root, textView));
             textView.setText("Sensors Error");
@@ -93,27 +96,31 @@ public class CurrentActivityFragment extends Fragment {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 Float value = sensorEvent.values[0];
-                accelerometerStrX.append(value+"\n");
                 //aX.setText(value.toString());
-                calculateFall.setAccXPercent(calculateAccX.addElement(value));
-
-                    //aX.setText(calculateAccX.display());
+                Float perVal = calculateAccX.addElement(value);
+                //accelerometerStrX.append(perVal+"\n");
+                aX.setText(String.valueOf(perVal));
+                calculateFall.setAccXValue(perVal);
+                //aX.setText(calculateAccX.display());
 
                 value = sensorEvent.values[1];
-                accelerometerStrY.append(value+"\n");
                 //aY.setText(value.toString());
-                calculateFall.setAccYPercent(calculateAccY.addElement(value));
-
-                   // aY.setText(calculateAccY.display());
+                perVal = calculateAccY.addElement(value);
+                //accelerometerStrY.append(perVal+"\n");
+                aY.setText(String.valueOf(perVal));
+                calculateFall.setAccYValue(perVal);
+                //aY.setText(calculateAccY.display());
 
                 value = sensorEvent.values[2];
-                accelerometerStrZ.append(value+"\n");
                 //aZ.setText(value.toString());
-                calculateFall.setAccZPercent(calculateAccZ.addElement(value));
+                perVal = calculateAccZ.addElement(value);
+                //accelerometerStrZ.append(perVal+"\n");
+                aZ.setText(String.valueOf(perVal));
+                calculateFall.setAccZValue(perVal);
                 //aZ.setText(calculateAccZ.display());
 
                 if(calculateFall.calculate())
-                    aX.setText("UPADEK");
+                    textView.setText("UPADEK");
             }
 
             @Override

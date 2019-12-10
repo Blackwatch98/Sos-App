@@ -34,13 +34,14 @@ public class CalculateSensorClass {
         this.listCapacity = 10;
     }
 
+    // change that names...
     public Float addElement(Float number){
-        Float percent = calculateRiskPercent(number);
+        Float riskValue = calculateRisk(number);
         list.add(number);
         if(list.size() > listCapacity)
             list.remove();
 
-        return percent;
+        return riskValue;
     }
 
     public void removeElement(){
@@ -53,17 +54,23 @@ public class CalculateSensorClass {
     }
 
     // popraw to => liczenie procentow z malutkich wartosci nie ma sensu
-    private Float calculateRiskPercent(Float number){
+    private Float calculateRisk(Float number){
         if(list.size()<1)
             return null;
         Float avg = avg();
         if(avg == 0)
             return null;
-        Float percent = (number*100) / avg();
-        percent = (float) 100 - percent;
-        if(percent> max)
-            max=percent;
-        return percent;
+        //if(number < 9 /*&& (number - avg < 5 && number - avg > -5)*/)
+            //return (float) 0;
+        return number - avg;
+        //Float percent = (number*100) / avg();
+        //percent = (float) 100 - percent;
+        //if(percent> max)
+           // max=percent;
+        // ignore
+        //if(percent < 15)
+            //return (float)0;
+        //return percent;
     }
 
     private Float avg(){

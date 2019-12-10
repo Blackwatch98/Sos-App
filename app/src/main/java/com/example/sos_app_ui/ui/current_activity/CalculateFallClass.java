@@ -8,9 +8,9 @@ public class CalculateFallClass {
     private Boolean possibleNotMove = false;
     private Boolean notMoveAlarm = false;
 
-    private Float accXPercent;
-    private Float accYPercent;
-    private Float accZPercent;
+    private Float accXValue;
+    private Float accYValue;
+    private Float accZValue;
 
     private LinkedList<Boolean> listOfPossibleImpact;
     private Integer listofPossibleImpactLength;
@@ -24,6 +24,8 @@ public class CalculateFallClass {
 
     private Integer notMoveHighValue;
     private Integer notMoveLowValue;
+
+    private boolean needCheckmpact = true;
 
     public CalculateFallClass(int listOfPossibleImpactLength, int listofPossibleNotMoveLength,
                               Integer firstHighImpactValue, Integer secondHighImpactValue,
@@ -41,16 +43,16 @@ public class CalculateFallClass {
         this.listofPossibleNotMoveLength = listofPossibleNotMoveLength;
     }
 
-    public void setAccXPercent(Float accXPercent) {
-        this.accXPercent = accXPercent;
+    public void setAccXValue(Float accXValue) {
+        this.accXValue = accXValue;
     }
 
-    public void setAccYPercent(Float accYPercent) {
-        this.accYPercent = accYPercent;
+    public void setAccYValue(Float accYValue) {
+        this.accYValue = accYValue;
     }
 
-    public void setAccZPercent(Float accZPercent) {
-        this.accZPercent = accZPercent;
+    public void setAccZValue(Float accZValue) {
+        this.accZValue = accZValue;
     }
 
     public Boolean calculate(){
@@ -66,10 +68,14 @@ public class CalculateFallClass {
             addElementToImpactList(true);
         else
             addElementToImpactList(false);
-        
-        impactAlarm = checkImpactList();
-        if(impactAlarm)
+
+        if(needCheckmpact)
+            impactAlarm = checkImpactList();
+
+        if(impactAlarm) {
+            needCheckmpact = false;
             notMoveAlarm = checkNotMoveList();
+        }
         // jesli przez jakis czas nie, to zresetuj impactAlarm
         if(impactAlarm && notMoveAlarm)
             return true;
@@ -77,34 +83,51 @@ public class CalculateFallClass {
     }
     
     private boolean calculateNotMove(){
-        if(accZPercent==null || accYPercent==null || accXPercent==null)
+        if(accZValue==null || accYValue==null || accXValue==null)
             return false;
-        if(accXPercent < notMoveHighValue && accXPercent > notMoveLowValue &
-                accYPercent < notMoveHighValue && accYPercent > notMoveLowValue &&
-                accZPercent < notMoveHighValue && accZPercent > notMoveLowValue){
+//        if(accXValue < notMoveHighValue && accXValue > notMoveLowValue &
+//                accYValue < notMoveHighValue && accYValue > notMoveLowValue &&
+//                accZValue < notMoveHighValue && accZValue > notMoveLowValue){
+//            return true;
+//        }
+        if(Math.abs(accXValue) < notMoveLowValue &&
+                Math.abs(accYValue) < notMoveLowValue &&
+                Math.abs(accZValue) < notMoveLowValue)
             return true;
-        }
         return false;
     }
 
     private boolean calculateImpact(){
-        if(accZPercent==null || accYPercent==null || accXPercent==null)
+        if(accZValue==null || accYValue==null || accXValue==null)
             return false;
-        if(accXPercent > firstHighImpactValue || accXPercent < firstLowImpactValue &
-                accYPercent > secondHighImpactValue || accYPercent < secondLowImpactValue &&
-                accZPercent > secondHighImpactValue || accZPercent < secondLowImpactValue){
+        //System.out.println("X: "+accXValue+", Y: "+accYValue+", Z: "+accZValue);
+//        if(accXValue > firstHighImpactValue || accXValue < firstLowImpactValue &
+//                accYValue > secondHighImpactValue || accYValue < secondLowImpactValue &&
+//                accZValue > secondHighImpactValue || accZValue < secondLowImpactValue){
+//            return true;
+//        }
+//        else if(accYValue > firstHighImpactValue || accYValue < firstLowImpactValue &
+//                accXValue > secondHighImpactValue || accXValue < secondLowImpactValue &&
+//                accZValue > secondHighImpactValue || accZValue < secondLowImpactValue){
+//            return true;
+//        }
+//        else if(accZValue > firstHighImpactValue || accZValue < firstLowImpactValue &
+//                accXValue > secondHighImpactValue || accXValue < secondLowImpactValue &&
+//                accYValue > secondHighImpactValue || accYValue < secondLowImpactValue){
+//            return true;
+//        }
+        if(Math.abs(accXValue) > firstHighImpactValue &&
+                Math.abs(accYValue) > secondHighImpactValue &&
+                Math.abs(accZValue) > secondHighImpactValue)
             return true;
-        }
-        else if(accYPercent > firstHighImpactValue || accYPercent < firstLowImpactValue &
-                accXPercent > secondHighImpactValue || accXPercent < secondLowImpactValue &&
-                accZPercent > secondHighImpactValue || accZPercent < secondLowImpactValue){
+        if(Math.abs(accYValue) > firstHighImpactValue &&
+                Math.abs(accXValue) > secondHighImpactValue &&
+                Math.abs(accZValue) > secondHighImpactValue)
             return true;
-        }
-        else if(accZPercent > firstHighImpactValue || accZPercent < firstLowImpactValue &
-                accXPercent > secondHighImpactValue || accXPercent < secondLowImpactValue &&
-                accYPercent > secondHighImpactValue || accYPercent < secondLowImpactValue){
+        if(Math.abs(accZValue) > firstHighImpactValue &&
+                Math.abs(accYValue) > secondHighImpactValue &&
+                Math.abs(accXValue) > secondHighImpactValue)
             return true;
-        }
         return false;
     }
 
@@ -118,8 +141,8 @@ public class CalculateFallClass {
         listOfPossibleNotMove.add(bool);
         if(listOfPossibleNotMove.size() > listofPossibleNotMoveLength)
             listOfPossibleNotMove.remove();
-        if(!bool)
-            System.out.println(false);
+        //if(!bool)
+            //System.out.println("ruszam sie");
     }
 
     private boolean checkImpactList(){
