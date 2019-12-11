@@ -25,18 +25,22 @@ public class CalculateFallClass {
     private Integer notMoveHighValue;
     private Integer notMoveLowValue;
 
+    private Long delayBeforeNotMove;     // amount of detections after impact
+    private Long counterOfDelay;
+
     private boolean needCheckmpact = true;
 
     public CalculateFallClass(int listOfPossibleImpactLength, int listofPossibleNotMoveLength,
                               Integer firstHighImpactValue, Integer secondHighImpactValue,
                               Integer firstLowImpactValue, Integer secondLowImpactValue,
-                              Integer notMoveHighValue, Integer notMoveLowValue) {
+                              Integer notMoveHighValue, Integer notMoveLowValue, Long delayBeforeNotMove) {
         this.firstHighImpactValue = firstHighImpactValue;
         this.secondHighImpactValue = secondHighImpactValue;
         this.firstLowImpactValue = firstLowImpactValue;
         this.secondLowImpactValue = secondLowImpactValue;
         this.notMoveHighValue = notMoveHighValue;
         this.notMoveLowValue = notMoveLowValue;
+        this.delayBeforeNotMove = delayBeforeNotMove;
         this.listOfPossibleImpact = new LinkedList<>();
         this.listofPossibleImpactLength = listOfPossibleImpactLength;
         this.listOfPossibleNotMove = new LinkedList<>();
@@ -56,26 +60,39 @@ public class CalculateFallClass {
     }
 
     public Boolean calculate(){
-         possibleImpact = calculateImpact();
-         possibleNotMove = calculateNotMove();
-
-         if(possibleNotMove)
-             addElementToNotMoveList(true);
-         else
-             addElementToNotMoveList(false);
-
-        if(possibleImpact)
-            addElementToImpactList(true);
-        else
-            addElementToImpactList(false);
-
-        if(needCheckmpact)
-            impactAlarm = checkImpactList();
-
         if(impactAlarm) {
-            needCheckmpact = false;
+            //possibleNotMove = calculateNotMove();
+            //  if(possibleNotMove)
+            if(calculateNotMove())
+                addElementToNotMoveList(true);
+            else {
+                addElementToNotMoveList(false);
+                counterOfDelay++;
+                if(counterOfDelay >= delayBeforeNotMove){
+                    impactAlarm = false;
+                    counterOfDelay = (long)0;
+                }
+            }
             notMoveAlarm = checkNotMoveList();
         }
+        else {
+            //possibleImpact = calculateImpact();
+            //if (possibleImpact)
+            counterOfDelay = (long)0;  // zrob cos z tym
+            if(calculateImpact())
+                addElementToImpactList(true);
+            else
+                addElementToImpactList(false);
+            impactAlarm = checkImpactList();
+        }
+
+        //if(needCheckmpact)
+          //  impactAlarm = checkImpactList();
+
+//        if(impactAlarm) {
+//            needCheckmpact = false;
+//            notMoveAlarm = checkNotMoveList();
+//        }
         // jesli przez jakis czas nie, to zresetuj impactAlarm
         if(impactAlarm && notMoveAlarm)
             return true;
@@ -107,7 +124,7 @@ public class CalculateFallClass {
 //            return true;
 //        }
 //        else if(accYValue > firstHighImpactValue || accYValue < firstLowImpactValue &
-//                accXValue > secondHighImpactValue || accXValue < secondLowImpactValue &&
+//          3      accXValue > secondHighImpactValue || accXValue < secondLowImpactValue &&
 //                accZValue > secondHighImpactValue || accZValue < secondLowImpactValue){
 //            return true;
 //        }

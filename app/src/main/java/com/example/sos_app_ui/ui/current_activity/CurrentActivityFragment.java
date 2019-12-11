@@ -52,12 +52,12 @@ public class CurrentActivityFragment extends Fragment {
         });
         context = getContext();
 
-        calculateAccX = new CalculateSensorClass(4, "X");
-        calculateAccY = new CalculateSensorClass(4,"Y");
-        calculateAccZ = new CalculateSensorClass(4, "Z");
-        calculateFall = new CalculateFallClass(2,500,25,
-                                                8,-100,-100,
-                                                    100,2);
+        calculateAccX = new CalculateSensorClass(8, "X");
+        calculateAccY = new CalculateSensorClass(8,"Y");
+        calculateAccZ = new CalculateSensorClass(8, "Z");
+        calculateFall = new CalculateFallClass(2,1000,35,
+                                                15,-100,-100,
+                                                    100,2, (long)3000);
 
         if(!readSensors(root, textView));
             textView.setText("Sensors Error");
