@@ -14,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -39,32 +41,41 @@ public class CurrentActivityFragment extends Fragment {
     private StringBuilder accelerometerStrZ = new StringBuilder();
     private CurrentActivityViewModel currentActivitzViewModel;
     private Context context;
+    public boolean activity;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         currentActivitzViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_current_activity, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
+//        final TextView textView = root.findViewById(R.id.text_dashboard);
         currentActivitzViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+//                textView.setText(s);
             }
         });
         context = getContext();
+        activity = false;
 
-        if(!readSensors(root, textView));
-            textView.setText("Sensors Error");
+        final TextView status = root.findViewById(R.id.status);
+        final ProgressBar progressBar = root.findViewById(R.id.progress);
+        progressBar.setVisibility(View.INVISIBLE);
+        setActivityButton(root, status, progressBar);
+//
+//        if(!readSensors(root, textView));
+//            textView.setText("Sensors Error");
+
         return root;
     }
 
     private boolean readSensors(View view, final TextView textView){
-        final TextView gyroscopeX = view.findViewById(R.id.gyroscopeX);
-        final TextView gyroscopeY = view.findViewById(R.id.gyroscopeY);
-        final TextView gyroscopeZ = view.findViewById(R.id.gyroscopeZ);
-        final TextView accelerometerX = view.findViewById(R.id.accelerometerX);
-        final TextView accelerometerY = view.findViewById(R.id.accelerometerY);
-        final TextView accelerometerZ = view.findViewById(R.id.accelerometerZ);
+//        final TextView gyroscopeX = view.findViewById(R.id.gyroscopeX);
+//        final TextView gyroscopeY = view.findViewById(R.id.gyroscopeY);
+//        final TextView gyroscopeZ = view.findViewById(R.id.gyroscopeZ);
+//        final TextView accelerometerX = view.findViewById(R.id.accelerometerX);
+//        final TextView accelerometerY = view.findViewById(R.id.accelerometerY);
+//        final TextView accelerometerZ = view.findViewById(R.id.accelerometerZ);
 
         SensorManager sensorManager = (SensorManager)getActivity().getSystemService(SENSOR_SERVICE);
         Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
@@ -74,13 +85,13 @@ public class CurrentActivityFragment extends Fragment {
             return false;
 
 
-        SensorEventListener accelerometerListener = setAccelerometerEventListener(accelerometerX, accelerometerY, accelerometerZ);
-        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
+//        SensorEventListener accelerometerListener = setAccelerometerEventListener(accelerometerX, accelerometerY, accelerometerZ);
+//        sensorManager.registerListener(accelerometerListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
+//
+//        SensorEventListener gyroscopeSensorListener = setGyroscopeEventListener(gyroscopeX, gyroscopeY, gyroscopeZ);
+//        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        SensorEventListener gyroscopeSensorListener = setGyroscopeEventListener(gyroscopeX, gyroscopeY, gyroscopeZ);
-        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
-
-        setButton(view, textView);
+        //setButton(view, textView);
 
         return true;
     }
@@ -146,28 +157,51 @@ public class CurrentActivityFragment extends Fragment {
         return true;
     }
 
-    private void setButton(View view, final TextView textView){
-        Button btnSaveFile = view.findViewById(R.id.saveTest);
+    private void setActivityButton(final View view, final TextView textView, final ProgressBar progressBar) {
+        final Button clickButton = view.findViewById(R.id.activityButton);
+        clickButton.setOnClickListener( new View.OnClickListener() {
 
-        btnSaveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
-                FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
-                FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
-
-                FileHelper fileGyroscopeX = new FileHelper("gyroX.txt", context);
-                FileHelper fileGyroscopeY = new FileHelper("gyroY.txt", context);
-                FileHelper fileGyroscopeZ = new FileHelper("gyroZ.txt", context);
-
-                if(fileAccelerometerX.writeToFile(accelerometerStrX.toString()) && fileAccelerometerY.writeToFile(accelerometerStrY.toString()) &&
-                fileAccelerometerZ.writeToFile(accelerometerStrZ.toString()) && fileGyroscopeX.writeToFile(gyroscopeStrX.toString()) &&
-                fileGyroscopeY.writeToFile(gyroscopeStrY.toString()) && fileGyroscopeZ.writeToFile(gyroscopeStrZ.toString()))
-                    textView.setText("files saved");
-                else
-                    textView.setText("files saving error");
+                if(textView.getText().equals("Start\nactivity")) {
+                    textView.setText("Stop\nactivity");
+                    progressBar.setVisibility(View.VISIBLE);
+                    clickButton.setScaleX(0.9f);
+                    clickButton.setScaleY(0.9f);
+                    activity = false;
+                }
+                else {
+                    textView.setText("Start\nactivity");
+                    progressBar.setVisibility(View.INVISIBLE);
+                    clickButton.setScaleX(1f);
+                    clickButton.setScaleY(1f);
+                    activity = true;
+                }
             }
         });
     }
+//    private void setButton(View view, final TextView textView){
+//        Button btnSaveFile = view.findViewById(R.id.saveTest);
+//
+//        btnSaveFile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
+//                FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
+//                FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
+//
+//                FileHelper fileGyroscopeX = new FileHelper("gyroX.txt", context);
+//                FileHelper fileGyroscopeY = new FileHelper("gyroY.txt", context);
+//                FileHelper fileGyroscopeZ = new FileHelper("gyroZ.txt", context);
+//
+//                if(fileAccelerometerX.writeToFile(accelerometerStrX.toString()) && fileAccelerometerY.writeToFile(accelerometerStrY.toString()) &&
+//                fileAccelerometerZ.writeToFile(accelerometerStrZ.toString()) && fileGyroscopeX.writeToFile(gyroscopeStrX.toString()) &&
+//                fileGyroscopeY.writeToFile(gyroscopeStrY.toString()) && fileGyroscopeZ.writeToFile(gyroscopeStrZ.toString()))
+//                    textView.setText("files saved");
+//                else
+//                    textView.setText("files saving error");
+//            }
+//        });
+//    }
 
 }
