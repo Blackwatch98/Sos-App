@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
     private static final int PERMISSION_REQUEST_CODE = 100;
+    public static boolean activityOn;
 
     @Override
     public void onAttachedToWindow() {
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
 //                1);
 
+        activityOn = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
