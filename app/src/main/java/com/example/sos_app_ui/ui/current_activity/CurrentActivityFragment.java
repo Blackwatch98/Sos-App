@@ -58,10 +58,18 @@ public class CurrentActivityFragment extends Fragment {
         context = getContext();
         activity = false;
 
+        final Button clickButton = root.findViewById(R.id.activityButton);
         final TextView status = root.findViewById(R.id.status);
         final ProgressBar progressBar = root.findViewById(R.id.progress);
         progressBar.setVisibility(View.INVISIBLE);
-        setActivityButton(root, status, progressBar);
+
+        //update when opening the fragment
+        if(MainActivity.activityOn == true)
+            startActivityButton(root, status, progressBar, clickButton);
+        else
+            stopActivityButton(root, status, progressBar, clickButton);
+        //set listener
+        startActivityButtonListener(root, status, progressBar, clickButton);
 //
 //        if(!readSensors(root, textView));
 //            textView.setText("Sensors Error");
@@ -157,28 +165,31 @@ public class CurrentActivityFragment extends Fragment {
         return true;
     }
 
-    private void setActivityButton(final View view, final TextView textView, final ProgressBar progressBar) {
-        final Button clickButton = view.findViewById(R.id.activityButton);
+    private void startActivityButtonListener(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
         clickButton.setOnClickListener( new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if(textView.getText().equals("Start\nactivity")) {
-                    textView.setText("Stop\nactivity");
-                    progressBar.setVisibility(View.VISIBLE);
-                    clickButton.setScaleX(0.9f);
-                    clickButton.setScaleY(0.9f);
-                    activity = false;
-                }
-                else {
-                    textView.setText("Start\nactivity");
-                    progressBar.setVisibility(View.INVISIBLE);
-                    clickButton.setScaleX(1f);
-                    clickButton.setScaleY(1f);
-                    activity = true;
-                }
+                if(MainActivity.activityOn == true)
+                    stopActivityButton(view, textView, progressBar, clickButton);
+                else
+                    startActivityButton(view, textView, progressBar, clickButton);
             }
         });
+    }
+
+    private void startActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
+        textView.setText("Stop\nactivity");
+        progressBar.setVisibility(View.VISIBLE);
+        clickButton.setScaleX(0.9f);
+        clickButton.setScaleY(0.9f);
+        MainActivity.activityOn = true;
+    }
+    private void stopActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
+        textView.setText("Start\nactivity");
+        progressBar.setVisibility(View.INVISIBLE);
+        clickButton.setScaleX(1f);
+        clickButton.setScaleY(1f);
+        MainActivity.activityOn = false;
     }
 //    private void setButton(View view, final TextView textView){
 //        Button btnSaveFile = view.findViewById(R.id.saveTest);
