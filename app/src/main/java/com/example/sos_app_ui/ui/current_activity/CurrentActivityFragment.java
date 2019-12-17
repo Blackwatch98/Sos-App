@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,27 +32,26 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
+import com.example.sos_app_ui.background_service.BackgroundNotificationService;
+
+import java.util.Date;
 
 import static android.content.Context.SENSOR_SERVICE;
 
 public class CurrentActivityFragment extends Fragment {
-    private StringBuilder gyroscopeStrX = new StringBuilder();
-    private StringBuilder gyroscopeStrY = new StringBuilder();
-    private StringBuilder gyroscopeStrZ = new StringBuilder();
-    private StringBuilder accelerometerStrX = new StringBuilder();
-    private StringBuilder accelerometerStrY = new StringBuilder();
-    private StringBuilder accelerometerStrZ = new StringBuilder();
-    private CurrentActivityViewModel currentActivitzViewModel;
+
     private Context context;
     public boolean activity;
+    private CurrentActivityViewModel currentActivityViewModel;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        currentActivitzViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
+
+        currentActivityViewModel = ViewModelProviders.of(this).get(CurrentActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_current_activity, container, false);
 //        final TextView textView = root.findViewById(R.id.text_dashboard);
-        currentActivitzViewModel.getText().observe(this, new Observer<String>() {
+        currentActivityViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 //                textView.setText(s);
@@ -74,8 +76,17 @@ public class CurrentActivityFragment extends Fragment {
 //        if(!readSensors(root, textView));
 //            textView.setText("Sensors Error");
 
+        Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
+        Bundle b = new Bundle();
+        b.putString("data", "5");
+        intent.putExtras(b);
+        getActivity().startService(intent);
+
         return root;
     }
+
+
+
 
     private boolean readSensors(View view, final TextView textView){
 //        final TextView gyroscopeX = view.findViewById(R.id.gyroscopeX);
@@ -104,53 +115,7 @@ public class CurrentActivityFragment extends Fragment {
         return true;
     }
 
-    private SensorEventListener setAccelerometerEventListener(final TextView aX, final TextView aY, final TextView aZ){
-        SensorEventListener accelerometerListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                Float value = sensorEvent.values[0];
-                accelerometerStrX.append(value+"\n");
-                aX.setText(value.toString());
 
-                value = sensorEvent.values[1];
-                accelerometerStrY.append(value+"\n");
-                aY.setText(value.toString());
-
-                value = sensorEvent.values[2];
-                accelerometerStrZ.append(value+"\n");
-                aZ.setText(value.toString());
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
-        return accelerometerListener;
-    }
-
-    private SensorEventListener setGyroscopeEventListener(final TextView gX, final TextView gY, final TextView gZ){
-        SensorEventListener gyroscopeSensorListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                Float value = sensorEvent.values[0];
-                gyroscopeStrX.append(value+"\n");
-                gX.setText(value.toString());
-
-                value = sensorEvent.values[1];
-                gyroscopeStrY.append(value+"\n");
-                gY.setText(value.toString());
-
-                value = sensorEvent.values[2];
-                gyroscopeStrZ.append(value+"\n");
-                gZ.setText(value.toString());
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
-        return gyroscopeSensorListener;
-    }
 
     private boolean checkSensors(Sensor accelerometer, Sensor gyroscope){
         if(gyroscope == null) {

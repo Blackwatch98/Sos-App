@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
 //                1);
 
+
         activityOn = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -87,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-        startService(new Intent(this, BackgroundNotificationService.class));
-
     }
 /*
     public void btnLoad_AndroidContacts_onClick(View view) {
