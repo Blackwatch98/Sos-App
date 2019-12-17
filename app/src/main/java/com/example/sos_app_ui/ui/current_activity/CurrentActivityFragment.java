@@ -48,8 +48,6 @@ public class CurrentActivityFragment extends Fragment {
         //set listener
         startActivityButtonListener(root, status, progressBar, clickButton);
 
-
-
       return root;
     }
 
