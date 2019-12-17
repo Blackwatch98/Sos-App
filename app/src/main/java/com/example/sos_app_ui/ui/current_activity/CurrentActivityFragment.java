@@ -52,12 +52,11 @@ public class CurrentActivityFragment extends Fragment {
         });
         context = getContext();
 
-        calculateAccX = new CalculateSensorClass(8, "X");
-        calculateAccY = new CalculateSensorClass(8,"Y");
-        calculateAccZ = new CalculateSensorClass(8, "Z");
+        calculateAccX = new CalculateSensorClass(4, "X");
+        calculateAccY = new CalculateSensorClass(4,"Y");
+        calculateAccZ = new CalculateSensorClass(4, "Z");
         calculateFall = new CalculateFallClass(2,1000,35,
-                                                15,-100,-100,
-                                                    100,2, (long)3000);
+                                                    10,2, (long)100, (double)5);
 
         if(!readSensors(root, textView));
             textView.setText("Sensors Error");
@@ -98,7 +97,7 @@ public class CurrentActivityFragment extends Fragment {
                 Float value = sensorEvent.values[0];
                 //aX.setText(value.toString());
                 Float perVal = calculateAccX.addElement(value);
-                //accelerometerStrX.append(perVal+"\n");
+                accelerometerStrX.append(perVal+"\n");
                 aX.setText(String.valueOf(perVal));
                 calculateFall.setAccXValue(perVal);
                 //aX.setText(calculateAccX.display());
@@ -106,7 +105,7 @@ public class CurrentActivityFragment extends Fragment {
                 value = sensorEvent.values[1];
                 //aY.setText(value.toString());
                 perVal = calculateAccY.addElement(value);
-                //accelerometerStrY.append(perVal+"\n");
+                accelerometerStrY.append(perVal+"\n");
                 aY.setText(String.valueOf(perVal));
                 calculateFall.setAccYValue(perVal);
                 //aY.setText(calculateAccY.display());
@@ -114,7 +113,7 @@ public class CurrentActivityFragment extends Fragment {
                 value = sensorEvent.values[2];
                 //aZ.setText(value.toString());
                 perVal = calculateAccZ.addElement(value);
-                //accelerometerStrZ.append(perVal+"\n");
+                accelerometerStrZ.append(perVal+"\n");
                 aZ.setText(String.valueOf(perVal));
                 calculateFall.setAccZValue(perVal);
                 //aZ.setText(calculateAccZ.display());
