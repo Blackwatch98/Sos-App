@@ -43,7 +43,7 @@ public class ConfigurationFragment extends Fragment {
         ListView list = (ListView) root.findViewById(R.id.listView1);
         CurrentConfiguration conf = new CurrentConfiguration();
 
-        String functions[] = {"Personal Data", "Message", "Warning Targets", "Settings"};
+        String functions[] = {"Create New","Load Created"};
 
         ArrayList<String> funList = new ArrayList<String>();
         funList.addAll( Arrays.asList(functions) );
@@ -57,25 +57,9 @@ public class ConfigurationFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 if(position == 0)
                 {
-                    Intent appInfo = new Intent(view.getContext(),PersonalDataPanel.class);
+                    Intent appInfo = new Intent(view.getContext(),CreateNewConfiguration.class);
                     startActivity(appInfo);
                 }
-                if(position == 1)
-                {
-                    Intent appInfo = new Intent(view.getContext(),MessagePanel.class);
-                    startActivity(appInfo);
-                }
-                if(position == 2)
-                {
-                    Intent appInfo = new Intent(view.getContext(),WarningTargets.class);
-                    startActivity(appInfo);
-                }
-                if(position == 3)
-                {
-                    Intent appInfo = new Intent(view.getContext(),AdditionalSettingsPanel.class);
-                    startActivity(appInfo);
-                }
-
             }
         });
 
