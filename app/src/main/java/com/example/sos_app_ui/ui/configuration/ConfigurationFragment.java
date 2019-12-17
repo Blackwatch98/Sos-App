@@ -41,13 +41,14 @@ public class ConfigurationFragment extends Fragment {
 
 
         ListView list = (ListView) root.findViewById(R.id.listView1);
+        CurrentConfiguration conf = new CurrentConfiguration();
 
         String functions[] = {"Personal Data", "Message", "Warning Targets", "Settings"};
 
-        ArrayList<String> carL = new ArrayList<String>();
-        carL.addAll( Arrays.asList(functions) );
+        ArrayList<String> funList = new ArrayList<String>();
+        funList.addAll( Arrays.asList(functions) );
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.row, carL);
+        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.row, funList);
 
         list.setAdapter(adapter);
 

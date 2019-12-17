@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,25 +21,23 @@ import java.util.List;
 public class ContactsList extends AppCompatActivity {
 
     private ListView lista;
-    private ListView finalLista;
-    ArrayList<Android_Contact> arrayList_Android_Contacts;
-    ArrayList<Android_Contact> selectedContacts;
-
+    private ArrayList<Android_Contact> arrayList_Android_Contacts;
+    private ArrayList<Android_Contact> selectedContacts;
+    private Button loadBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
 
-        finalLista = findViewById(R.id.listView1);
-
         selectedContacts = new ArrayList<Android_Contact>();
         lista = findViewById(R.id.contacts);
-        Button bot = findViewById(R.id.loadContacts);
-        bot.setOnClickListener(new View.OnClickListener() {
+        loadBtn = findViewById(R.id.loadContacts);
+        loadBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                loadBtn.setEnabled(false);
                 fp_get_Android_Contacts();
             }
         });
@@ -67,14 +66,25 @@ public class ContactsList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                //for (int j = 0; j < adapterView.getChildCount(); j++)
-                    //adapterView.getChildAt(j).setBackgroundColor(Color.TRANSPARENT);
+                int color = Color.TRANSPARENT;
+                Drawable background = view.getBackground();
+                if (background instanceof ColorDrawable)
+                    color = ((ColorDrawable) background).getColor();
 
-                // change the background color of the selected element
-                selectedContacts.add(arrayList_Android_Contacts.get(i));
+
+                if(color == Color.TRANSPARENT)
+                {
+                    view.setBackgroundColor(Color.LTGRAY);
+                    selectedContacts.add(arrayList_Android_Contacts.get(i));
+                }
+                else if(color == Color.LTGRAY)
+                {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    selectedContacts.remove(arrayList_Android_Contacts.get(i));
+                }
+
+
                 System.out.println("ID " + i);
-                view.setBackgroundColor(Color.LTGRAY);
-
             }
         });
     }
@@ -86,14 +96,19 @@ public class ContactsList extends AppCompatActivity {
         //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
         ContentResolver contentResolver = getContentResolver();
-        try {
+        try
+        {
             cursor_Android_Contacts = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        } catch (Exception ex) {
+        }
+        catch(Exception ex)
+        {
             Log.e("Error on contact", ex.getMessage());
         }
 
-        if (cursor_Android_Contacts != null) {
-            if (cursor_Android_Contacts.getCount() > 0) {
+        if (cursor_Android_Contacts != null)
+        {
+            if (cursor_Android_Contacts.getCount() > 0)
+            {
 
                 while (cursor_Android_Contacts.moveToNext())
                 {
@@ -114,7 +129,8 @@ public class ContactsList extends AppCompatActivity {
                                 , new String[]{contact_id}
                                 , null);
 
-                        while (phoneCursor.moveToNext()) {
+                        while (phoneCursor.moveToNext())
+                        {
                             String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                             System.out.println(phoneNumber);
                             android_contact.android_contact_TelefonNr = phoneNumber;

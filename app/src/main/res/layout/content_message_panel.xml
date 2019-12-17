@@ -4,38 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.configuration.MessagePanel"
     tools:showIn="@layout/activity_message_panel">
 
     <LinearLayout
         android:id="@+id/messageText"
-        android:layout_width="409dp"
-        android:layout_height="673dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:padding="10dp"
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Here you can personalize your  message appearance or stay with the default one:" />
+            android:text="Note:\nHere you can personalize your message appearance or stay with the default one:" />
 
         <EditText
             android:id="@+id/messageTable"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:background="@android:color/transparent"
+            android:layout_height="250dp"
+            android:padding="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_edittext"
             android:gravity="top" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:id="@+id/confirmBtn2"
+            android:layout_width="157dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Confirm" />
 
+            android:background="@drawable/rounded_button"
+            android:text="Confirm" />
 
 
     </LinearLayout>

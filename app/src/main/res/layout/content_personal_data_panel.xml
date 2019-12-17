@@ -9,80 +9,98 @@
     tools:showIn="@layout/activity_personal_data_panel">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:text="First Name:"
             android:textSize="20dp"
-            android:text="First Name:" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your first name..." />
+                android:background="@drawable/rounded_edittext"
+                android:hint="Enter your first name..."
+                android:padding="5dip" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:text="Second Name:"
             android:textSize="20dp"
-            android:text="Second Name:" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your second name..." />
+                android:background="@drawable/rounded_edittext"
+                android:hint="Enter your second name..."
+                android:padding="5dip" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:text="Age:"
             android:textSize="20dp"
-            android:text="Age:" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your age..." />
+                android:background="@drawable/rounded_edittext"
+                android:hint="Enter your age..."
+                android:padding="5dip" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            android:text="Email Adress:"
             android:textSize="20dp"
-            android:text="Email Adress:" />
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter you email adress..." />
+                android:background="@drawable/rounded_edittext"
+                android:hint="Enter you email adress..."
+                android:padding="5dip" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
@@ -90,14 +108,13 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/confirmBtn2"
+                android:id="@+id/confirmBtn1"
                 android:layout_width="157dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-
-                android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:text="Confirm" />
+                android:background="@drawable/rounded_button"
+                android:text="Confirm"/>
         </RelativeLayout>
 
     </LinearLayout>
