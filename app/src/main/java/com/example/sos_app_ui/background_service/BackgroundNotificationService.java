@@ -48,7 +48,7 @@ public class BackgroundNotificationService extends Service{
         scheduler.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                startForeground(sensorListeners.getAccelerometerStrX());
+                startForeground(sensorListeners.getFALL());
             }
         }, 1, 1, SECONDS);
 
@@ -72,7 +72,7 @@ public class BackgroundNotificationService extends Service{
         sensorManager.registerListener(accelerometerSensorListener, accelerometerSender, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    private void startForeground(Float i) {
+    private void startForeground(boolean fall) {
 
         initChannels(this);
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -80,15 +80,16 @@ public class BackgroundNotificationService extends Service{
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
-
-        startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
-                "default") // don't forget create a notification channel first
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText("Service is running background " + i)
-                .setContentIntent(pendingIntent)
-                .build());
+        if(fall) {
+            startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
+                    "default") // don't forget create a notification channel first
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText("Fall detected")
+                    .setContentIntent(pendingIntent)
+                    .build());
+        }
     }
 
     public void initChannels(Context context) {

@@ -3,16 +3,33 @@ package com.example.sos_app_ui.background_service;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.widget.TextView;
 
 public class SensorListeners {
     private float gyroscopeStrX = (float) 0;
     private float gyroscopeStrY = (float) 0;
     private float gyroscopeStrZ = (float) 0;
-    private float accelerometerStrX = (float) 0;
-    private float accelerometerStrY = (float) 0;
-    private float accelerometerStrZ = (float) 0;
+    private float accValX = (float) 0;
+    private float accValY = (float) 0;
+    private float accValZ = (float) 0;
 
+    private CalculateFallClass calculateFall;
+    private CalculateSensorClass calculateX;
+    private CalculateSensorClass calculateY;
+    private CalculateSensorClass calculateZ;
+
+    private boolean FALL;
+
+    public SensorListeners() {
+        calculateFall = new CalculateFallClass(2,1000,
+                35,10,2, (long) 100, (double)5);
+        calculateX = new CalculateSensorClass(4);
+        calculateY = new CalculateSensorClass(4);
+        calculateZ = new CalculateSensorClass(4);
+    }
+
+    public boolean getFALL(){
+        return FALL;
+    }
 
     public float getGyroscopeStrX() {
         return gyroscopeStrX;
@@ -26,27 +43,33 @@ public class SensorListeners {
         return gyroscopeStrZ;
     }
 
-    public float getAccelerometerStrX() {
-        return accelerometerStrX;
+    public float getaccValX() {
+        return accValX;
     }
 
-    public float getAccelerometerStrY() {
-        return accelerometerStrY;
+    public float getaccValY() {
+        return accValY;
     }
 
-    public float getAccelerometerStrZ() {
-        return accelerometerStrZ;
+    public float getaccValZ() {
+        return accValZ;
     }
 
     SensorEventListener setAccelerometerEventListener(){
         SensorEventListener accelerometerListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                accelerometerStrX = sensorEvent.values[0];
+                accValX = sensorEvent.values[0];
+                calculateFall.setAccValueX(calculateX.addElement(accValX));
+                
+                accValY = sensorEvent.values[1];
+                calculateFall.setAccValueY(calculateY.addElement(accValY));
 
-                accelerometerStrY = sensorEvent.values[1];
+                accValZ = sensorEvent.values[2];
+                calculateFall.setAccValueZ(calculateZ.addElement(accValZ));
 
-                accelerometerStrZ = sensorEvent.values[2];
+                if(calculateFall.calculate())
+                    FALL = true;
             }
 
             @Override
@@ -72,4 +95,17 @@ public class SensorListeners {
             }
         };
     }
+
+    // saving
+//    FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
+//                FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
+//                FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
+//
+//                FileHelper fileGyroscopeX = new FileHelper("gyroX.txt", context);
+//                FileHelper fileGyroscopeY = new FileHelper("gyroY.txt", context);
+//                FileHelper fileGyroscopeZ = new FileHelper("gyroZ.txt", context);
+//
+//                if(fileAccelerometerX.writeToFile(accelerometerStrX.toString()) && fileAccelerometerY.writeToFile(accelerometerStrY.toString()) &&
+//                fileAccelerometerZ.writeToFile(accelerometerStrZ.toString()) && fileGyroscopeX.writeToFile(gyroscopeStrX.toString()) &&
+//                fileGyroscopeY.writeToFile(gyroscopeStrY.toString()) && fileGyroscopeZ.writeToFile(gyroscopeStrZ.toString()))
 }

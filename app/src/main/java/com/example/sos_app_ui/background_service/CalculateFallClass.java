@@ -1,4 +1,4 @@
-package com.example.sos_app_ui.ui.current_activity;
+package com.example.sos_app_ui.background_service;
 
 import java.util.LinkedList;
 
@@ -41,15 +41,15 @@ public class CalculateFallClass {
         this.listofPossibleNotMoveLength = listofPossibleNotMoveLength;
     }
 
-    public void setAccXValue(Float accXValue) {
+    public void setAccValueX(Float accXValue) {
         this.accXValue = accXValue;
     }
 
-    public void setAccYValue(Float accYValue) {
+    public void setAccValueY(Float accYValue) {
         this.accYValue = accYValue;
     }
 
-    public void setAccZValue(Float accZValue) {
+    public void setAccValueZ(Float accZValue) {
         this.accZValue = accZValue;
     }
 
