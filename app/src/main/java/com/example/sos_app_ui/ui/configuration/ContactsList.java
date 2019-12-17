@@ -73,7 +73,7 @@ public class ContactsList extends AppCompatActivity {
                 // change the background color of the selected element
                 selectedContacts.add(arrayList_Android_Contacts.get(i));
                 System.out.println("ID " + i);
-                view.setBackgroundColor(Color.LTGRAY);
+                view.setBackgroundColor(Color.BLACK);
 
             }
         });

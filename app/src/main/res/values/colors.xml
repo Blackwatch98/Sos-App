@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#181818</color>
+    <color name="colorPrimaryDark">#1F1F1F</color>
+    <color name="colorAccent">#b1b3b5</color>
+    <color name="colorRed">#DB0404</color>
+    <color name="textColorPrimary">#ffff</color>
+    <color name="colorWhite">#ffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="gradientStart">#9C0101</color>
+    <color name="gradientEnd">#CA3333</color>
+    <color name="colorSoftRed">#E45454</color>
+
+    <color name="keyboard_background_color">#008577</color>
+    <color name="keyboard_divider">#00574B</color>
+    <color name="keyboard_pressed">#D81B60</color>
 </resources>
