@@ -1,4 +1,4 @@
-package com.example.sos_app_ui.ui.current_activity;
+package com.example.sos_app_ui.background_service;
 
 import androidx.fragment.app.Fragment;
 
@@ -11,22 +11,19 @@ public class CalculateSensorClass {
     public LinkedList<Float> list;
     private Integer listCapacity;
     private Float max = (float)0;
-    private String line;
 
-    CalculateSensorClass(LinkedList list, Integer lengthList, String line){
+    CalculateSensorClass(LinkedList list, Integer lengthList){
         this.list=list;
         this.listCapacity=lengthList;
-        this.line = line;
     }
 
     CalculateSensorClass(LinkedList list){
         this.list=list;
         this.listCapacity = 10;
     }
-    CalculateSensorClass(Integer lengthList, String line){
+    CalculateSensorClass(Integer lengthList){
         this.list=new LinkedList<>();
         this.listCapacity = lengthList;
-        this.line = line;
     }
 
     CalculateSensorClass(){
@@ -53,24 +50,13 @@ public class CalculateSensorClass {
         list.add(number);
     }
 
-    // popraw to => liczenie procentow z malutkich wartosci nie ma sensu
     private Float calculateRisk(Float number){
         if(list.size()<1)
             return null;
         Float avg = avg();
         if(avg == 0)
             return null;
-        //if(number < 9 /*&& (number - avg < 5 && number - avg > -5)*/)
-            //return (float) 0;
         return number - avg;
-        //Float percent = (number*100) / avg();
-        //percent = (float) 100 - percent;
-        //if(percent> max)
-           // max=percent;
-        // ignore
-        //if(percent < 15)
-            //return (float)0;
-        //return percent;
     }
 
     private Float avg(){

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
