@@ -1,7 +1,5 @@
 package com.example.sos_app_ui.ui.current_activity;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +28,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 
@@ -44,6 +41,13 @@ public class CurrentActivityFragment extends Fragment {
     public boolean activity;
     private CurrentActivityViewModel currentActivityViewModel;
 
+
+    private CalculateSensorClass calculateAccX;
+    private CalculateSensorClass calculateAccY;
+    private CalculateSensorClass calculateAccZ;
+    private CalculateFallClass calculateFall;
+
+    TextView textView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +86,15 @@ public class CurrentActivityFragment extends Fragment {
         intent.putExtras(b);
         getActivity().startService(intent);
 
-        return root;
+//        calculateAccX = new CalculateSensorClass(4, "X");
+//        calculateAccY = new CalculateSensorClass(4,"Y");
+//        calculateAccZ = new CalculateSensorClass(4, "Z");
+//        calculateFall = new CalculateFallClass(2,1000,35,
+//                                                   10,2, (long)100, (double)5);
+//
+//        if(!readSensors(root, textView));
+//            textView.setText("Sensors Error");
+      return root;
     }
 
 
@@ -114,7 +126,6 @@ public class CurrentActivityFragment extends Fragment {
 
         return true;
     }
-
 
 
     private boolean checkSensors(Sensor accelerometer, Sensor gyroscope){
