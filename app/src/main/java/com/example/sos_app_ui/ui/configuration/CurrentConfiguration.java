@@ -122,7 +122,8 @@ public class CurrentConfiguration
         classContent = classContent + "First Name: " + this.fName + '\n';
         classContent = classContent + "Second Name: " + this.sName + '\n';
         classContent = classContent + "Age: " + this.age + '\n';
-        classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n";
+        classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n\n";
+        classContent = classContent + "Targets: \n" + listToString(this.targets);
 
         System.out.println(classContent);
     }
@@ -138,8 +139,24 @@ public class CurrentConfiguration
         classContent = classContent + "Second Name: " + this.sName + '\n';
         classContent = classContent + "Age: " + this.age + '\n';
         classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n";
-        //classContent = classContent + "Targets: " + this.targets.toString() + '\n';
+        classContent = classContent + "Targets: \n" + listToString(this.targets);
 
         return classContent;
+    }
+
+    public static String listToString(List<Android_Contact> list) {
+        String result = "";
+        for (int i = 0; i < list.size(); i++) {
+            result += "Name: " + list.get(i).android_contact_Name +
+                    " Phone number: " + list.get(i).android_contact_TelefonNr + '\n';
+        }
+        return result;
+    }
+
+    public boolean loadConfigFromFile(String fileName, CurrentConfiguration data, Context context)
+    {
+
+
+        return false;
     }
 }

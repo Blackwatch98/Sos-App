@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.sos_app_ui.R;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +21,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
 
     private CurrentConfiguration conf;
     private Context context;
+    private Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,24 @@ public class CreateNewConfiguration extends AppCompatActivity {
 
         ListView list = (ListView)findViewById(R.id.listView2);
 
+
         conf = new CurrentConfiguration();
         context = this;
-        //conf.writeConfigToFile("Config1.txt",conf,context);
+
+
+        btn = findViewById(R.id.submit);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String path = context.getExternalFilesDir("Configurations").toString();
+                File directory = new File(path);
+                File[] files = directory.listFiles();
+                String name = "Config" + (files.length+1)+".txt";
+                conf.writeConfigToFile(name,conf,context);
+                finish();
+            }
+        });
 
         String functions[] = {"Personal Data", "Message", "Warning Targets", "Settings"};
 
@@ -83,17 +101,12 @@ public class CreateNewConfiguration extends AppCompatActivity {
         {
             Bundle extras = data.getExtras();
             conf.setMessageText(extras.get("message").toString());
-            conf.writeConfigToFile("Config1.txt", conf,context);
-        }/*
+        }
         if(requestCode == 3)
         {
-            Bundle extras = data.getExtras();
-            conf.setfName(extras.get("fname").toString());
-            conf.setsName(extras.get("sname").toString());
-            conf.setAge(Integer.valueOf(extras.get("age").toString()));
-
-            conf.writeConfigToFile("Config1.txt", conf,context);
-        }*/
+            Bundle args = data.getBundleExtra("finalList");
+            conf.setTargets((ArrayList<Android_Contact>) args.getSerializable("fList"));
+        }
 
     }
 }

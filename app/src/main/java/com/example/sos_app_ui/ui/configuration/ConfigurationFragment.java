@@ -60,6 +60,11 @@ public class ConfigurationFragment extends Fragment {
                     Intent appInfo = new Intent(view.getContext(),CreateNewConfiguration.class);
                     startActivity(appInfo);
                 }
+                if(position == 1)
+                {
+                    Intent appInfo = new Intent(view.getContext(),ConfigFileChecker.class);
+                    startActivity(appInfo);
+                }
             }
         });
 

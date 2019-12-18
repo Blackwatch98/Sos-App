@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.sos_app_ui.R;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,6 +64,22 @@ public class WarningTargets extends AppCompatActivity {
                 currentContactsList2.removeAll(removeList);
                 Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(WarningTargets.this,  currentContactsList2);
                 finalList.setAdapter(adapter);
+            }
+        });
+
+        Button btn3 = findViewById(R.id.confirmBtn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putSerializable("fList",(Serializable)currentContactsList2);
+                Intent resultIntent = new Intent(v.getContext(),
+                        CreateNewConfiguration.class);
+                resultIntent.putExtra("finalList",args);
+                setResult(RESULT_OK,resultIntent);
+
+                finish();
             }
         });
 
