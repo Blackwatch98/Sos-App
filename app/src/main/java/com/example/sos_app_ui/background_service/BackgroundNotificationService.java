@@ -45,19 +45,19 @@ public class BackgroundNotificationService extends Service{
 
         setUpSensors();
 
-        scheduler.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                startForeground(sensorListeners.getFALL());
-            }
-        }, 1, 1, SECONDS);
+//        scheduler.scheduleWithFixedDelay(new Runnable() {
+//            @Override
+//            public void run() {
+//                startForeground(sensorListeners.getFALL());
+//            }
+//        }, 1, 1, SECONDS);
 
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void setUpSensors() {
-        sensorListeners = new SensorListeners();
+        sensorListeners = new SensorListeners(getApplicationContext(), this);
         sensorListeners.setGyroscopeEventListener();
 
         sensorManager = (SensorManager) getApplicationContext()
@@ -72,7 +72,7 @@ public class BackgroundNotificationService extends Service{
         sensorManager.registerListener(accelerometerSensorListener, accelerometerSender, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    private void startForeground(boolean fall) {
+    public void startForeground(boolean fall) {
 
         initChannels(this);
         Intent notificationIntent = new Intent(this, MainActivity.class);
