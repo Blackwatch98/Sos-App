@@ -7,16 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 
 import java.util.ArrayList;
@@ -25,6 +25,10 @@ import java.util.Arrays;
 public class ConfigurationFragment extends Fragment {
 
     private ConfigurationViewModel homeViewModel;
+    private ListView list;
+    private TextView path;
+    private Button previewBtn;
+    private String name;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,9 +43,29 @@ public class ConfigurationFragment extends Fragment {
             }
         });
 
+        name = null;
+        list = (ListView) root.findViewById(R.id.listView1);
+        path = root.findViewById(R.id.finalFilePath);
 
-        ListView list = (ListView) root.findViewById(R.id.listView1);
-        CurrentConfiguration conf = new CurrentConfiguration();
+        previewBtn = root.findViewById(R.id.previewBtn);
+       // previewBtn.setEnabled(false);
+
+        previewBtn.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  if(name != null)
+                  {
+                      Intent appInfo = new Intent(getContext(), FilePreviewPop.class);
+                      appInfo.putExtra("fpath", name);
+                      startActivity(appInfo);
+                  }
+                  else
+                  {
+                      Toast.makeText(v.getContext(), "You did not choose any file!",
+                              Toast.LENGTH_SHORT).show();
+                  }
+              }
+        });
 
         String functions[] = {"Create New","Load Created"};
 
@@ -63,7 +87,7 @@ public class ConfigurationFragment extends Fragment {
                 if(position == 1)
                 {
                     Intent appInfo = new Intent(view.getContext(),ConfigFileChecker.class);
-                    startActivity(appInfo);
+                    startActivityForResult(appInfo, 2);
                 }
             }
         });
@@ -71,5 +95,18 @@ public class ConfigurationFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 2)
+        {
+            Bundle extras = data.getExtras();
+
+            name = getContext().getExternalFilesDir("Configurations").toString();
+            name = name +'/'+ extras.get("fname").toString();
+            path.setText(name);
+        }
+    }
 
 }

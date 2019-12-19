@@ -2,19 +2,18 @@ package com.example.sos_app_ui.ui.configuration;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-
 import com.example.sos_app_ui.R;
 import android.content.Context;
 import android.widget.TextView;
-
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -33,8 +32,23 @@ public class ConfigFileChecker extends AppCompatActivity {
         fileList = findViewById(R.id.configFilesList);
         listOfFiles =  loadFiles();
 
-        Adapter_for_My_Files adapter = new Adapter_for_My_Files(this,  listOfFiles);
+        Adapter_for_My_Files adapter = new Adapter_for_My_Files(this,listOfFiles);
         fileList.setAdapter(adapter);
+
+        fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle args = new Bundle();
+                Intent resultIntent = new Intent(view.getContext(),
+                        ConfigurationFragment.class);
+
+                args.putString("fname",listOfFiles.get(i).filename);
+
+                resultIntent.putExtras(args);
+                setResult(RESULT_OK,resultIntent);
+                finish();
+            }
+        });
     }
 
     public List<MyFiles> loadFiles()
@@ -126,10 +140,10 @@ public class ConfigFileChecker extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = View.inflate(mContext, R.layout.contactlist_items, null);
+            View view = View.inflate(mContext, R.layout.textfile_row, null);
 
-            TextView textview_file_name = view.findViewById(R.id.textview_android_contact_name);
-            TextView textview_file_date = view.findViewById(R.id.textview_android_contact_phoneNr);
+            TextView textview_file_name = view.findViewById(R.id.fileName);
+            TextView textview_file_date = view.findViewById(R.id.fileDate);
 
             textview_file_name.setText(mList_MyFiles.get(position).filename);
             textview_file_date.setText(mList_MyFiles.get(position).createDate);

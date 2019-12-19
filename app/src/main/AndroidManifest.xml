@@ -21,7 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.configuration.ConfigFileChecker"></activity>
+        <activity android:name=".ui.configuration.FilePreviewPop"
+            android:theme="@style/AppTheme.CustomTheme">
+
+        </activity>
+        <activity android:name=".ui.configuration.ConfigFileChecker" />
         <activity android:name=".ui.configuration.CreateNewConfiguration" />
         <activity android:name=".ui.configuration.ContactsList" />
         <activity
