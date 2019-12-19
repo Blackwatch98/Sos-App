@@ -30,11 +30,22 @@ public class SensorListeners {
     private BackgroundNotificationService backgroundNotificationService;
 
     public SensorListeners(Context context, BackgroundNotificationService backgroundNotificationService) {
-        calculateFall = new CalculateFallClass(3, 3000,
-                35, 10, (double)2, (long) 300, (double) 5);
-        calculateX = new CalculateSensorClass(4);
-        calculateY = new CalculateSensorClass(4);
-        calculateZ = new CalculateSensorClass(4);
+        int listOfImpactLength = 3;
+        int listofNotMoveLength = 3000;
+        int highimpactValue = 35;
+        int lowImpactValue = 10;
+        double notMoveValue = 2;
+        int stopAlarmMaxCounterValue = 300;
+        double timeAfterImpact = 5;
+        double notMoveTime = 10;
+        int listLength = 4;
+
+        calculateX = new CalculateSensorClass(listLength);
+        calculateY = new CalculateSensorClass(listLength);
+        calculateZ = new CalculateSensorClass(listLength);
+        calculateFall = new CalculateFallClass(listOfImpactLength, listofNotMoveLength, highimpactValue,
+                lowImpactValue, notMoveValue, stopAlarmMaxCounterValue, timeAfterImpact, notMoveTime);
+
         this.context = context;
         this.backgroundNotificationService = backgroundNotificationService;
     }

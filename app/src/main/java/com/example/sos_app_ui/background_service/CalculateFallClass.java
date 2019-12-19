@@ -17,9 +17,9 @@ public class CalculateFallClass {
 
     // lists
     private LinkedList<Boolean> listOfPossibleImpact;
-    private Integer listofPossibleImpactLength;
+    private Integer listOfImpactLength;
     private LinkedList<Boolean> listOfPossibleNotMove;
-    private Integer listofPossibleNotMoveLength;
+    private Integer listofNotMoveLength;
     //private Integer notMoveCounter;
 
     // risk values
@@ -28,26 +28,29 @@ public class CalculateFallClass {
     private Double notMoveValue;
 
     // move after impact
-    private Long stopAlarmValue;
-    private Long counterToStopAlarm;
+    private Integer stopAlarmValue;
+    private Integer counterToStopAlarm = 0;
 
     // time
     private Double timeImpact;
-    private Double timeNotMove;
-    private Double startedNotMovingTime;
+    private Double timeAfterImpact;
+    private Double startedNotMovingTime = (double)0;
+    private Double notMoveTime;
 
-    public CalculateFallClass(int listOfPossibleImpactLength, int listofPossibleNotMoveLength,
+    public CalculateFallClass(int listOfImpactLength, int listofNotMoveLength,
                               Integer highImpactValue, Integer lowImpactValue,
-                              Double notMoveValue, long stopAlarmValue, double timeNotMove) {
+                              Double notMoveValue, int stopAlarmValue, double timeAfterImpact,
+                              Double notMoveTime) {
         this.highImpactValue = highImpactValue;
         this.lowImpactValue = lowImpactValue;
         this.notMoveValue = notMoveValue;
         this.stopAlarmValue = stopAlarmValue;
-        this.timeNotMove = timeNotMove;
+        this.timeAfterImpact = timeAfterImpact;
+        this.notMoveTime = notMoveTime;
         this.listOfPossibleImpact = new LinkedList<>();
-        this.listofPossibleImpactLength = listOfPossibleImpactLength;
+        this.listOfImpactLength = listOfImpactLength;
         this.listOfPossibleNotMove = new LinkedList<>();
-        this.listofPossibleNotMoveLength = listofPossibleNotMoveLength;
+        this.listofNotMoveLength = listofNotMoveLength;
     }
 
     public void setAccValueX(Float accXValue) {
@@ -64,10 +67,16 @@ public class CalculateFallClass {
 
     public Boolean calculate(){
         if(impactAlarm) {
+            if(calculateImpact())
+                addElementToImpactList(true);
+            else
+                addElementToImpactList(false);
+
+
             if(calculateNotMove()) {
                 addElementToNotMoveList(true);
                 if (checkNotMoveList()) {
-                    counterToStopAlarm = (long) 0;
+                    counterToStopAlarm = 0;
                     if (startedNotMovingTime == 0)
                         startedNotMovingTime = getCurrentSeconds();
                 }
@@ -75,18 +84,24 @@ public class CalculateFallClass {
             }
             else {
                 addElementToNotMoveList(false);
-                counterToStopAlarm++;
-                if(getCurrentSeconds() - timeImpact > timeNotMove)
-                    if(counterToStopAlarm > stopAlarmValue)
+                if(getCurrentSeconds() - timeImpact > timeAfterImpact) {
+                    counterToStopAlarm++;
+                    if(checkImpactList()) {
+                        counterToStopAlarm = 0;
+                        timeImpact = getCurrentSeconds();
+                    }
+                    if (counterToStopAlarm > stopAlarmValue) {
                         impactAlarm = false;
+                        startedNotMovingTime = (double) 0;
+                        counterToStopAlarm = 0;
+                    }
+                }
             }
             //notMoveAlarm = checkNotMoveList();
-            if(startedNotMovingTime != 0 && getCurrentSeconds() - startedNotMovingTime > 10)
+            if(startedNotMovingTime != 0 && getCurrentSeconds() - startedNotMovingTime > notMoveTime && impactAlarm)
                 notMoveAlarm = true;
         }
         else {
-            startedNotMovingTime = (double)0;
-            counterToStopAlarm = (long)0;
             if(calculateImpact())
                 addElementToImpactList(true);
             else
@@ -95,7 +110,7 @@ public class CalculateFallClass {
                 timeImpact = getCurrentSeconds();
         }
 
-        if(impactAlarm && notMoveAlarm && (getCurrentSeconds() - timeImpact) > timeNotMove)
+        if(impactAlarm && notMoveAlarm && (getCurrentSeconds() - timeImpact) > timeAfterImpact)
             return true;
         return false;
     }
@@ -132,20 +147,20 @@ public class CalculateFallClass {
 
     private void addElementToImpactList(boolean bool){
         listOfPossibleImpact.add(bool);
-        if(listOfPossibleImpact.size() > listofPossibleImpactLength)
+        if(listOfPossibleImpact.size() > listOfImpactLength)
             listOfPossibleImpact.remove();
     }
 
     private void addElementToNotMoveList(boolean bool){
         listOfPossibleNotMove.add(bool);
-        if(listOfPossibleNotMove.size() > listofPossibleNotMoveLength)
+        if(listOfPossibleNotMove.size() > listofNotMoveLength)
             listOfPossibleNotMove.remove();
         //if(!bool)
             //System.out.println("ruszam sie");
     }
 
     private boolean checkImpactList(){
-        if(listOfPossibleImpact.size() != listofPossibleImpactLength)
+        if(listOfPossibleImpact.size() != listOfImpactLength)
             return false;
         //System.out.println(listOfPossibleImpact);
         for (Boolean bool: listOfPossibleImpact) {
@@ -156,7 +171,7 @@ public class CalculateFallClass {
     }
 
     private boolean checkNotMoveList() {
-        if(listOfPossibleNotMove.size() != listofPossibleNotMoveLength)
+        if(listOfPossibleNotMove.size() != listofNotMoveLength)
             return false;
 
         for (Boolean bool: listOfPossibleNotMove) {
