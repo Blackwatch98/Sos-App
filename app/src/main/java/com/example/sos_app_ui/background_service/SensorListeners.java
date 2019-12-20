@@ -1,8 +1,10 @@
 package com.example.sos_app_ui.background_service;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.os.Vibrator;
 
 public class SensorListeners {
     private float gyroscopeStrX = (float) 0;
@@ -17,17 +19,38 @@ public class SensorListeners {
     private CalculateSensorClass calculateY;
     private CalculateSensorClass calculateZ;
 
+    private StringBuilder accelerometerStrX = new StringBuilder();
+    private StringBuilder accelerometerStrY = new StringBuilder();
+    private StringBuilder accelerometerStrZ = new StringBuilder();
+
     private boolean FALL;
 
-    public SensorListeners() {
-        calculateFall = new CalculateFallClass(2,1000,
-                35,10,2, (long) 100, (double)5);
-        calculateX = new CalculateSensorClass(4);
-        calculateY = new CalculateSensorClass(4);
-        calculateZ = new CalculateSensorClass(4);
+    private boolean saved;
+    private Context context;
+    private BackgroundNotificationService backgroundNotificationService;
+
+    public SensorListeners(Context context, BackgroundNotificationService backgroundNotificationService) {
+        int listOfImpactLength = 3;
+        int listofNotMoveLength = 3000;
+        int highimpactValue = 35;
+        int lowImpactValue = 10;
+        double notMoveValue = 2;
+        int stopAlarmMaxCounterValue = 300;
+        double timeAfterImpact = 5;
+        double notMoveTime = 10;
+        int listLength = 4;
+
+        calculateX = new CalculateSensorClass(listLength);
+        calculateY = new CalculateSensorClass(listLength);
+        calculateZ = new CalculateSensorClass(listLength);
+        calculateFall = new CalculateFallClass(listOfImpactLength, listofNotMoveLength, highimpactValue,
+                lowImpactValue, notMoveValue, stopAlarmMaxCounterValue, timeAfterImpact, notMoveTime);
+
+        this.context = context;
+        this.backgroundNotificationService = backgroundNotificationService;
     }
 
-    public boolean getFALL(){
+    public boolean getFALL() {
         return FALL;
     }
 
@@ -55,21 +78,37 @@ public class SensorListeners {
         return accValZ;
     }
 
-    SensorEventListener setAccelerometerEventListener(){
+    SensorEventListener setAccelerometerEventListener() {
         SensorEventListener accelerometerListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 accValX = sensorEvent.values[0];
-                calculateFall.setAccValueX(calculateX.addElement(accValX));
-                
+                float val = calculateX.addElement(accValX);
+                calculateFall.setAccValueX(val);
+                //calculateFall.setAccValueX(calculateX.addElement(accValX));
+                //accelerometerStrX.append(accValX+" : "+val+"\n");
+
                 accValY = sensorEvent.values[1];
-                calculateFall.setAccValueY(calculateY.addElement(accValY));
+                //calculateFall.setAccValueY(calculateY.addElement(accValY));
+                val = calculateY.addElement(accValY);
+                calculateFall.setAccValueY(val);
+                //accelerometerStrY.append(accValY+" : "+val+"\n");
 
                 accValZ = sensorEvent.values[2];
-                calculateFall.setAccValueZ(calculateZ.addElement(accValZ));
+                //calculateFall.setAccValueZ(calculateZ.addElement(accValZ));
+                val = calculateZ.addElement(accValZ);
+                calculateFall.setAccValueZ(val);
+                //accelerometerStrZ.append(accValZ+" : "+val+"\n");
 
-                if(calculateFall.calculate())
+                if (calculateFall.calculate()) {
                     FALL = true;
+                    if(!saved) {
+                        //saveResults();
+                        saved = true;
+                        backgroundNotificationService.startForeground(getFALL());
+                        vibrate(2000);
+                    }
+                }
             }
 
             @Override
@@ -79,7 +118,7 @@ public class SensorListeners {
         return accelerometerListener;
     }
 
-    SensorEventListener setGyroscopeEventListener(){
+    SensorEventListener setGyroscopeEventListener() {
         return new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
@@ -97,15 +136,18 @@ public class SensorListeners {
     }
 
     // saving
-//    FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
-//                FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
-//                FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
-//
-//                FileHelper fileGyroscopeX = new FileHelper("gyroX.txt", context);
-//                FileHelper fileGyroscopeY = new FileHelper("gyroY.txt", context);
-//                FileHelper fileGyroscopeZ = new FileHelper("gyroZ.txt", context);
-//
-//                if(fileAccelerometerX.writeToFile(accelerometerStrX.toString()) && fileAccelerometerY.writeToFile(accelerometerStrY.toString()) &&
-//                fileAccelerometerZ.writeToFile(accelerometerStrZ.toString()) && fileGyroscopeX.writeToFile(gyroscopeStrX.toString()) &&
-//                fileGyroscopeY.writeToFile(gyroscopeStrY.toString()) && fileGyroscopeZ.writeToFile(gyroscopeStrZ.toString()))
+    private void saveResults() {
+        FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
+        FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
+        FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
+
+        fileAccelerometerX.writeToFile(accelerometerStrX.toString());
+        fileAccelerometerY.writeToFile(accelerometerStrY.toString());
+        fileAccelerometerZ.writeToFile(accelerometerStrZ.toString());
+    }
+
+    private void vibrate(Integer time){
+        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(time);
+    }
 }

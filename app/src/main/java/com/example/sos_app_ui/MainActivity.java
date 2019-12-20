@@ -58,21 +58,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //checkPermissionContacts();
-        //checkPermissionWriteExternalStorage();
-        //checkPermissionReadExternalStorage();
-        //checkPermissionLocation();
         if (!checkPermission())
             requestPermission();
-
-//        ActivityCompat.requestPermissions(MainActivity.this,
-//                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                1);
-//
-//        ActivityCompat.requestPermissions(MainActivity.this,
-//                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                1);
-
 
         activityOn = false;
         super.onCreate(savedInstanceState);
@@ -90,12 +77,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-/*
-    public void btnLoad_AndroidContacts_onClick(View view) {
-        listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);
-        fp_get_Android_Contacts();
-    }
-*/
 
     private static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();

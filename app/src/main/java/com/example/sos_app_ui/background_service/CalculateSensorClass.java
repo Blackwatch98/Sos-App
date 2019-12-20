@@ -52,10 +52,10 @@ public class CalculateSensorClass {
 
     private Float calculateRisk(Float number){
         if(list.size()<1)
-            return null;
+            return (float)0;
         Float avg = avg();
         if(avg == 0)
-            return null;
+            return (float)0;
         return number - avg;
     }
 
