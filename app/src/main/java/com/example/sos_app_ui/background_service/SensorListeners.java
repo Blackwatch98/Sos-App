@@ -103,7 +103,7 @@ public class SensorListeners {
                 if (calculateFall.calculate()) {
                     FALL = true;
                     if(!saved) {
-                        saveResults();
+                        //saveResults();
                         saved = true;
                         backgroundNotificationService.startForeground(getFALL());
                         vibrate(2000);
