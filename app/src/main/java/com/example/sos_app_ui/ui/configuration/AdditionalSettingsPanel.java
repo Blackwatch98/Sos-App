@@ -218,6 +218,14 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
                 {
                     ch8.setChecked(false);
                     ch8.setSelected(false);
+
+                    if (ContextCompat.checkSelfPermission(AdditionalSettingsPanel.this,
+                            Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(AdditionalSettingsPanel.this, "You have already granted this permission!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        requestLocationAccess();
+                    }
                 }
             }
         });

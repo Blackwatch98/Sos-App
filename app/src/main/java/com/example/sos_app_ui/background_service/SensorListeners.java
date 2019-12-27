@@ -6,6 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Vibrator;
 
+import com.example.sos_app_ui.MainActivity;
+
 public class SensorListeners {
     private float gyroscopeStrX = (float) 0;
     private float gyroscopeStrY = (float) 0;
@@ -102,6 +104,7 @@ public class SensorListeners {
 
                 if (calculateFall.calculate()) {
                     FALL = true;
+                    MainActivity.sendSms();
                     if(!saved) {
                         //saveResults();
                         saved = true;
