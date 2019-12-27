@@ -15,6 +15,16 @@ import com.example.sos_app_ui.R;
 
 public class MessagePanel extends AppCompatActivity {
 
+    public static String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    static String message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,12 +32,12 @@ public class MessagePanel extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String message = "Hello,\nI might be injured badly and gonna need help. " +
+        setMessage("Hello,\nI might be injured badly and gonna need help. " +
                 "   Please check if everything is all right with me.\n" +
-                "My location is: [here link to your location will be attached]";
+                "My location is: [here link to your location will be attached]");
 
         EditText table = findViewById(R.id.messageTable);
-        table.setText(message);
+        table.setText(getMessage());
     }
 
 }

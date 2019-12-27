@@ -12,7 +12,7 @@ public class CalculateFallClass {
 
     // xyz values
     private Float accXValue;
-    private Float accYValue;
+    FALLprivate Float accYValue;
     private Float accZValue;
 
     // lists
