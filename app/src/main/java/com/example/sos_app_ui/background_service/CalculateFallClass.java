@@ -89,6 +89,7 @@ public class CalculateFallClass {
                     if(checkImpactList()) {
                         counterToStopAlarm = 0;
                         timeImpact = getCurrentSeconds();
+                        startedNotMovingTime = (double)0;
                     }
                     if (counterToStopAlarm > stopAlarmValue) {
                         impactAlarm = false;
@@ -98,7 +99,7 @@ public class CalculateFallClass {
                 }
             }
             //notMoveAlarm = checkNotMoveList();
-            if(startedNotMovingTime != 0 && getCurrentSeconds() - startedNotMovingTime > notMoveTime && impactAlarm)
+            if(startedNotMovingTime != 0 && getCurrentSeconds() - startedNotMovingTime > notMoveTime && impactAlarm && !notMoveAlarm)
                 notMoveAlarm = true;
         }
         else {
@@ -109,9 +110,14 @@ public class CalculateFallClass {
             if(impactAlarm = checkImpactList())
                 timeImpact = getCurrentSeconds();
         }
-
-        if(impactAlarm && notMoveAlarm && (getCurrentSeconds() - timeImpact) > timeAfterImpact)
+        System.out.println(accZValue);
+        if(impactAlarm && notMoveAlarm && (getCurrentSeconds() - timeImpact) > timeAfterImpact) {
+            impactAlarm = false;
+            notMoveAlarm = false;
+            timeImpact=(double)0;
+            timeAfterImpact = (double)0;
             return true;
+        }
         return false;
     }
     

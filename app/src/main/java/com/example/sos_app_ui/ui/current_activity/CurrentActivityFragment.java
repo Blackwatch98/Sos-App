@@ -1,6 +1,10 @@
 package com.example.sos_app_ui.ui.current_activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,11 +22,15 @@ import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 
+import java.util.Calendar;
+
 public class CurrentActivityFragment extends Fragment {
 
     public boolean activity;
     private CurrentActivityViewModel currentActivityViewModel;
+    //private Intent intent;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -53,6 +62,7 @@ public class CurrentActivityFragment extends Fragment {
 
     private void startActivityButtonListener(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
         clickButton.setOnClickListener( new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 if(MainActivity.activityOn == true)
@@ -63,6 +73,7 @@ public class CurrentActivityFragment extends Fragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void startActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
         textView.setText("Stop\nactivity");
         progressBar.setVisibility(View.VISIBLE);
@@ -70,8 +81,14 @@ public class CurrentActivityFragment extends Fragment {
         clickButton.setScaleY(0.9f);
         MainActivity.activityOn = true;
 
-        Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
-        getActivity().startService(intent);
+        AlarmManager scheduler = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity().getApplicationContext(), BackgroundNotificationService.class );
+        PendingIntent scheduledIntent = PendingIntent.getService(getActivity().getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar cal = Calendar.getInstance();
+        scheduler.setAndAllowWhileIdle(scheduler.RTC_WAKEUP,cal.getTimeInMillis(),scheduledIntent);
+
+        //Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
+        //getActivity().startService(intent);
     }
     private void stopActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
         textView.setText("Start\nactivity");
@@ -80,8 +97,14 @@ public class CurrentActivityFragment extends Fragment {
         clickButton.setScaleY(1f);
         MainActivity.activityOn = false;
 
-        Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
-        getActivity().stopService(intent);
+
+        AlarmManager scheduler = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity().getApplicationContext(),BackgroundNotificationService.class );
+        PendingIntent scheduledIntent = PendingIntent.getService(getActivity().getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        scheduler.cancel(scheduledIntent); // not work
+
+        //Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
+        //getActivity().stopService(intent);
     }
 
 }

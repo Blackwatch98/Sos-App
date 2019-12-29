@@ -31,9 +31,9 @@ public class SensorListeners {
 
     public SensorListeners(Context context, BackgroundNotificationService backgroundNotificationService) {
         int listOfImpactLength = 3;
-        int listofNotMoveLength = 3000;
+        int listofNotMoveLength = 2500;
         int highimpactValue = 35;
-        int lowImpactValue = 10;
+        int lowImpactValue = 12;
         double notMoveValue = 2;
         int stopAlarmMaxCounterValue = 300;
         double timeAfterImpact = 5;

@@ -1,5 +1,6 @@
 package com.example.sos_app_ui.background_service;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,8 +10,11 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.provider.Settings;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -29,7 +33,9 @@ public class BackgroundNotificationService extends Service{
 
     private SensorListeners sensorListeners;
     private SensorManager sensorManager;
-    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    //ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    //private WakeLocker wakeLocker;
+    SensorEventListener accelerometerSensorListener;
 
     public BackgroundNotificationService() {
     }
@@ -43,6 +49,9 @@ public class BackgroundNotificationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
+
+        //startForeground(true);
         setUpSensors();
 
 //        scheduler.scheduleWithFixedDelay(new Runnable() {
@@ -53,22 +62,24 @@ public class BackgroundNotificationService extends Service{
 //        }, 1, 1, SECONDS);
 
 
-        return super.onStartCommand(intent, flags, startId);
+        //return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     private void setUpSensors() {
+        WakeLocker.acquire(getApplicationContext());
         sensorListeners = new SensorListeners(getApplicationContext(), this);
-        sensorListeners.setGyroscopeEventListener();
+        //sensorListeners.setGyroscopeEventListener();
 
         sensorManager = (SensorManager) getApplicationContext()
                 .getSystemService(SENSOR_SERVICE);
 
-        Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        //Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         Sensor accelerometerSender = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        SensorEventListener gyroscopeSensorListener = sensorListeners.setGyroscopeEventListener();
-        SensorEventListener accelerometerSensorListener = sensorListeners.setAccelerometerEventListener();
-        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        //SensorEventListener gyroscopeSensorListener = sensorListeners.setGyroscopeEventListener();
+        accelerometerSensorListener = sensorListeners.setAccelerometerEventListener();
+        //sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
         sensorManager.registerListener(accelerometerSensorListener, accelerometerSender, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
@@ -103,5 +114,13 @@ public class BackgroundNotificationService extends Service{
                 NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Channel description");
         notificationManager.createNotificationChannel(channel);
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        sensorManager.unregisterListener(accelerometerSensorListener);
+        WakeLocker.release();
+        System.out.println("KONIEC");
+        return super.stopService(name);
     }
 }
