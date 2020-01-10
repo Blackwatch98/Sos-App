@@ -71,10 +71,13 @@ public class ContactsList extends AppCompatActivity {
                 if (background instanceof ColorDrawable)
                     color = ((ColorDrawable) background).getColor();
 
+<<<<<<< HEAD
                 // change the background color of the selected element
                 selectedContacts.add(arrayList_Android_Contacts.get(i));
                 System.out.println("ID " + i);
                 view.setBackgroundColor(Color.BLACK);
+=======
+>>>>>>> Configuration
 
                 if(color == Color.TRANSPARENT)
                 {

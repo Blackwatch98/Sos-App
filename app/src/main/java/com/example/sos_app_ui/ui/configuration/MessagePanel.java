@@ -17,6 +17,7 @@ import com.example.sos_app_ui.R;
 
 public class MessagePanel extends AppCompatActivity {
 
+<<<<<<< HEAD
     public static String getMessage() {
         return message;
     }
@@ -26,8 +27,10 @@ public class MessagePanel extends AppCompatActivity {
     }
 
     static String message;
+=======
     private Button btn;
     private EditText table;
+>>>>>>> Configuration
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +39,20 @@ public class MessagePanel extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+<<<<<<< HEAD
         setMessage("Hello,\nI might be injured badly and gonna need help. " +
                 "   Please check if everything is all right with me.\n" +
                 "My location is: [here link to your location will be attached]");
 
         EditText table = findViewById(R.id.messageTable);
         table.setText(getMessage());
+=======
+        String message = "Hello,\nI might be injured badly and gonna need help. " +
+                "Please check if everything is all right with me.\n" +
+                "My location is: [here link to your location will be attached]";
+
+        table = findViewById(R.id.messageTable);
+        table.setText(message);
 
         btn = findViewById(R.id.confirmBtn2);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +75,7 @@ public class MessagePanel extends AppCompatActivity {
         });
 
 
+>>>>>>> Configuration
     }
 
 }
