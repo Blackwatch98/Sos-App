@@ -71,13 +71,6 @@ public class ContactsList extends AppCompatActivity {
                 if (background instanceof ColorDrawable)
                     color = ((ColorDrawable) background).getColor();
 
-<<<<<<< HEAD
-                // change the background color of the selected element
-                selectedContacts.add(arrayList_Android_Contacts.get(i));
-                System.out.println("ID " + i);
-                view.setBackgroundColor(Color.BLACK);
-=======
->>>>>>> Configuration
 
                 if(color == Color.TRANSPARENT)
                 {
@@ -181,46 +174,45 @@ class Android_Contact implements Serializable{
     }
 }
 
-    class Adapter_for_Android_Contacts extends BaseAdapter {
-        Context mContext;
-        List<Android_Contact> mList_Android_Contacts;
+class Adapter_for_Android_Contacts extends BaseAdapter {
+    Context mContext;
+    List<Android_Contact> mList_Android_Contacts;
 
-        public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
-            this.mContext = mContext;
-            this.mList_Android_Contacts = mContact;
-        }
-
-        @Override
-        public int getCount() {
-            return mList_Android_Contacts.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mList_Android_Contacts.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view=View.inflate(mContext,R.layout.contactlist_items,null);
-
-            TextView textview_contact_Name= view.findViewById(R.id.textview_android_contact_name);
-            TextView textview_contact_TelefonNr= view.findViewById(R.id.textview_android_contact_phoneNr);
-
-            textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
-            textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
-
-
-            view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
-            return view;
-        }
-
-
-
+    public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
+        this.mContext = mContext;
+        this.mList_Android_Contacts = mContact;
     }
 
+    @Override
+    public int getCount() {
+        return mList_Android_Contacts.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mList_Android_Contacts.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view=View.inflate(mContext,R.layout.contactlist_items,null);
+
+        TextView textview_contact_Name= view.findViewById(R.id.textview_android_contact_name);
+        TextView textview_contact_TelefonNr= view.findViewById(R.id.textview_android_contact_phoneNr);
+
+        textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
+        textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
+
+
+        view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
+        return view;
+    }
+
+
+
+}

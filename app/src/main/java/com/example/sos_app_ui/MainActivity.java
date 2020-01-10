@@ -1,34 +1,16 @@
 package com.example.sos_app_ui;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.Manifest;
+
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.hardware.Sensor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-
-import com.example.sos_app_ui.background_service.BackgroundNotificationService;
-import com.example.sos_app_ui.ui.configuration.MessagePanel;
-import com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,7 +20,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.io.File;
+import com.example.sos_app_ui.ui.configuration.MessagePanel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -106,56 +89,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-        private boolean checkPermission () {
-            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS);
-
-            if (result == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                return false;
-            }
+    private boolean checkPermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, permission);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
+    private void requestPermission(String permission, int permissionCode) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
+            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
+        }
+    }
 
-        private void requestPermission (String permission,int permissionCode){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
-                Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-            }
-            else
-                {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
-
-
-                public static void sendSms () {
-                    String phoneNo = "";
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+    public static void sendSms(){
+        String phoneNo = "";
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
 //        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
 //        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 //        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
 //        toast.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("value", "Permission Granted, Now you can use local drive.");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive.");
                 }
-
-                @Override
-                public void onRequestPermissionsResult ( int requestCode, String permissions[], int[] grantResults){
-                    switch (requestCode) {
-                        case PERMISSION_REQUEST_CODE:
-                            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                                Log.e("value", "Permission Granted, Now you can use local drive.");
-                            } else {
-                                Log.e("value", "Permission Denied, You cannot use local drive.");
-                            }
-                            break;
-                        case MY_PERMISSIONS_REQUEST_SEND_SMS: {
-                            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                                Log.e("value", "Permission Granted, Now you can send SMS.");
-                            } else {
-                                Log.e("value", "Permission Denied, You cannot send SMS.");
-                            }
-                        }
-
-                    }
+                break;
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("value", "Permission Granted, Now you can send SMS.");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot send SMS.");
                 }
             }
+            return;
         }
-
+    }
+}

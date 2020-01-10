@@ -33,7 +33,6 @@
         </activity>
         <activity android:name=".ui.configuration.ConfigFileChecker" />
         <activity android:name=".ui.configuration.CreateNewConfiguration" />
-        <activity android:name=".ui.configuration.ContactsList" />
         <activity
             android:name=".ui.configuration.WarningTargets"
             android:label="@string/title_activity_warning_targets"

@@ -1,6 +1,5 @@
 package com.example.sos_app_ui.ui.configuration;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.sos_app_ui.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
