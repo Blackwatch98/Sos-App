@@ -1,7 +1,5 @@
 package com.example.sos_app_ui;
 
-<<<<<<< HEAD
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -9,9 +7,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
-=======
 import android.Manifest;
->>>>>>> Configuration
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
@@ -110,64 +106,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-<<<<<<< HEAD
-    private boolean checkPermission(String permission) {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, permission);
-=======
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS);
->>>>>>> Configuration
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        private boolean checkPermission () {
+            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS);
 
-<<<<<<< HEAD
-    private void requestPermission(String permission, int permissionCode) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
-            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
-=======
-    private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.READ_CONTACTS)) {
-            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.READ_CONTACTS}, PERMISSION_REQUEST_CODE);
->>>>>>> Configuration
+            if (result == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                return false;
+            }
         }
-    }
 
-    public static void sendSms(){
-        String phoneNo = "";
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+
+        private void requestPermission (String permission,int permissionCode){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
+                Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+            }
+            else
+                {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
+
+
+                public static void sendSms () {
+                    String phoneNo = "";
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
 //        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
 //        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 //        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
 //        toast.show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("value", "Permission Granted, Now you can use local drive.");
-                } else {
-                    Log.e("value", "Permission Denied, You cannot use local drive.");
                 }
-                break;
-            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("value", "Permission Granted, Now you can send SMS.");
-                } else {
-                    Log.e("value", "Permission Denied, You cannot send SMS.");
+
+                @Override
+                public void onRequestPermissionsResult ( int requestCode, String permissions[], int[] grantResults){
+                    switch (requestCode) {
+                        case PERMISSION_REQUEST_CODE:
+                            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                                Log.e("value", "Permission Granted, Now you can use local drive.");
+                            } else {
+                                Log.e("value", "Permission Denied, You cannot use local drive.");
+                            }
+                            break;
+                        case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                                Log.e("value", "Permission Granted, Now you can send SMS.");
+                            } else {
+                                Log.e("value", "Permission Denied, You cannot send SMS.");
+                            }
+                        }
+
+                    }
                 }
             }
-            return;
         }
-    }
-}
+
