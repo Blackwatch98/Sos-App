@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkPermission(String permission) {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, permission);
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS);
         if (result == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
@@ -120,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.READ_CONTACTS)) {
+            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.READ_CONTACTS}, PERMISSION_REQUEST_CODE);
         }
     }
 

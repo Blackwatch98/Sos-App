@@ -1,37 +1,35 @@
 package com.example.sos_app_ui.ui.configuration;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.sos_app_ui.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class WarningTargets extends AppCompatActivity {
 
-    private ListView ls;
+    private ListView finalList;
     private ArrayList<Android_Contact> newContactsList;
-    private Set<Android_Contact> currentContactsList;
+    private Set<Android_Contact> currentContactsSet;
     private ArrayList<Android_Contact> currentContactsList2;
+    private ArrayList<Android_Contact> removeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +38,10 @@ public class WarningTargets extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ls = findViewById(R.id.listView1);
-        currentContactsList = new HashSet<Android_Contact>();
+        finalList = findViewById(R.id.listView1);
+        currentContactsSet = new HashSet<Android_Contact>();
         currentContactsList2 = new ArrayList<Android_Contact>();
+        removeList = new ArrayList<Android_Contact>();
 
         Button btn = findViewById(R.id.chooseBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +50,62 @@ public class WarningTargets extends AppCompatActivity {
             public void onClick(View v) {
                 Intent appInfo = new Intent(v.getContext(),ContactsList.class);
                 startActivityForResult(appInfo,1);
+            }
+        });
+
+        Button btn2 = findViewById(R.id.removeBtn);
+        btn2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(removeList.size() == 0)
+                    Toast.makeText(WarningTargets.this, "No contacts marked", Toast.LENGTH_SHORT).show();
+
+                currentContactsList2.removeAll(removeList);
+                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(WarningTargets.this,  currentContactsList2);
+                finalList.setAdapter(adapter);
+            }
+        });
+
+        Button btn3 = findViewById(R.id.confirmBtn3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putSerializable("fList",(Serializable)currentContactsList2);
+                Intent resultIntent = new Intent(v.getContext(),
+                        CreateNewConfiguration.class);
+                resultIntent.putExtra("finalList",args);
+                setResult(RESULT_OK,resultIntent);
+
+                finish();
+            }
+        });
+
+        finalList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+
+        finalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                int color = Color.TRANSPARENT;
+                Drawable background = view.getBackground();
+                if (background instanceof ColorDrawable)
+                    color = ((ColorDrawable) background).getColor();
+
+
+                if(color == Color.TRANSPARENT)
+                {
+                    view.setBackgroundColor(Color.LTGRAY);
+                    removeList.add(currentContactsList2.get(i));
+                }
+                else if(color == Color.LTGRAY)
+                {
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                    removeList.remove(currentContactsList2.get(i));
+                }
+                System.out.println("ID " + i);
             }
         });
 
@@ -78,7 +133,7 @@ public class WarningTargets extends AppCompatActivity {
                 });
 
                 Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2);
-                ls.setAdapter(adapter);
+                finalList.setAdapter(adapter);
             }
             if(resultCode == RESULT_CANCELED)
             {
@@ -92,19 +147,11 @@ public class WarningTargets extends AppCompatActivity {
         currentContactsList2.clear();
         for(Android_Contact p1 : newContactsList)
         {
-            currentContactsList.add(p1);
+            currentContactsSet.add(p1);
         }
-        for(Android_Contact p1 : currentContactsList)
+        for(Android_Contact p1 : currentContactsSet)
         {
             currentContactsList2.add(p1);
-        }
-    }
-
-    class ContactsComparator implements Comparator<Android_Contact>
-    {
-        public int compare(Android_Contact c1, Android_Contact c2)
-        {
-            return c1.android_contact_Name.compareTo(c2.android_contact_Name);
         }
     }
 }

@@ -11,38 +11,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/chooseBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
                 android:layout_weight="1"
                 android:text="Choose..." />
 
             <Button
-                android:id="@+id/button5"
-                android:layout_width="wrap_content"
+                android:id="@+id/removeBtn"
+                android:layout_width="80dp"
+                android:layout_marginHorizontal="2dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:layout_weight="1"
+                android:text="Remove" />
+
+            <Button
+                android:id="@+id/confirmBtn3"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
                 android:layout_weight="1"
                 android:text="Confirm" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView13"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="25dp"
-            android:text="Current list:" />
+            android:layout_height="match_parent"
+            android:background="@drawable/contats_list"
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:text="Current list:"
+                android:textSize="25dp" />
+
+            <ListView
+                android:id="@+id/listView1"
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

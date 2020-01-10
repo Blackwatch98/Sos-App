@@ -7,4 +7,5 @@
     <string name="title_activity_additional_settings_panel">AdditionalSettingsPanel</string>
     <string name="title_activity_message_panel">MessagePanel</string>
     <string name="title_activity_warning_targets">WarningTargets</string>
+    <string name="title_activity_main_configuration_menu">MainConfigurationMenu</string>
 </resources>

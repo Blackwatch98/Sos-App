@@ -8,10 +8,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +16,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -38,7 +33,7 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
     private CheckBox ch8;
     private CheckBox ch9;
     private CheckBox ch10;
-    Button btn;
+    private Button btn;
     private int STORAGE_PERMISSION_CODE = 1;
 
     @Override
@@ -66,7 +61,7 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
         this.ch10 = findViewById(R.id.checkBox10);
 
 
-        btn = findViewById(R.id.confirmBtn1);
+        btn = findViewById(R.id.confirmBtn4);
         btn.setOnClickListener(new View.OnClickListener() {
 
             @Override

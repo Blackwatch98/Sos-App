@@ -7,40 +7,38 @@
     tools:context=".ui.configuration.ContactsList"
     android:background="@color/colorPrimaryDark">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="120dp"
-        >
-
-        <Button
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="add" />
-
-        <Button
-            android:id="@+id/loadContacts"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:text="Load" />
-
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/contacts"
             android:layout_width="match_parent"
 
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:choiceMode="singleChoice"
-             />
+            android:layout_height="500dp"
+            android:choiceMode="singleChoice" />
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add" />
+
+            <Button
+                android:id="@+id/loadContacts"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content"
+
+
+                android:text="Load" />
+        </LinearLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
