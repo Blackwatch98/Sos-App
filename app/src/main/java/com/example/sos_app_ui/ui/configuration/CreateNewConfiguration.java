@@ -104,7 +104,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
         if(requestCode == 3)
         {
             Bundle args = data.getBundleExtra("finalList");
-            conf.setTargets((ArrayList<Android_Contact>) args.getSerializable("fList"));
+            conf.setTargets((ArrayList<AndroidContact>) args.getSerializable("fList"));
         }
 
     }
