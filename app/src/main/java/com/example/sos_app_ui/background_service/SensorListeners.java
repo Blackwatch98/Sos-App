@@ -103,11 +103,10 @@ public class SensorListeners {
                 //accelerometerStrZ.append(accValZ+" : "+val+"\n");
 
                 if (calculateFall.calculate()) {
-                    FALL = true;
-                    if(!saved) {
+                    if(!FALL) {
+                        FALL = true;
                         MainActivity.sendSms();
                         //saveResults();
-                        saved = true;
                         backgroundNotificationService.startForeground(getFALL());
                         vibrate(2000);
                     }

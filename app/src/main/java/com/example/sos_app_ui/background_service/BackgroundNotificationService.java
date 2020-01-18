@@ -45,7 +45,7 @@ public class BackgroundNotificationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
-        startForeground(true);
+        //startForeground(true);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -79,29 +79,14 @@ public class BackgroundNotificationService extends Service{
                 notificationIntent, 0);
 
         if(fall) {
-//            startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
-//                    "default") // don't forget create a notification channel first
-//                    .setOngoing(true)
-//                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-//                    .setContentTitle(getString(R.string.app_name))
-//                    .setContentText("Fall detected")
-//                    .setContentIntent(pendingIntent)
-//                    .build());
-
-            NotificationCompat.Builder notification = new NotificationCompat.Builder(this, NOTIF_ID)
-                    // Show controls on lock screen even when user hides sensitive content.
-                    .setVisibility(Notification.VISIBILITY_PUBLIC)
-                    .setSmallIcon(R.drawable.logo_black)
-//HERE ARE YOUR BUTTONS
-                    //.addAction(R.drawable.ic_dashboard_black_24dp, "BUTTON 1",) // #0
-                    //.addAction(R.drawable.ic_notifications_black_24dp, "BUTTON 2", myIntentToButtonTwoScreen)  // #1
-                    //.addAction(R.drawable.ic_notifications_white_24dp, "BUTTON 3", myIntentToButtonThreeScreen)     // #2
-                    // Apply the media style template
-                    .setContentTitle("Example for you")
-                     .setContentText("Example for you");
-
-            NotificationManager nm=(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(NOTIF_ID,notification.build());
+            startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
+                    "default") // don't forget create a notification channel first
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                    .setContentTitle(getString(R.string.app_name))
+                    .setContentText("Fall detected")
+                    .setContentIntent(pendingIntent)
+                    .build());
         }
     }
 
