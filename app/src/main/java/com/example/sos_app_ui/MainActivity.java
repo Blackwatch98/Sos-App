@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -107,9 +108,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void sendSms(){
-        String phoneNo = "697505742";
+        String phoneNo = "500859950";
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+        smsManager.sendTextMessage(phoneNo, null, "test sms"/*MessagePanel.getMessage()*/,
+                BackgroundNotificationService.sentPI, null);
 //        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
 //        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 //        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
