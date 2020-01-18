@@ -1,5 +1,6 @@
 package com.example.sos_app_ui.background_service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,6 +30,7 @@ public class BackgroundNotificationService extends Service{
 
     private SensorListeners sensorListeners;
     private SensorManager sensorManager;
+    private SensorEventListener accelerometerSensorListener;
     ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public BackgroundNotificationService() {
@@ -42,38 +44,34 @@ public class BackgroundNotificationService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         setUpSensors();
-
-//        scheduler.scheduleWithFixedDelay(new Runnable() {
-//            @Override
-//            public void run() {
-//                startForeground(sensorListeners.getFALL());
-//            }
-//        }, 1, 1, SECONDS);
-
-
+        //startForeground(true);
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        destroyListener();
+        super.onDestroy();
     }
 
     private void setUpSensors() {
         sensorListeners = new SensorListeners(getApplicationContext(), this);
-        sensorListeners.setGyroscopeEventListener();
 
         sensorManager = (SensorManager) getApplicationContext()
                 .getSystemService(SENSOR_SERVICE);
 
-        Sensor gyroscopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         Sensor accelerometerSender = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        SensorEventListener gyroscopeSensorListener = sensorListeners.setGyroscopeEventListener();
-        SensorEventListener accelerometerSensorListener = sensorListeners.setAccelerometerEventListener();
-        sensorManager.registerListener(gyroscopeSensorListener, gyroscopeSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        accelerometerSensorListener = sensorListeners.setAccelerometerEventListener();
         sensorManager.registerListener(accelerometerSensorListener, accelerometerSender, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    public void startForeground(boolean fall) {
+    private void destroyListener(){
+        sensorManager.unregisterListener(accelerometerSensorListener);
+    }
 
+    public void startForeground(boolean fall) {
         initChannels(this);
         Intent notificationIntent = new Intent(this, MainActivity.class);
 
