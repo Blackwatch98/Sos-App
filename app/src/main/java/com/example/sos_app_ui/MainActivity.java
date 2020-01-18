@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void sendSms(){
-        String phoneNo = "";
+        String phoneNo = "697505742";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
 //        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
