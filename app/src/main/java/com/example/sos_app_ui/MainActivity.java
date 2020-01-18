@@ -20,8 +20,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.sql.Timestamp;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_logs)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -110,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         String phoneNo = "";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+        LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
+        LastActivityFragment.logs.add(logModel);
 //        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
 //        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 //        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);

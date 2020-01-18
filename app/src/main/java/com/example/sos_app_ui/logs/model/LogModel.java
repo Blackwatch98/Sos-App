@@ -1,0 +1,30 @@
+package com.example.sos_app_ui.logs.model;
+
+import java.sql.Timestamp;
+
+public class LogModel {
+
+    private Timestamp timestamp;
+    private String message;
+
+    public LogModel(Timestamp timestamp, String message) {
+        this.timestamp = timestamp;
+        this.message = message;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public String toString() {
+        return
+                timestamp +
+                ", \nmessage='" + message + '\'' +
+                '}';
+    }
+}
