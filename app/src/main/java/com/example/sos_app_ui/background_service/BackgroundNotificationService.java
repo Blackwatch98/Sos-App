@@ -23,8 +23,6 @@ import com.example.sos_app_ui.R;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 public class BackgroundNotificationService extends Service{
     private static final String SMS_SENT_INTENT_FILTER = "com.yourapp.sms_send";
     private static final String SMS_DELIVERED_INTENT_FILTER = "com.yourapp.sms_delivered";
@@ -51,7 +49,7 @@ public class BackgroundNotificationService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
         //MainActivity.sendSms();
-        startForeground(true);      // TO MA ZNIKNAC
+        startForeground();      // TO MA ZNIKNAC
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -77,21 +75,7 @@ public class BackgroundNotificationService extends Service{
         sensorManager.unregisterListener(accelerometerSensorListener);
     }
 
-    public void startForeground(boolean fall) {
-        //initChannels(this);
-        //Intent notificationIntent = new Intent(this, MainActivity.class);
-
-        //PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-          //      notificationIntent, 0);
-
-//        startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
-//                "default") // don't forget create a notification channel first
-//                .setOngoing(true)
-//                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-//                .setContentTitle(getString(R.string.app_name))
-//                .setContentText("Fall detected")
-//                .setContentIntent(pendingIntent)
-//                .build());
+    public void startForeground() {
 
         createNotificationChannel();
 
@@ -108,7 +92,7 @@ public class BackgroundNotificationService extends Service{
                 .setSmallIcon(R.drawable.logo_black)
                 .setContentTitle("Fall detected")
                 .setContentText("Sending sms notifications in 30 sec.")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -119,7 +103,6 @@ public class BackgroundNotificationService extends Service{
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationId, builder.build());
-
     }
 
     private void createNotificationChannel() {
@@ -136,18 +119,5 @@ public class BackgroundNotificationService extends Service{
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public void initChannels(Context context) {
-        if (Build.VERSION.SDK_INT < 26) {
-            return;
-        }
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel("default",
-                "Channel name",
-                NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("Channel description");
-        notificationManager.createNotificationChannel(channel);
     }
 }
