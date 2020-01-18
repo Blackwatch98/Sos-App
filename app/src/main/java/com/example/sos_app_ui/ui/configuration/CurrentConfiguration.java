@@ -18,7 +18,7 @@ public class CurrentConfiguration
 
     private String messageText;
 
-    private List<Android_Contact> targets;
+    private List<AndroidContact> targets;
 
     private File file;
 
@@ -63,11 +63,11 @@ public class CurrentConfiguration
         this.messageText = messageText;
     }
 
-    public List<Android_Contact> getTargets() {
+    public List<AndroidContact> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<Android_Contact> targets) {
+    public void setTargets(List<AndroidContact> targets) {
         this.targets = targets;
     }
 
@@ -144,7 +144,7 @@ public class CurrentConfiguration
         return classContent;
     }
 
-    public static String listToString(List<Android_Contact> list) {
+    public static String listToString(List<AndroidContact> list) {
         String result = "";
         for (int i = 0; i < list.size(); i++) {
             result += "Name: " + list.get(i).android_contact_Name +
