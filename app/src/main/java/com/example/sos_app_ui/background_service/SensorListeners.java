@@ -107,11 +107,10 @@ public class SensorListeners {
                 //accelerometerStrZ.append(accValZ+" : "+val+"\n");
 
                 if (calculateFall.calculate()) {
-                    FALL = true;
-                    MainActivity.sendSms();
-                    if(!saved) {
+                    if(!FALL) {
+                        FALL = true;
+                        MainActivity.sendSms();
                         //saveResults();
-                        saved = true;
                         backgroundNotificationService.startForeground(getFALL());
                         vibrate(2000);
                     }
@@ -127,22 +126,22 @@ public class SensorListeners {
         return accelerometerListener;
     }
 
-    SensorEventListener setGyroscopeEventListener() {
-        return new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                gyroscopeStrX = sensorEvent.values[0];
-
-                gyroscopeStrY = sensorEvent.values[1];
-
-                gyroscopeStrZ = sensorEvent.values[2];
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
-    }
+//    SensorEventListener setGyroscopeEventListener() {
+//        return new SensorEventListener() {
+//            @Override
+//            public void onSensorChanged(SensorEvent sensorEvent) {
+//                gyroscopeStrX = sensorEvent.values[0];
+//
+//                gyroscopeStrY = sensorEvent.values[1];
+//
+//                gyroscopeStrZ = sensorEvent.values[2];
+//            }
+//
+//            @Override
+//            public void onAccuracyChanged(Sensor sensor, int i) {
+//            }
+//        };
+//    }
 
     // saving
     private void saveResults() {

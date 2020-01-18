@@ -20,12 +20,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 import com.example.sos_app_ui.logs.LastActivityFragment;
 import com.example.sos_app_ui.logs.model.LogModel;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.Timestamp;
+
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -111,16 +113,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void sendSms(){
-        String phoneNo = "";
+        String phoneNo = "500859950";
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+        smsManager.sendTextMessage(phoneNo, null, "test sms",
+                BackgroundNotificationService.sentPI, null);
         LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
         LastActivityFragment.logs.add(logModel);
-//        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
-//        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-//        toast.show();
     }
+
+//    PENDING CHANGES IN CONFIGURATION FRAGMENT AND LOCATION SPECIFICS
+
+//    public static void sendSmsTest(){
+//        CurrentConfiguration config = ConfigurationFragment.getCurrentConfiguration();
+//        //Daniel will move the current configuration instance to ConfigurationFragment
+//        List<AndroidContact> contacts = config.getTargets();
+//        StringBuilder textMessage = new StringBuilder(config.getMessageText());
+//        if(locationGiven) {
+//            textMessage.append("My location is: ")
+//                    .append(location);
+//        }
+//        // location to be derived from somewhere
+//        SmsManager smsManager = SmsManager.getDefault();
+//        for (AndroidContact contact : contacts) {
+//            smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+//                    null,
+//                    textMessage.toString(),
+//                    BackgroundNotificationService.sentPI,
+//                    null);
+//        }
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

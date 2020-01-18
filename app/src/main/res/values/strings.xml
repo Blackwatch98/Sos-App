@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SOS App</string>
+    <string name="channel_name">channel name</string>
+    <string name="channel_description">channel description</string>
     <string name="title_configuration">Configuration</string>
     <string name="title_currentActivity">Current activity</string>
     <string name="title_last_activity">Last activity</string>
