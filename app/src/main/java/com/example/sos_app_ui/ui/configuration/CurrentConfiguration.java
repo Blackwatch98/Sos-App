@@ -23,7 +23,7 @@ public class CurrentConfiguration implements Serializable
 
     private String messageText;
 
-    private List<AndroidContact> targets;
+    private List<Android_Contact> targets;
 
     private File file;
 
@@ -68,11 +68,11 @@ public class CurrentConfiguration implements Serializable
         this.messageText = messageText;
     }
 
-    public List<AndroidContact> getTargets() {
+    public List<Android_Contact> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<AndroidContact> targets) {
+    public void setTargets(List<Android_Contact> targets) {
         this.targets = targets;
     }
 
