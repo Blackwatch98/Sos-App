@@ -5,14 +5,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.sos_app_ui.R;
 
@@ -62,7 +63,7 @@ public class WarningTargets extends AppCompatActivity {
                     Toast.makeText(WarningTargets.this, "No contacts marked", Toast.LENGTH_SHORT).show();
 
                 currentContactsList2.removeAll(removeList);
-                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(WarningTargets.this,  currentContactsList2);
+                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(WarningTargets.this,  currentContactsList2, "dark");
                 finalList.setAdapter(adapter);
             }
         });
@@ -105,7 +106,7 @@ public class WarningTargets extends AppCompatActivity {
                     view.setBackgroundColor(Color.TRANSPARENT);
                     removeList.remove(currentContactsList2.get(i));
                 }
-                System.out.println("ID " + i);
+                //System.out.println("ID " + i);
             }
         });
 
@@ -132,7 +133,7 @@ public class WarningTargets extends AppCompatActivity {
                     }
                 });
 
-                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2);
+                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2, "dark");
                 finalList.setAdapter(adapter);
             }
             if(resultCode == RESULT_CANCELED)

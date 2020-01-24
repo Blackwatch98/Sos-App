@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sos_app_ui">
-
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name = "android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name = "android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <uses-feature
         android:name="android.hardware.sensor.gyroscope"
@@ -21,13 +25,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.configuration.ContactsList"></activity>
+        <service android:name=".background_service.BackgroundNotificationService"/>
         <activity android:name=".ui.configuration.FilePreviewPop"
             android:theme="@style/AppTheme.CustomTheme">
 
         </activity>
         <activity android:name=".ui.configuration.ConfigFileChecker" />
         <activity android:name=".ui.configuration.CreateNewConfiguration" />
-        <activity android:name=".ui.configuration.ContactsList" />
         <activity
             android:name=".ui.configuration.WarningTargets"
             android:label="@string/title_activity_warning_targets"

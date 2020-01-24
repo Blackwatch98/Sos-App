@@ -1,7 +1,6 @@
 package com.example.sos_app_ui.ui.configuration;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import com.example.sos_app_ui.R;
-import android.content.Context;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sos_app_ui.R;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class ConfigFileChecker extends AppCompatActivity {
 
-    private ListView fileList;
+       private ListView fileList;
     private List<MyFiles> listOfFiles;
 
     @Override
@@ -51,6 +50,22 @@ public class ConfigFileChecker extends AppCompatActivity {
         });
     }
 
+    public ListView getFileList() {
+        return fileList;
+    }
+
+    public void setFileList(ListView fileList) {
+        this.fileList = fileList;
+    }
+
+    public List<MyFiles> getListOfFiles() {
+        return listOfFiles;
+    }
+
+    public void setListOfFiles(List<MyFiles> listOfFiles) {
+        this.listOfFiles = listOfFiles;
+    }
+
     public List<MyFiles> loadFiles()
     {
         List<MyFiles> list = new LinkedList<>();
@@ -66,8 +81,13 @@ public class ConfigFileChecker extends AppCompatActivity {
 
             try
             {
+                System.out.println("Current:"+ files[i].getName());
+                if(files[i].getName().equals("History.txt"))
+                    continue;
                 BufferedReader brTest = new BufferedReader(new FileReader(files[i]));
                 String test = brTest.readLine();
+                //System.out.println(test);
+
                 String[] strArray = test.split(" ");
                 date += strArray[3];
                 brTest.close();

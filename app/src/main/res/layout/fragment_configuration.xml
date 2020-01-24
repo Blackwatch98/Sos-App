@@ -42,7 +42,7 @@
                     android:layout_marginTop="10dp" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/finalConfirm"
                     android:layout_width="120dp"
                     android:layout_marginLeft="45dp"
                     android:layout_marginTop="40dp"

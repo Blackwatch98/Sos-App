@@ -1,15 +1,16 @@
 package com.example.sos_app_ui;
 
-import android.Manifest;
+
 import android.content.pm.PackageManager;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Environment;
+import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,7 +20,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.io.File;
+import com.example.sos_app_ui.ui.configuration.MessagePanel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -29,28 +31,38 @@ public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     private static final int PERMISSION_REQUEST_CODE = 100;
+    public static boolean activityOn;
+
+    public static int getMyPermissionsRequestSendSms() {
+        return MY_PERMISSIONS_REQUEST_SEND_SMS;
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Window window = getWindow();
+        window.setFormat(PixelFormat.RGBA_8888);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //checkPermissionContacts();
-        //checkPermissionWriteExternalStorage();
-        //checkPermissionReadExternalStorage();
-        //checkPermissionLocation();
-        if (!checkPermission())
-            requestPermission();
+        if (!checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_CODE);
 
-//        ActivityCompat.requestPermissions(MainActivity.this,
-//                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                1);
-//
-//        ActivityCompat.requestPermissions(MainActivity.this,
-//                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                1);
+        if (!checkPermission(android.Manifest.permission.SEND_SMS))
+            requestPermission(android.Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SEND_SMS);
 
+        activityOn = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.locaution_white);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
@@ -58,14 +70,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
     }
-/*
-    public void btnLoad_AndroidContacts_onClick(View view) {
-        listView_Android_Contacts = (ListView) this.findViewById(R.id.listView_Android_Contacts);
-        fp_get_Android_Contacts();
-    }
-*/
 
     private static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();
@@ -84,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS);
+    private boolean checkPermission(String permission) {
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, permission);
         if (result == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
@@ -93,12 +98,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, android.Manifest.permission.READ_CONTACTS)) {
+    private void requestPermission(String permission, int permissionCode) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
             Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
         } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.READ_CONTACTS}, PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
         }
+    }
+
+    public static void sendSms(){
+        String phoneNo = "";
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNo, null, MessagePanel.getMessage(), null, null);
+//        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
+//        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+//        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+//        toast.show();
     }
 
     @Override
@@ -106,11 +121,19 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.e("value", "Permission Granted, Now you can use local drive .");
-            } else {
-                Log.e("value", "Permission Denied, You cannot use local drive .");
+                    Log.e("value", "Permission Granted, Now you can use local drive.");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot use local drive.");
+                }
+                break;
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("value", "Permission Granted, Now you can send SMS.");
+                } else {
+                    Log.e("value", "Permission Denied, You cannot send SMS.");
+                }
             }
-            break;
+            return;
         }
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SOS-App</string>
+    <string name="app_name">SOS App</string>
     <string name="title_configuration">Configuration</string>
     <string name="title_currentActivity">Current activity</string>
     <string name="title_last_activity">Last activity</string>

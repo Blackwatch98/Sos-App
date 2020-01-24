@@ -1,4 +1,4 @@
-package com.example.sos_app_ui.ui.current_activity;
+package com.example.sos_app_ui.background_service;
 
 import android.content.Context;
 import android.content.ContextWrapper;
