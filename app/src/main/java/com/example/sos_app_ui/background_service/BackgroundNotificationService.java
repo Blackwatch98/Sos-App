@@ -77,11 +77,26 @@ public class BackgroundNotificationService extends Service{
 
     public void startForeground() {
 
+        initChannels(this);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+              notificationIntent, 0);
+
+        startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
+                "default") // don't forget create a notification channel first
+                .setOngoing(true)
+                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Fall detected")
+                .setContentIntent(pendingIntent)
+                .build());
+
         createNotificationChannel();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent, 0);
 
 //        sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
 //                SMS_SENT_INTENT_FILTER), 0);
@@ -94,7 +109,7 @@ public class BackgroundNotificationService extends Service{
                 .setContentText("Sending sms notifications in 30 sec.")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent2)
                 .setAutoCancel(true)
                 .addAction(R.drawable.ic_notifications_black_24dp, "Send sms!",
                     null)   // tutaj intent do wyslania sms
