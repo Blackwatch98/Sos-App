@@ -31,7 +31,7 @@ public class BackgroundNotificationService extends Service{
     public static PendingIntent deliveredPI = null;
     private static final int NOTIF_ID = 1;
     private static final String CHANNEL_ID = "1";
-    private static int notificationId;
+    private static int notificationId = 0;
     private SensorListeners sensorListeners;
     private SensorManager sensorManager;
     private SensorEventListener accelerometerSensorListener;
@@ -49,8 +49,8 @@ public class BackgroundNotificationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
-        MainActivity.sendSms(this);
-        startForeground();      // TO MA ZNIKNAC
+        //MainActivity.sendSms(this);
+        //startForeground();      // TO MA ZNIKNAC
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -77,10 +77,10 @@ public class BackgroundNotificationService extends Service{
     }
 
     public void startForeground() {
-
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        PendingIntent dismissIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
                 "default") // don't forget create a notification channel first
@@ -89,10 +89,11 @@ public class BackgroundNotificationService extends Service{
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Fall detected")
                 .setContentIntent(pendingIntent)
+                //.setAutoCancel(true)
                 .addAction(R.drawable.ic_notifications_black_24dp, "Send sms!",
                         null)   // tutaj intent do wyslania sms
                 .addAction(R.drawable.ic_notifications_black_24dp, "Nothing happened, I'm ok.",
-                        null)  // tutaj intent do niczego?
+                        dismissIntent)  // tutaj intent do niczego?
                 .build());
 
         createNotificationChannel();
