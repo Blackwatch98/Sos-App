@@ -1,6 +1,7 @@
 package com.example.sos_app_ui;
 
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -114,12 +115,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void sendSms(){
-
+    public static void sendSms(Context context){
         String phoneNo = "500859950";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, "test sms",
                 BackgroundNotificationService.sentPI, null);
+//        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
+//        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+//        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+//        toast.show();
+
+       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
     }
 
 //    PENDING CHANGES IN CONFIGURATION FRAGMENT AND LOCATION SPECIFICS
