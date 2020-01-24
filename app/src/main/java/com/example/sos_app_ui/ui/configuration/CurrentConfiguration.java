@@ -23,7 +23,7 @@ public class CurrentConfiguration implements Serializable
 
     private String messageText;
 
-    private List<Android_Contact> targets;
+    private List<AndroidContact> targets;
 
     private File file;
 
@@ -68,11 +68,11 @@ public class CurrentConfiguration implements Serializable
         this.messageText = messageText;
     }
 
-    public List<Android_Contact> getTargets() {
+    public List<AndroidContact> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<Android_Contact> targets) {
+    public void setTargets(List<AndroidContact> targets) {
         this.targets = targets;
     }
 
@@ -230,7 +230,6 @@ public class CurrentConfiguration implements Serializable
         return classContent;
     }
 
-
     public static String listToString(List<Android_Contact> list) {
         if(list != null)
         {
@@ -243,5 +242,4 @@ public class CurrentConfiguration implements Serializable
         }
         return null;
     }
-
 }

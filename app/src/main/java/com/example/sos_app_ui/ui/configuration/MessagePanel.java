@@ -1,9 +1,7 @@
 package com.example.sos_app_ui.ui.configuration;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +11,11 @@ import com.example.sos_app_ui.R;
 
 public class MessagePanel extends AppCompatActivity {
 
+
     private static String message;
     private Button confirmBtn;
     private EditText table;
+
 
     public static String getMessage() {
         return message;
@@ -58,6 +58,7 @@ public class MessagePanel extends AppCompatActivity {
                 finish();
             }
         });
+
 
 
 

@@ -98,8 +98,7 @@ public class PersonalDataPanel extends AppCompatActivity {
         str = this.age.getText().toString();
         if(str.matches(""))
             return false;
-
-
+      
         charArray = str.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
             char ch = charArray[i];
