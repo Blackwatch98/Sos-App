@@ -1,6 +1,4 @@
 package com.example.sos_app_ui.ui.configuration;
-import com.example.sos_app_ui.R;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +11,8 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sos_app_ui.R;
 import android.widget.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -146,12 +146,29 @@ public class ContactsList extends AppCompatActivity {
             }
         }
     }
+
 }
 
 class Android_Contact implements Serializable{
     public String android_contact_Name = "";
     public String android_contact_TelefonNr = "";
     public int android_contact_ID=0;
+
+    public String getAndroid_contact_Name() {
+        return android_contact_Name;
+    }
+
+    public void setAndroid_contact_Name(String android_contact_Name) {
+        this.android_contact_Name = android_contact_Name;
+    }
+
+    public String getAndroid_contact_TelefonNr() {
+        return android_contact_TelefonNr;
+    }
+
+    public void setAndroid_contact_TelefonNr(String android_contact_TelefonNr) {
+        this.android_contact_TelefonNr = android_contact_TelefonNr;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -177,10 +194,17 @@ class Android_Contact implements Serializable{
 class Adapter_for_Android_Contacts extends BaseAdapter {
     Context mContext;
     List<Android_Contact> mList_Android_Contacts;
+    String theme = "";
 
     public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
         this.mContext = mContext;
         this.mList_Android_Contacts = mContact;
+    }
+
+    public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact, String theme) {
+        this.mContext = mContext;
+        this.mList_Android_Contacts = mContact;
+        this.theme = theme;
     }
 
     @Override
@@ -200,10 +224,15 @@ class Adapter_for_Android_Contacts extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=View.inflate(mContext,R.layout.contactlist_items,null);
 
-        TextView textview_contact_Name= view.findViewById(R.id.textview_android_contact_name);
-        TextView textview_contact_TelefonNr= view.findViewById(R.id.textview_android_contact_phoneNr);
+        View view;
+        if (this.theme.equals("dark"))
+            view = View.inflate(mContext, R.layout.contactlist_items_dark, null);
+        else
+            view = View.inflate(mContext, R.layout.contactlist_items, null);
+
+        TextView textview_contact_Name = view.findViewById(R.id.textview_android_contact_name);
+        TextView textview_contact_TelefonNr = view.findViewById(R.id.textview_android_contact_phoneNr);
 
         textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
         textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
@@ -212,7 +241,4 @@ class Adapter_for_Android_Contacts extends BaseAdapter {
         view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
         return view;
     }
-
-
-
 }
