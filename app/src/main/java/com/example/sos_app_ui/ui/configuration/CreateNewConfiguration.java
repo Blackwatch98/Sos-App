@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sos_app_ui.R;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,8 +43,18 @@ public class CreateNewConfiguration extends AppCompatActivity {
                 String path = context.getExternalFilesDir("Configurations").toString();
                 File directory = new File(path);
                 File[] files = directory.listFiles();
+
                 String name = "Config" + (files.length+1)+".txt";
                 conf.writeConfigToFile(name,conf,context);
+
+                Bundle args = new Bundle();
+                args.putString("fileName", name);
+                args.putSerializable("fullyConfig",(Serializable)conf);
+                Intent resultIntent = new Intent(v.getContext(),
+                        ConfigurationFragment.class);
+                resultIntent.putExtras(args);
+                setResult(RESULT_OK,resultIntent);
+
                 finish();
             }
         });
@@ -85,26 +96,36 @@ public class CreateNewConfiguration extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1)
         {
-            Bundle extras = data.getExtras();
-            conf.setfName(extras.get("fname").toString());
-            conf.setsName(extras.get("sname").toString());
-            conf.setAge(Integer.valueOf(extras.get("age").toString()));
+            if(data != null)
+            {
+                Bundle extras = data.getExtras();
+                conf.setfName(extras.get("fname").toString());
+                conf.setsName(extras.get("sname").toString());
+                conf.setAge(Integer.valueOf(extras.get("age").toString()));
+            }
         }
         if(requestCode == 2)
         {
-            Bundle extras = data.getExtras();
-            conf.setMessageText(extras.get("message").toString());
+            if(data != null)
+            {
+                Bundle extras = data.getExtras();
+                conf.setMessageText(extras.get("message").toString());
+            }
         }
         if(requestCode == 3)
         {
-            Bundle args = data.getBundleExtra("finalList");
-            conf.setTargets((ArrayList<AndroidContact>) args.getSerializable("fList"));
+            if(data != null)
+            {
+                Bundle args = data.getBundleExtra("finalList");
+                conf.setTargets((ArrayList<Android_Contact>) args.getSerializable("fList"));
+            }
         }
 
     }

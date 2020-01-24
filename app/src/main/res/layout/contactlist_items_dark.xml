@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Name"
+        android:textColor="@color/colorBlack"
         android:textSize="22dp"
         android:id="@+id/textview_android_contact_name">
     </TextView>
@@ -16,6 +17,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="@color/colorBlack"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="TelefonNr"
         android:id="@+id/textview_android_contact_phoneNr"

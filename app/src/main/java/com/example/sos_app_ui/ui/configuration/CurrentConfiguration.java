@@ -3,14 +3,19 @@ package com.example.sos_app_ui.ui.configuration;
 import android.content.Context;
 import android.os.Environment;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CurrentConfiguration
+public class CurrentConfiguration implements Serializable
 {
     private String fName;
     private String sName;
@@ -100,6 +105,87 @@ public class CurrentConfiguration
 
     }
 
+    public boolean getDataFromConfigFile(String path, Context context)
+    {
+        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
+            System.out.println("ext not available");
+        }
+        else {
+            context.getExternalFilesDir("Configurations");
+            file = new File(path);
+        }
+
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+            String st;
+            br.readLine();
+            br.readLine();
+
+
+            st = br.readLine();
+            String[] words = st.split(" ");
+            this.fName = words[2];
+
+            st = br.readLine();
+            words = st.split(" ");
+            this.sName = words[2];
+
+            st = br.readLine();
+            words = st.split(" ");
+            this.age = Integer.parseInt(words[1]);
+
+            br.readLine();
+            this.messageText="";
+            while(true)
+            {
+                st = br.readLine();
+                //System.out.println("LINIA: "+st +"kaka");
+                if(!st.equals("Targets: "))
+                    this.messageText += st;
+                else
+                    break;
+            }
+            //System.out.println(this.messageText);
+
+            this.targets = new ArrayList<>();
+            while((st = br.readLine()) != null)
+            {
+                words = st.split(" ");
+                Android_Contact contact = new Android_Contact();
+                String contactName = "";
+                for(String str : words)
+                {
+                    if(str.equals("Name:"))
+                        continue;
+                    else if(str.equals("Phone"))
+                        break;
+                    else
+                        contactName += str;
+                        contactName += " ";
+                }
+
+                contact.setAndroid_contact_Name(contactName);
+                contact.setAndroid_contact_TelefonNr(words[words.length-1]);
+                this.targets.add(contact);
+            }
+            br.close();
+        }
+        catch(FileNotFoundException e)
+        {
+            e.getMessage();
+        }
+        catch (IOException e)
+        {
+            e.getMessage();
+        }
+
+
+        return true;
+
+    }
+
     private static boolean isExternalStorageReadOnly() {
         String extStorageState = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
@@ -125,7 +211,7 @@ public class CurrentConfiguration
         classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n\n";
         classContent = classContent + "Targets: \n" + listToString(this.targets);
 
-        System.out.println(classContent);
+        //System.out.println(classContent);
     }
 
     @Override
@@ -138,25 +224,22 @@ public class CurrentConfiguration
         classContent = classContent + "First Name: " + this.fName + '\n';
         classContent = classContent + "Second Name: " + this.sName + '\n';
         classContent = classContent + "Age: " + this.age + '\n';
-        classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n";
+        classContent = classContent + "MessageContent:\n" + this.messageText + "\n";
         classContent = classContent + "Targets: \n" + listToString(this.targets);
 
         return classContent;
     }
 
-    public static String listToString(List<AndroidContact> list) {
-        String result = "";
-        for (int i = 0; i < list.size(); i++) {
-            result += "Name: " + list.get(i).android_contact_Name +
-                    " Phone number: " + list.get(i).android_contact_TelefonNr + '\n';
+    public static String listToString(List<Android_Contact> list) {
+        if(list != null)
+        {
+            String result = "";
+            for (int i = 0; i < list.size(); i++) {
+                result += "Name: " + list.get(i).android_contact_Name +
+                        " Phone number: " + list.get(i).android_contact_TelefonNr + '\n';
+            }
+            return result;
         }
-        return result;
-    }
-
-    public boolean loadConfigFromFile(String fileName, CurrentConfiguration data, Context context)
-    {
-
-
-        return false;
+        return null;
     }
 }

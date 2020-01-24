@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
 import com.example.sos_app_ui.ui.configuration.AndroidContact;
 import com.example.sos_app_ui.ui.configuration.ConfigurationFragment;
@@ -28,6 +29,7 @@ import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void sendSms(){
+
         String phoneNo = "500859950";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, "test sms",
