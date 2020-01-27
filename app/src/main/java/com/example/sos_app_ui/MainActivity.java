@@ -29,6 +29,7 @@ import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -114,7 +115,16 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
         }
     }
+    public String gps(){
+        String cord = "Wspolrzedne";
 
+        GPSTracker gps = new GPSTracker(this);
+        double latitude = gps.getLatitude();
+        DecimalFormat df = new DecimalFormat("##.####");
+        double longitude = gps.getLongitude();
+        cord = df.format(latitude) + " " + df.format(longitude);
+        return cord;
+    }
     public static void sendSms(Context context){
         String phoneNo = "500859950";
         SmsManager smsManager = SmsManager.getDefault();
