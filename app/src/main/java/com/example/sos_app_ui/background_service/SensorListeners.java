@@ -7,6 +7,10 @@ import android.hardware.SensorEventListener;
 import android.os.Vibrator;
 
 import com.example.sos_app_ui.MainActivity;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
+
+import java.sql.Timestamp;
 
 public class SensorListeners {
     //private float gyroscopeStrX = (float) 0;
@@ -85,6 +89,8 @@ public class SensorListeners {
                         backgroundNotificationService.startForeground();
                         vibrate(2000);
                     }
+                    LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Fall detected");
+                    LastActivityFragment.logs.add(logModel);
                 }
             }
 
