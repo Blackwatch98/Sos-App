@@ -1,6 +1,7 @@
 package com.example.sos_app_ui;
 
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -20,14 +21,20 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
 import com.example.sos_app_ui.ui.configuration.AndroidContact;
 import com.example.sos_app_ui.ui.configuration.ConfigurationFragment;
 import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_logs)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -113,65 +120,65 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public String gps(){
+        String cord = "Wspolrzedne";
+
+        GPSTracker gpsTracker = new GPSTracker(this);
+        double latitude = gpsTracker.getLatitude();
+        DecimalFormat df = new DecimalFormat("##.####");
+        double longitude = gpsTracker.getLongitude();
+        cord = df.format(latitude) + " " + df.format(longitude);
+        return cord;
+    }
+
+//    public static void sendSms(Context context){
+//        String phoneNo = "500859950";
+//        SmsManager smsManager = SmsManager.getDefault();
+//        smsManager.sendTextMessage(phoneNo, null, "test sms",
+//                BackgroundNotificationService.sentPI, null);
+//
+//        LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
+//        LastActivityFragment.logs.add(logModel);
+//
+//       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
+//    }
+
+
     public static int setSmsFlag(boolean toSend) {
         System.out.println("set flag to " + toSend);
         smsFlag = toSend;
         return 0;
     }
 
-    public static int sendSms(){
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static int sendSms() {
         System.out.println("flag is " + smsFlag);
-        if(smsFlag) {
+        if (smsFlag) {
 //            String phoneNo = "500859950";
-            String phoneNo = "697505742";
+            CurrentConfiguration config = ConfigurationFragment.getCurrentConfiguration();
+            List<AndroidContact> contacts = config.getTargets();
+            StringBuilder textMessage = new StringBuilder(config.getMessageText());
+            //tutaj jeszcze nie wiem jak to sprawdzić
+            if (locationPermissionGiven) {
+                textMessage.append("My location is: ")
+                        .append(this.gps());
+            }
             SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, "test sms",
-                    BackgroundNotificationService.sentPI, null);
+            for (AndroidContact contact : contacts) {
+                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+                        null,
+                        textMessage.toString(),
+                        BackgroundNotificationService.sentPI,
+                        null);
+            }
             System.out.println("sent");
             MainActivity.setSmsFlag(true);
             return 0;
-        }
-        else {
+        } else {
             System.out.println("cancelled");
             MainActivity.setSmsFlag(true);
             return 1;
         }
     }
-
-//    PENDING CHANGES IN CONFIGURATION FRAGMENT AND LOCATION SPECIFICS
-
-//    public static void sendSmsTest(){
-//        try {
-//            Thread.sleep(30000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        if(smsFlag) {
-//            CurrentConfiguration config = ConfigurationFragment.getCurrentConfiguration();
-//            //Daniel will move the current configuration instance to ConfigurationFragment
-//            List<AndroidContact> contacts = config.getTargets();
-//            StringBuilder textMessage = new StringBuilder(config.getMessageText());
-//            if (locationGiven) {
-//                textMessage.append("My location is: ")
-//                        .append(location);
-//            }
-//            // location to be derived from somewhere
-//            SmsManager smsManager = SmsManager.getDefault();
-//            for (AndroidContact contact : contacts) {
-//                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
-//                        null,
-//                        textMessage.toString(),
-//                        BackgroundNotificationService.sentPI,
-//                        null);
-//            }
-//            MainActivity.setSmsFlag(true);
-//        }
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

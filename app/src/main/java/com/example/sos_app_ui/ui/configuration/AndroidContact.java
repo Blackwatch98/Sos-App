@@ -12,7 +12,24 @@ import java.io.Serializable;
 import java.util.List;
 
 public class AndroidContact implements Serializable {
+    public String getAndroid_contact_Name() {
+        return android_contact_Name;
+    }
+
+    public void setAndroid_contact_Name(String android_contact_Name) {
+        this.android_contact_Name = android_contact_Name;
+    }
+
     public String android_contact_Name = "";
+
+    public String getAndroid_contact_TelefonNr() {
+        return android_contact_TelefonNr;
+    }
+
+    public void setAndroid_contact_TelefonNr(String android_contact_TelefonNr) {
+        this.android_contact_TelefonNr = android_contact_TelefonNr;
+    }
+
     public String android_contact_TelefonNr = "";
     public int android_contact_ID=0;
 
@@ -37,13 +54,21 @@ public class AndroidContact implements Serializable {
     }
 }
 
+
 class AndroidContactsAdapter extends BaseAdapter {
     Context mContext;
     List<AndroidContact> mList_Android_Contacts;
+    String theme = "";
 
     public AndroidContactsAdapter(Context mContext, List<AndroidContact> mContact) {
         this.mContext = mContext;
         this.mList_Android_Contacts = mContact;
+    }
+
+    public AndroidContactsAdapter(Context mContext, List<AndroidContact> mContact, String theme) {
+        this.mContext = mContext;
+        this.mList_Android_Contacts = mContact;
+        this.theme = theme;
     }
 
     @Override
@@ -63,19 +88,19 @@ class AndroidContactsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=View.inflate(mContext, R.layout.contactlist_items,null);
+        View view;
+        if (this.theme.equals("dark"))
+            view = View.inflate(mContext, R.layout.contactlist_items_dark, null);
+        else
+            view = View.inflate(mContext, R.layout.contactlist_items, null);
 
-        TextView textview_contact_Name= view.findViewById(R.id.textview_android_contact_name);
-        TextView textview_contact_TelefonNr= view.findViewById(R.id.textview_android_contact_phoneNr);
+        TextView textview_contact_Name = view.findViewById(R.id.textview_android_contact_name);
+        TextView textview_contact_TelefonNr = view.findViewById(R.id.textview_android_contact_phoneNr);
 
         textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
         textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
 
-
         view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
         return view;
     }
-
-
-
 }

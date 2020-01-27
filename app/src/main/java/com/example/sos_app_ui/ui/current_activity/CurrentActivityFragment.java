@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
@@ -16,6 +17,11 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
+
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class CurrentActivityFragment extends Fragment {
 
@@ -52,14 +58,12 @@ public class CurrentActivityFragment extends Fragment {
     }
 
     private void startActivityButtonListener(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
-        clickButton.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(MainActivity.activityOn == true)
-                    stopActivityButton(view, textView, progressBar, clickButton);
-                else
-                    startActivityButton(view, textView, progressBar, clickButton);
-            }
+        clickButton.setOnClickListener(v -> {
+            if(MainActivity.activityOn)
+                stopActivityButton(view, textView, progressBar, clickButton);
+            else
+                startActivityButton(view, textView, progressBar, clickButton);
+            logActivityStart(MainActivity.activityOn);
         });
     }
 
@@ -83,5 +87,14 @@ public class CurrentActivityFragment extends Fragment {
         Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
         getActivity().stopService(intent);
     }
+
+    private void logActivityStart(boolean hasStarted){
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        String message = hasStarted ? "Activity started" : "Activity stopped";
+        LogModel logModel = new LogModel(now, message);
+
+        LastActivityFragment.logs.add(logModel);
+    }
+
 
 }
