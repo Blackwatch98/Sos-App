@@ -5,14 +5,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.sos_app_ui.R;
 
@@ -26,10 +27,10 @@ import java.util.Set;
 public class WarningTargets extends AppCompatActivity {
 
     private ListView finalList;
-    private ArrayList<AndroidContact> newContactsList;
-    private Set<AndroidContact> currentContactsSet;
-    private ArrayList<AndroidContact> currentContactsList2;
-    private ArrayList<AndroidContact> removeList;
+    private ArrayList<Android_Contact> newContactsList;
+    private Set<Android_Contact> currentContactsSet;
+    private ArrayList<Android_Contact> currentContactsList2;
+    private ArrayList<Android_Contact> removeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,9 @@ public class WarningTargets extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         finalList = findViewById(R.id.listView1);
-        currentContactsSet = new HashSet<AndroidContact>();
-        currentContactsList2 = new ArrayList<AndroidContact>();
-        removeList = new ArrayList<AndroidContact>();
+        currentContactsSet = new HashSet<Android_Contact>();
+        currentContactsList2 = new ArrayList<Android_Contact>();
+        removeList = new ArrayList<Android_Contact>();
 
         Button btn = findViewById(R.id.chooseBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +63,9 @@ public class WarningTargets extends AppCompatActivity {
                     Toast.makeText(WarningTargets.this, "No contacts marked", Toast.LENGTH_SHORT).show();
 
                 currentContactsList2.removeAll(removeList);
-                AndroidContactsAdapter adapter = new AndroidContactsAdapter(WarningTargets.this,  currentContactsList2);
+
+                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(WarningTargets.this,  currentContactsList2, "dark");
+
                 finalList.setAdapter(adapter);
             }
         });
@@ -105,7 +108,7 @@ public class WarningTargets extends AppCompatActivity {
                     view.setBackgroundColor(Color.TRANSPARENT);
                     removeList.remove(currentContactsList2.get(i));
                 }
-                System.out.println("ID " + i);
+                //System.out.println("ID " + i);
             }
         });
 
@@ -121,18 +124,20 @@ public class WarningTargets extends AppCompatActivity {
             if(resultCode == RESULT_OK)
             {
                 Bundle args = data.getBundleExtra("selectedContacts");
-                newContactsList = (ArrayList<AndroidContact>) args.getSerializable("ARRAYLIST");
+                newContactsList = (ArrayList<Android_Contact>) args.getSerializable("ARRAYLIST");
 
                 tabelViewUpdater();
 
-                Collections.sort(currentContactsList2, new Comparator<AndroidContact>() {
+                Collections.sort(currentContactsList2, new Comparator<Android_Contact>() {
                     @Override
-                    public int compare(AndroidContact c1, AndroidContact c2) {
+                    public int compare(Android_Contact c1, Android_Contact c2) {
                         return c1.android_contact_Name.compareTo(c2.android_contact_Name);
                     }
                 });
 
-                AndroidContactsAdapter adapter = new AndroidContactsAdapter(this,  currentContactsList2);
+
+                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2, "dark");
+
                 finalList.setAdapter(adapter);
             }
             if(resultCode == RESULT_CANCELED)
@@ -145,11 +150,11 @@ public class WarningTargets extends AppCompatActivity {
     public void tabelViewUpdater()
     {
         currentContactsList2.clear();
-        for(AndroidContact p1 : newContactsList)
+        for(Android_Contact p1 : newContactsList)
         {
             currentContactsSet.add(p1);
         }
-        for(AndroidContact p1 : currentContactsSet)
+        for(Android_Contact p1 : currentContactsSet)
         {
             currentContactsList2.add(p1);
         }

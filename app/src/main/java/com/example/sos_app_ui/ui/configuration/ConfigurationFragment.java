@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,23 +18,35 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.example.sos_app_ui.R;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class ConfigurationFragment extends Fragment {
 
+    private CurrentConfiguration workingConf;
     private ConfigurationViewModel homeViewModel;
     private ListView list;
-    private TextView path;
+    private TextView pathView;
     private Button previewBtn;
-    private String name;
+    private Button confirmBtn;
+
+    private String fileName;
+    private String pathName;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(ConfigurationViewModel.class);
+
+        homeViewModel = ViewModelProviders.of(this).get(ConfigurationViewModel.class);
         View root = inflater.inflate(R.layout.fragment_configuration, container, false);
         //final TextView textView = root.findViewById(R.id.text_home);
+
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -43,20 +54,41 @@ public class ConfigurationFragment extends Fragment {
             }
         });
 
-        name = null;
+
         list = (ListView) root.findViewById(R.id.listView1);
-        path = root.findViewById(R.id.finalFilePath);
+        pathView = root.findViewById(R.id.finalFilePath);
+
 
         previewBtn = root.findViewById(R.id.previewBtn);
-       // previewBtn.setEnabled(false);
+        confirmBtn = root.findViewById(R.id.finalConfirm);
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    updateHistoryFile();
+                    Toast.makeText(v.getContext(), "You confirmed you choice successfully :)",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        this.workingConf = new CurrentConfiguration();
+        if(checkIfAnyFile())
+        {
+            String lastConfigFilePath = this.getContext().getExternalFilesDir("Configurations").toString();
+            lastConfigFilePath += "/" + getLastFile();
+            workingConf.getDataFromConfigFile(lastConfigFilePath,this.getContext());
+
+
+            pathView.setText(lastConfigFilePath);
+        }
 
         previewBtn.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  if(name != null)
+                  if(pathName != null)
                   {
                       Intent appInfo = new Intent(getContext(), FilePreviewPop.class);
-                      appInfo.putExtra("fpath", name);
+                      appInfo.putExtra("fpath", pathName);
                       startActivity(appInfo);
                   }
                   else
@@ -82,12 +114,20 @@ public class ConfigurationFragment extends Fragment {
                 if(position == 0)
                 {
                     Intent appInfo = new Intent(view.getContext(),CreateNewConfiguration.class);
-                    startActivity(appInfo);
+                    startActivityForResult(appInfo,1);
                 }
                 if(position == 1)
                 {
-                    Intent appInfo = new Intent(view.getContext(),ConfigFileChecker.class);
-                    startActivityForResult(appInfo, 2);
+                    if(checkIfAnyFile())
+                    {
+                        Intent appInfo = new Intent(view.getContext(),ConfigFileChecker.class);
+                        startActivityForResult(appInfo, 2);
+                    }
+                    else
+                    {
+                        Toast.makeText(view.getContext(), "You have no files to load!",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -95,17 +135,111 @@ public class ConfigurationFragment extends Fragment {
         return root;
     }
 
+    public boolean checkIfAnyFile()
+    {
+        String path = this.getContext().getExternalFilesDir("Configurations").toString();
+        File directory = new File(path);
+        int size = 0;
+
+        File[] files = directory.listFiles();
+
+        for(File f : files)
+            if(f.getName().contains("Config"))
+                size++;
+
+        if(size != 0)
+            return true;
+        else
+            return false;
+    }
+
+    public void updateHistoryFile()
+    {
+        boolean isHisFile = false;
+
+        File file = new File(this.getContext().getExternalFilesDir("Configurations"), "History.txt");
+
+        try
+        {
+            if(file.exists())
+            {
+                FileWriter fileWriter = new FileWriter(file);
+                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                Date date = new Date(System.currentTimeMillis());
+                fileWriter.write(fileName + " ");
+                fileWriter.write(formatter.format(date) + '\n');
+                fileWriter.close();
+            }
+            else
+            {
+                file.createNewFile();
+                FileWriter fileWriter = new FileWriter(file);
+                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                Date date = new Date(System.currentTimeMillis());
+                fileWriter.write(fileName + " ");
+                fileWriter.write(formatter.format(date) + '\n');
+                fileWriter.close();
+            }
+        }
+        catch(IOException e)
+        {
+            e.getMessage();
+        }
+    }
+
+    public String getLastFile()
+    {
+        File file = new File(this.getContext().getExternalFilesDir("Configurations"), "History.txt");
+        String str = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            str = br.readLine();
+
+        }
+        catch(IOException e)
+        {
+            e.getMessage();
+        }
+        String[] words = str.split(" ");
+        return words[0];
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1)
+        {
+            if(data != null)
+            {
+                Bundle extras = data.getExtras();
+                this.workingConf = (CurrentConfiguration) extras.get("fullyConfig");
+
+                fileName = (String)extras.get("fileName");
+                pathName = getContext().getExternalFilesDir("Configurations").toString();
+                pathName = pathName +'/'+ fileName;
+                pathView.setText(pathName);
+
+                //System.out.println("-------------------CURRENT WORKING CONFIG-------------------");
+                //this.workingConf.display();
+            }
+
+        }
 
         if(requestCode == 2)
         {
-            Bundle extras = data.getExtras();
+            if(data != null)
+            {
+                Bundle extras = data.getExtras();
 
-            name = getContext().getExternalFilesDir("Configurations").toString();
-            name = name +'/'+ extras.get("fname").toString();
-            path.setText(name);
+                pathName = getContext().getExternalFilesDir("Configurations").toString();
+                fileName = extras.get("fname").toString();
+
+                pathName = pathName +'/'+ fileName;
+                pathView.setText(pathName);
+                this.workingConf.getDataFromConfigFile(pathName,this.getContext());
+            }
+
         }
     }
 
