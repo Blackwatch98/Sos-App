@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         return cord;
     }
     public static void sendSms(Context context){
-        String phoneNo = "605068773";
+        String phoneNo = "604584611";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, "test sms",
                 BackgroundNotificationService.sentPI, null);
