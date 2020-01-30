@@ -66,6 +66,8 @@ public class SensorListeners {
                 //calculateFall.setAccValueX(calculateX.addElement(accValX));
                 //accelerometerStrX.append(accValX+" : "+val+"\n");
 
+                System.out.println(val);
+
                 accValY = sensorEvent.values[1];
                 //calculateFall.setAccValueY(calculateY.addElement(accValY));
                 val = calculateY.addElement(accValY);
@@ -84,6 +86,7 @@ public class SensorListeners {
                         setCalculations();
                         backgroundNotificationService.startForeground();
                         vibrate(2000);
+                        backgroundNotificationService.sendSmsDelay(30000);
                     }
                 }
             }
