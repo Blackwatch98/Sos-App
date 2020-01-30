@@ -98,6 +98,7 @@ public class BackgroundNotificationService extends Service{
 
         createNotificationChannel();
 
+
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent, 0);
@@ -154,5 +155,10 @@ public class BackgroundNotificationService extends Service{
                 NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Channel description");
         notificationManager.createNotificationChannel(channel);
+    }
+
+    public void sendSmsDelay(int delay){
+        DelayThreadSendSms delayThreadSendSms = new DelayThreadSendSms(this, delay);
+        delayThreadSendSms.run();
     }
 }
