@@ -211,7 +211,7 @@ public class CurrentConfiguration implements Serializable
         classContent = classContent + "MessageContent:\n\"" + this.messageText + "\"\n\n";
         classContent = classContent + "Targets: \n" + listToString(this.targets);
 
-        //System.out.println(classContent);
+        System.out.println(classContent);
     }
 
     @Override

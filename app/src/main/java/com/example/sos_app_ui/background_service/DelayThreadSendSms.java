@@ -20,6 +20,8 @@ public class DelayThreadSendSms extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //MainActivity m1 = new MainActivity();
+        //m1.sendSms();
         MainActivity.sendSms(context);
     }
 }

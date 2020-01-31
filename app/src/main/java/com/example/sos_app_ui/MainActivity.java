@@ -2,6 +2,7 @@ package com.example.sos_app_ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    private CurrentConfiguration workingConfig;
     private ListView listView_Android_Contacts;
     private ListView list;
     private ArrayAdapter<String> adapter;
@@ -62,12 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        getConfig();
         if (!checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
             requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_CODE);
 
         if (!checkPermission(android.Manifest.permission.SEND_SMS))
             requestPermission(android.Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SEND_SMS);
+
+        if (!checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            requestPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, PERMISSION_REQUEST_CODE);
+        }
 
         activityOn = false;
         super.onCreate(savedInstanceState);
@@ -84,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    public void getConfig()
+    {
+        Intent i = getIntent();
+        this.workingConfig = (CurrentConfiguration)i.getSerializableExtra("FinalConfig");
+        /*
+        if(workingConfig != null)
+            workingConfig.display();
+        */
     }
 
     private static boolean isExternalStorageReadOnly() {
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-//    public int sendSms() {
+    //    public int sendSms() {
 //        System.out.println("flag is " + smsFlag);
 //        if (smsFlag) {
 ////            String phoneNo = "500859950";
@@ -179,6 +195,38 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
+    /*DANIEL
+    public int sendSms() {
+        System.out.println("flag is " + smsFlag);
+        if (smsFlag) {
+            String phoneNo = "500859950";
+            CurrentConfiguration config = test;
+            List<AndroidContact> contacts = config.getTargets();
+            StringBuilder textMessage = new StringBuilder(config.getMessageText());
+
+            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                textMessage.append("My location is: ")
+                        .append(this.gps());
+            }
+
+            SmsManager smsManager = SmsManager.getDefault();
+            for (AndroidContact contact : contacts) {
+                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+                        null,
+                        textMessage.toString(),
+                        BackgroundNotificationService.sentPI,
+                        null);
+            }
+            System.out.println("sent");
+            MainActivity.setSmsFlag(true);
+            return 0;
+        } else {
+            System.out.println("cancelled");
+            MainActivity.setSmsFlag(true);
+            return 1;
+        }
+    }
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {

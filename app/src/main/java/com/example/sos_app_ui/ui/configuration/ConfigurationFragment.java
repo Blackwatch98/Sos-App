@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
 
 import java.io.BufferedReader;
@@ -72,6 +74,10 @@ public class ConfigurationFragment extends Fragment {
                     updateHistoryFile();
                     Toast.makeText(v.getContext(), "You confirmed you choice successfully :)",
                             Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(getActivity().getBaseContext(),MainActivity.class);
+                i.putExtra("FinalConfig", workingConf);
+                getActivity().startActivity(i);
             }
         });
 

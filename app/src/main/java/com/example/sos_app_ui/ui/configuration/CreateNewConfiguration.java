@@ -141,7 +141,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
                 public View getView(int position, View convertView, ViewGroup parent) {
 
                     View row = super.getView(position, convertView, parent);
-                    
+
                     if (isFilled[position])
                         row.setBackgroundColor(Color.GREEN);
                     return row;
