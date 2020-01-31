@@ -35,7 +35,7 @@ public class BackgroundNotificationService extends Service{
     private SensorListeners sensorListeners;
     private SensorManager sensorManager;
     private SensorEventListener accelerometerSensorListener;
-    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    //ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     public BackgroundNotificationService() {
     }
@@ -97,16 +97,6 @@ public class BackgroundNotificationService extends Service{
                 .build());
 
         createNotificationChannel();
-
-
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent, 0);
-
-//        sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
-//                SMS_SENT_INTENT_FILTER), 0);
-//        deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(
-//                SMS_DELIVERED_INTENT_FILTER), 0);
     }
 
     public static void createNotification(String notificationTitle, String notificationText, Context context){
@@ -137,8 +127,7 @@ public class BackgroundNotificationService extends Service{
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
