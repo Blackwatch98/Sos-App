@@ -90,7 +90,8 @@ public class SensorListeners {
                         setCalculations();
                         backgroundNotificationService.startForeground(true);
                         vibrate(2000);
-                        backgroundNotificationService.sendSmsDelay(30000);
+//                        backgroundNotificationService.sendSmsDelay(30000);
+                        MainActivity.sendSms(context);
                     }
                     LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Fall detected");
                     LastActivityFragment.logs.add(logModel);

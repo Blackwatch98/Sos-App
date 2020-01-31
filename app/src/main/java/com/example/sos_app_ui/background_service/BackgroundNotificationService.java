@@ -56,8 +56,6 @@ public class BackgroundNotificationService extends Service{
         startForeground(true);      // TO MA ZNIKNAC
         Thread thread = new Thread() {
             public void run() {
-                //MainActivity m1 = new MainActivity();
-                //m1.sendSms(getApplicationContext());
                 MainActivity.sendSms(getApplicationContext());
             }
         };
@@ -151,10 +149,5 @@ public class BackgroundNotificationService extends Service{
                 NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Channel description");
         notificationManager.createNotificationChannel(channel);
-    }
-
-    public void sendSmsDelay(int delay){
-        DelayThreadSendSms delayThreadSendSms = new DelayThreadSendSms(this, delay);
-        delayThreadSendSms.run();
     }
 }
