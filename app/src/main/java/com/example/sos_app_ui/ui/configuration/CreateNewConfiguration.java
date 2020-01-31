@@ -133,14 +133,15 @@ public class CreateNewConfiguration extends AppCompatActivity {
             if (data != null) {
                 Bundle args = data.getBundleExtra("finalList");
                 conf.setTargets((ArrayList<AndroidContact>) args.getSerializable("fList"));
+                isFilled[2] = true;
             }
-
+        }
             list.setAdapter(new ArrayAdapter<String>(this, R.layout.row, funList) {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
 
                     View row = super.getView(position, convertView, parent);
-
+                    
                     if (isFilled[position])
                         row.setBackgroundColor(Color.GREEN);
                     return row;
@@ -148,5 +149,4 @@ public class CreateNewConfiguration extends AppCompatActivity {
             });
 
         }
-    }
 }
