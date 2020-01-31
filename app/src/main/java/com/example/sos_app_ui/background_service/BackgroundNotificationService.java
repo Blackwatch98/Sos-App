@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 
@@ -19,8 +20,11 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.sos_app_ui.MainActivity;
+import com.example.sos_app_ui.NotificationIntentService;
 import com.example.sos_app_ui.R;
 
+import java.util.ArrayList;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -49,9 +53,14 @@ public class BackgroundNotificationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
-        //MainActivity.sendSms(this);
-        //startForeground();      // TO MA ZNIKNAC
-        return super.onStartCommand(intent, flags, startId);
+        startForeground(true);      // TO MA ZNIKNAC
+        Thread thread = new Thread() {
+            public void run() {
+                MainActivity.sendSms(getApplicationContext());
+            }
+        };
+        thread.start();
+        return START_STICKY;
     }
 
     @Override
@@ -76,53 +85,38 @@ public class BackgroundNotificationService extends Service{
         sensorManager.unregisterListener(accelerometerSensorListener);
     }
 
-    public void startForeground() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        PendingIntent dismissIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
-                "default") // don't forget create a notification channel first
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText("Fall detected")
-                .setContentIntent(pendingIntent)
-                //.setAutoCancel(true)
-                .addAction(R.drawable.ic_notifications_black_24dp, "Send sms!",
-                        null)   // tutaj intent do wyslania sms
-                .addAction(R.drawable.ic_notifications_black_24dp, "Nothing happened, I'm ok.",
-                        dismissIntent)  // tutaj intent do niczego?
-                .build());
-
-        createNotificationChannel();
-
-
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent, 0);
-
-//        sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
-//                SMS_SENT_INTENT_FILTER), 0);
-//        deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(
-//                SMS_DELIVERED_INTENT_FILTER), 0);
+    public void startForeground(boolean fall) {
+        initChannels(this);
     }
 
     public static void createNotification(String notificationTitle, String notificationText, Context context){
         initChannels(context);
         Intent notificationIntent = new Intent(context, MainActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
+        Intent cancelSmsIntent = new Intent(context, NotificationIntentService.class);
+        cancelSmsIntent.setAction(NotificationIntentService.CANCEL_SMS);
+        PendingIntent cancelSmsPendingIntent = PendingIntent.getService(context, 0,
+                cancelSmsIntent, 0);
+
+        MainActivity.setSmsFlag(true);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.logo_black)
-                .setContentTitle(notificationTitle)
-                .setContentText(notificationText)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+                .setContentTitle("Fall detected")
+                .setContentText("Sending sms notifications in 30 sec.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(
+                        PendingIntent.getActivity(
+                                context,
+                                0,
+                                new Intent(context, NotificationIntentService.class),
+                                0))
+                .setAutoCancel(true)
+                .addAction(R.drawable.ic_notifications_black_24dp, "Uff! I'm ok.",
+                        cancelSmsPendingIntent)
+                .addAction(R.drawable.ic_notifications_black_24dp, "There was no accident.",
+                        cancelSmsPendingIntent);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(notificationId, builder.build());

@@ -132,12 +132,13 @@ public class CreateNewConfiguration extends AppCompatActivity {
                     isFilled[1] = true;
                 }
             }
-            if (requestCode == 3) {
-                if (data != null) {
-                    Bundle args = data.getBundleExtra("finalList");
-                    conf.setTargets((ArrayList<Android_Contact>) args.getSerializable("fList"));
-                    isFilled[2] = true;
-                }
+        }
+        if(requestCode == 3)
+        {
+            if(data != null)
+            {
+                Bundle args = data.getBundleExtra("finalList");
+                conf.setTargets((ArrayList<AndroidContact>) args.getSerializable("fList"));
             }
 
             list.setAdapter(new ArrayAdapter<String>(this, R.layout.row, funList) {

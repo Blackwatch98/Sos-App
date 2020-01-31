@@ -21,8 +21,8 @@ import java.util.List;
 public class ContactsList extends AppCompatActivity {
 
     private ListView lista;
-    private ArrayList<Android_Contact> arrayList_Android_Contacts;
-    private ArrayList<Android_Contact> selectedContacts;
+    private ArrayList<AndroidContact> arrayList_Android_Contacts;
+    private ArrayList<AndroidContact> selectedContacts;
     private Button loadBtn;
 
     @Override
@@ -30,7 +30,7 @@ public class ContactsList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
 
-        selectedContacts = new ArrayList<Android_Contact>();
+        selectedContacts = new ArrayList<AndroidContact>();
         lista = findViewById(R.id.contacts);
         loadBtn = findViewById(R.id.loadContacts);
         loadBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +91,7 @@ public class ContactsList extends AppCompatActivity {
 
 
     public void fp_get_Android_Contacts(){
-        arrayList_Android_Contacts = new ArrayList<Android_Contact>();
+        arrayList_Android_Contacts = new ArrayList<AndroidContact>();
 
         //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
@@ -112,7 +112,7 @@ public class ContactsList extends AppCompatActivity {
 
                 while (cursor_Android_Contacts.moveToNext())
                 {
-                    Android_Contact android_contact = new Android_Contact();
+                    AndroidContact android_contact = new AndroidContact();
                     String contact_id = cursor_Android_Contacts.getString(cursor_Android_Contacts.getColumnIndex(ContactsContract.Contacts._ID));
                     String contact_display_name = cursor_Android_Contacts.getString(cursor_Android_Contacts.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                     System.out.println(contact_display_name);
@@ -141,106 +141,10 @@ public class ContactsList extends AppCompatActivity {
                     arrayList_Android_Contacts.add(android_contact);
                 }
 
-                Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this, arrayList_Android_Contacts);
+                AndroidContactsAdapter adapter = new AndroidContactsAdapter(this, arrayList_Android_Contacts);
                 lista.setAdapter(adapter);
             }
         }
     }
 
 }
-
-class Android_Contact implements Serializable{
-    public String android_contact_Name = "";
-    public String android_contact_TelefonNr = "";
-    public int android_contact_ID=0;
-
-    public String getAndroid_contact_Name() {
-        return android_contact_Name;
-    }
-
-    public void setAndroid_contact_Name(String android_contact_Name) {
-        this.android_contact_Name = android_contact_Name;
-    }
-
-    public String getAndroid_contact_TelefonNr() {
-        return android_contact_TelefonNr;
-    }
-
-    public void setAndroid_contact_TelefonNr(String android_contact_TelefonNr) {
-        this.android_contact_TelefonNr = android_contact_TelefonNr;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Android_Contact c1 = (Android_Contact)obj;
-
-        if (!this.android_contact_Name.equals(c1.android_contact_Name))
-            return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return this.android_contact_Name.hashCode();
-    }
-}
-
-class Adapter_for_Android_Contacts extends BaseAdapter {
-    Context mContext;
-    List<Android_Contact> mList_Android_Contacts;
-    String theme = "";
-
-    public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact) {
-        this.mContext = mContext;
-        this.mList_Android_Contacts = mContact;
-    }
-
-    public Adapter_for_Android_Contacts(Context mContext, List<Android_Contact> mContact, String theme) {
-        this.mContext = mContext;
-        this.mList_Android_Contacts = mContact;
-        this.theme = theme;
-    }
-
-    @Override
-    public int getCount() {
-        return mList_Android_Contacts.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mList_Android_Contacts.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view;
-        if (this.theme.equals("dark"))
-            view = View.inflate(mContext, R.layout.contactlist_items_dark, null);
-        else
-            view = View.inflate(mContext, R.layout.contactlist_items, null);
-
-        TextView textview_contact_Name = view.findViewById(R.id.textview_android_contact_name);
-        TextView textview_contact_TelefonNr = view.findViewById(R.id.textview_android_contact_phoneNr);
-
-        textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
-        textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
-
-
-        view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
-        return view;
-    }
-
-}
-

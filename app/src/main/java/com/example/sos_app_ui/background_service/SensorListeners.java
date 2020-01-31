@@ -88,7 +88,7 @@ public class SensorListeners {
                     if(!FALL) {
                         FALL = true;
                         setCalculations();
-                        backgroundNotificationService.startForeground();
+                        backgroundNotificationService.startForeground(true);
                         vibrate(2000);
                         backgroundNotificationService.sendSmsDelay(30000);
                     }
