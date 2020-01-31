@@ -241,4 +241,6 @@ class Adapter_for_Android_Contacts extends BaseAdapter {
         view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
         return view;
     }
+
 }
+

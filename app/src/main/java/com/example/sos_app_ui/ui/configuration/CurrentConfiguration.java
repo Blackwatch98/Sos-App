@@ -242,4 +242,19 @@ public class CurrentConfiguration implements Serializable
         }
         return null;
     }
+
+
+    public boolean validateChanges(CurrentConfiguration tested)
+    {
+        boolean isChanged = false;
+
+        if(!tested.getfName().equals(this.getfName()) && !tested.getsName().equals(this.getsName()) &&
+                tested.getAge() != this.age &&
+                tested.targets != null)
+            isChanged = true;
+
+        return isChanged;
+    }
 }
+
+
