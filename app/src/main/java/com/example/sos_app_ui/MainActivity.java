@@ -131,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
         return cord;
     }
 
-//    public static void sendSms(Context context){
-//        String phoneNo = "500859950";
-//        SmsManager smsManager = SmsManager.getDefault();
-//        smsManager.sendTextMessage(phoneNo, null, "test sms",
-//                BackgroundNotificationService.sentPI, null);
-//
-//        LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
-//        LastActivityFragment.logs.add(logModel);
-//
-//       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
-//    }
+    public static void sendSms(Context context){
+        String phoneNo = "500859950";
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNo, null, "test sms",
+                BackgroundNotificationService.sentPI, null);
+
+        LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
+        LastActivityFragment.logs.add(logModel);
+
+       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
+    }
 
 
     public static int setSmsFlag(boolean toSend) {
@@ -150,15 +150,15 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public static int sendSms() {
+    public int sendSms() {
         System.out.println("flag is " + smsFlag);
         if (smsFlag) {
 //            String phoneNo = "500859950";
-            CurrentConfiguration config = ConfigurationFragment.getCurrentConfiguration();
+            CurrentConfiguration config = ConfigurationFragment.getWor();
             List<AndroidContact> contacts = config.getTargets();
             StringBuilder textMessage = new StringBuilder(config.getMessageText());
             //tutaj jeszcze nie wiem jak to sprawdzić
-            if (locationPermissionGiven) {
+            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
                 textMessage.append("My location is: ")
                         .append(this.gps());
             }

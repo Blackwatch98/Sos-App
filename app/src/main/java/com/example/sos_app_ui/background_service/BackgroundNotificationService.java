@@ -56,7 +56,7 @@ public class BackgroundNotificationService extends Service{
         startForeground(true);      // TO MA ZNIKNAC
         Thread thread = new Thread() {
             public void run() {
-                MainActivity.sendSms();
+                MainActivity.sendSms(getApplicationContext());
             }
         };
         thread.start();
