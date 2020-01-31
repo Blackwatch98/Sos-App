@@ -27,12 +27,10 @@ import java.util.Set;
 public class WarningTargets extends AppCompatActivity {
 
     private ListView finalList;
-    private ArrayList<AndroidContact> newContactsList;
-    private Set<AndroidContact> currentContactsSet;
-    private ArrayList<AndroidContact> removeList;
     private ArrayList<Android_Contact> newContactsList;
     private Set<Android_Contact> currentContactsSet;
     private ArrayList<Android_Contact> currentContactsList2;
+    private ArrayList<Android_Contact> removeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -23,6 +23,7 @@ public class CurrentConfiguration implements Serializable
 
     private String messageText;
 
+    private List<Android_Contact> targets;
 
     private File file;
 
