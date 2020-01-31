@@ -115,6 +115,31 @@ public class WarningTargets extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putSerializable("currentList2", currentContactsList2);
+        outState.putSerializable("currentSet", (Serializable)currentContactsSet);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected  void onRestoreInstanceState(Bundle saveInstanceState)
+    {
+        super.onRestoreInstanceState(saveInstanceState);
+
+        currentContactsList2 = (ArrayList)saveInstanceState.getSerializable("currentList2");
+        currentContactsSet = (Set)saveInstanceState.getSerializable("currentSet");
+
+        Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2, "dark");
+        finalList.setAdapter(adapter);
+
+        for(Android_Contact p1 : currentContactsList2)
+        {
+            System.out.println(p1.getAndroid_contact_Name());
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode,resultCode,data);
