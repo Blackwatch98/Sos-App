@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView_Android_Contacts;
     private ListView list;
     private ArrayAdapter<String> adapter;
+    private static boolean smsFlag;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
@@ -115,40 +116,47 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static void sendSms(Context context){
-        String phoneNo = "604584611";
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNo, null, "test sms",
-                BackgroundNotificationService.sentPI, null);
-//        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
-//        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-//        toast.show();
-
-       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
+    public static int setSmsFlag(boolean toSend) {
+        System.out.println("set flag to " + toSend);
+        smsFlag = toSend;
+        return 0;
     }
 
-//    PENDING CHANGES IN CONFIGURATION FRAGMENT AND LOCATION SPECIFICS
+    public static int sendSms(Context context) {
+        System.out.println("flag is " + smsFlag);
+        if (smsFlag) {
+            String phoneNo = "500859950";
+//            CurrentConfiguration config = ConfigurationFragment.getWorkingConf();
+//            List<AndroidContact> contacts = config.getTargets();
+//            StringBuilder textMessage = new StringBuilder(config.getMessageText());
+//            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                textMessage.append("My location is: ")
+//                        .append(MainActivity.gps());
+//            }
+            SmsManager smsManager = SmsManager.getDefault();
+//            for (AndroidContact contact : contacts) {
+//                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+//                        null,
+//                        textMessage.toString(),
+//                        BackgroundNotificationService.sentPI,
+//                        null);
+//            }
+            smsManager.sendTextMessage(phoneNo,
+                    null,
+                    "Something bad might have happened to me.",
+                    BackgroundNotificationService.sentPI,
+                    null);
+            System.out.println("sent");
+            BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
+            MainActivity.setSmsFlag(true);
+            return 0;
+        } else {
+            System.out.println("cancelled");
+            MainActivity.setSmsFlag(true);
+            return 1;
+        }
+    }
 
-//    public static void sendSmsTest(){
-//        CurrentConfiguration config = ConfigurationFragment.getCurrentConfiguration();
-//        //Daniel will move the current configuration instance to ConfigurationFragment
-//        List<AndroidContact> contacts = config.getTargets();
-//        StringBuilder textMessage = new StringBuilder(config.getMessageText());
-//        if(locationGiven) {
-//            textMessage.append("My location is: ")
-//                    .append(location);
-//        }
-//        // location to be derived from somewhere
-//        SmsManager smsManager = SmsManager.getDefault();
-//        for (AndroidContact contact : contacts) {
-//            smsManager.sendTextMessage(contact.android_contact_TelefonNr,
-//                    null,
-//                    textMessage.toString(),
-//                    BackgroundNotificationService.sentPI,
-//                    null);
-//        }
-//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
