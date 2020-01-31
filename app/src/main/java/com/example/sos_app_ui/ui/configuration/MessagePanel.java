@@ -35,11 +35,10 @@ public class MessagePanel extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setMessage("Hello,\nI might be injured badly and gonna need help. " +
-                "   Please check if everything is all right with me.\n" +
-                "My location is: [here link to your location will be attached]");
+                "   Please check if everything is all right with me.\n");
 
         table = findViewById(R.id.messageTable);
-        table.setText(getMessage());
+        table.setText(getMessage() + "My location is: [here link to your location will be attached]");
 
         confirmBtn = findViewById(R.id.confirmBtn2);
         confirmBtn.setOnClickListener(new View.OnClickListener() {

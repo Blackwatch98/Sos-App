@@ -30,6 +30,10 @@ import java.util.Date;
 
 public class ConfigurationFragment extends Fragment {
 
+    public CurrentConfiguration getWorkingConf() {
+        return workingConf;
+    }
+
     private CurrentConfiguration workingConf;
     private ConfigurationViewModel homeViewModel;
     private ListView list;

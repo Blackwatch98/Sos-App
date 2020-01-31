@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void sendSms(Context context){
-        String phoneNo = "500859950";
+        String phoneNo = "604584611";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, "test sms",
                 BackgroundNotificationService.sentPI, null);
@@ -150,35 +150,34 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public int sendSms() {
-        System.out.println("flag is " + smsFlag);
-        if (smsFlag) {
-//            String phoneNo = "500859950";
-            CurrentConfiguration config = ConfigurationFragment.getWor();
-            List<AndroidContact> contacts = config.getTargets();
-            StringBuilder textMessage = new StringBuilder(config.getMessageText());
-            //tutaj jeszcze nie wiem jak to sprawdzić
-            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-                textMessage.append("My location is: ")
-                        .append(this.gps());
-            }
-            SmsManager smsManager = SmsManager.getDefault();
-            for (AndroidContact contact : contacts) {
-                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
-                        null,
-                        textMessage.toString(),
-                        BackgroundNotificationService.sentPI,
-                        null);
-            }
-            System.out.println("sent");
-            MainActivity.setSmsFlag(true);
-            return 0;
-        } else {
-            System.out.println("cancelled");
-            MainActivity.setSmsFlag(true);
-            return 1;
-        }
-    }
+//    public int sendSms() {
+//        System.out.println("flag is " + smsFlag);
+//        if (smsFlag) {
+////            String phoneNo = "500859950";
+//            CurrentConfiguration config = ConfigurationFragment.getWorkingConf();
+//            List<AndroidContact> contacts = config.getTargets();
+//            StringBuilder textMessage = new StringBuilder(config.getMessageText());
+//            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+//                textMessage.append("My location is: ")
+//                        .append(this.gps());
+//            }
+//            SmsManager smsManager = SmsManager.getDefault();
+//            for (AndroidContact contact : contacts) {
+//                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+//                        null,
+//                        textMessage.toString(),
+//                        BackgroundNotificationService.sentPI,
+//                        null);
+//            }
+//            System.out.println("sent");
+//            MainActivity.setSmsFlag(true);
+//            return 0;
+//        } else {
+//            System.out.println("cancelled");
+//            MainActivity.setSmsFlag(true);
+//            return 1;
+//        }
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

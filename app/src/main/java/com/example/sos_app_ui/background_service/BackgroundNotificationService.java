@@ -150,4 +150,9 @@ public class BackgroundNotificationService extends Service{
         channel.setDescription("Channel description");
         notificationManager.createNotificationChannel(channel);
     }
+
+    public void sendSmsDelay(int delay){
+        DelayThreadSendSms delayThreadSendSms = new DelayThreadSendSms(this, delay);
+        delayThreadSendSms.run();
+    }
 }
