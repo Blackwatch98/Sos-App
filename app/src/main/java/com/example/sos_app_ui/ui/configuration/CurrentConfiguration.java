@@ -23,7 +23,6 @@ public class CurrentConfiguration implements Serializable
 
     private String messageText;
 
-    private List<AndroidContact> targets;
 
     private File file;
 
@@ -68,11 +67,11 @@ public class CurrentConfiguration implements Serializable
         this.messageText = messageText;
     }
 
-    public List<AndroidContact> getTargets() {
+    public List<Android_Contact> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<AndroidContact> targets) {
+    public void setTargets(List<Android_Contact> targets) {
         this.targets = targets;
     }
 
@@ -242,4 +241,18 @@ public class CurrentConfiguration implements Serializable
         }
         return null;
     }
+
+
+    public boolean validateChanges(CurrentConfiguration tested)
+    {
+        boolean isChanged = false;
+
+        if(!tested.getfName().equals(this.getfName()) && !tested.getsName().equals(this.getsName()) &&
+                tested.getAge() != this.age &&
+                tested.targets != null)
+            isChanged = true;
+
+        return isChanged;
+    }
 }
+

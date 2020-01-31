@@ -29,8 +29,10 @@ public class WarningTargets extends AppCompatActivity {
     private ListView finalList;
     private ArrayList<AndroidContact> newContactsList;
     private Set<AndroidContact> currentContactsSet;
-    private ArrayList<AndroidContact> currentContactsList2;
     private ArrayList<AndroidContact> removeList;
+    private ArrayList<Android_Contact> newContactsList;
+    private Set<Android_Contact> currentContactsSet;
+    private ArrayList<Android_Contact> currentContactsList2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,11 @@ public class WarningTargets extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         finalList = findViewById(R.id.listView1);
-        currentContactsSet = new HashSet<AndroidContact>();
-        currentContactsList2 = new ArrayList<AndroidContact>();
-        removeList = new ArrayList<AndroidContact>();
+        currentContactsSet = new HashSet<Android_Contact>();
+
+        if(currentContactsList2 == null)
+            currentContactsList2 = new ArrayList<Android_Contact>();
+        removeList = new ArrayList<Android_Contact>();
 
         Button btn = findViewById(R.id.chooseBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +119,31 @@ public class WarningTargets extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putSerializable("currentList2", currentContactsList2);
+        outState.putSerializable("currentSet", (Serializable)currentContactsSet);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected  void onRestoreInstanceState(Bundle saveInstanceState)
+    {
+        super.onRestoreInstanceState(saveInstanceState);
+
+        currentContactsList2 = (ArrayList)saveInstanceState.getSerializable("currentList2");
+        currentContactsSet = (Set)saveInstanceState.getSerializable("currentSet");
+
+        Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2, "dark");
+        finalList.setAdapter(adapter);
+
+        for(Android_Contact p1 : currentContactsList2)
+        {
+            System.out.println(p1.getAndroid_contact_Name());
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode,resultCode,data);
@@ -124,13 +153,13 @@ public class WarningTargets extends AppCompatActivity {
             if(resultCode == RESULT_OK)
             {
                 Bundle args = data.getBundleExtra("selectedContacts");
-                newContactsList = (ArrayList<AndroidContact>) args.getSerializable("ARRAYLIST");
+                newContactsList = (ArrayList<Android_Contact>) args.getSerializable("ARRAYLIST");
 
                 tabelViewUpdater();
 
-                Collections.sort(currentContactsList2, new Comparator<AndroidContact>() {
+                Collections.sort(currentContactsList2, new Comparator<Android_Contact>() {
                     @Override
-                    public int compare(AndroidContact c1, AndroidContact c2) {
+                    public int compare(Android_Contact c1, Android_Contact c2) {
                         return c1.android_contact_Name.compareTo(c2.android_contact_Name);
                     }
                 });
@@ -150,11 +179,11 @@ public class WarningTargets extends AppCompatActivity {
     public void tabelViewUpdater()
     {
         currentContactsList2.clear();
-        for(AndroidContact p1 : newContactsList)
+        for(Android_Contact p1 : newContactsList)
         {
             currentContactsSet.add(p1);
         }
-        for(AndroidContact p1 : currentContactsSet)
+        for(Android_Contact p1 : currentContactsSet)
         {
             currentContactsList2.add(p1);
         }

@@ -1,5 +1,6 @@
 package com.example.sos_app_ui.ui.configuration;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import com.example.sos_app_ui.R;
 import android.widget.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsList extends AppCompatActivity {
 
@@ -224,13 +226,13 @@ class Adapter_for_Android_Contacts extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view;
-        if(this.theme.equals("dark"))
-            view=View.inflate(mContext,R.layout.contactlist_items_dark,null);
+        if (this.theme.equals("dark"))
+            view = View.inflate(mContext, R.layout.contactlist_items_dark, null);
         else
-            view=View.inflate(mContext,R.layout.contactlist_items,null);
+            view = View.inflate(mContext, R.layout.contactlist_items, null);
 
-        TextView textview_contact_Name= view.findViewById(R.id.textview_android_contact_name);
-        TextView textview_contact_TelefonNr= view.findViewById(R.id.textview_android_contact_phoneNr);
+        TextView textview_contact_Name = view.findViewById(R.id.textview_android_contact_name);
+        TextView textview_contact_TelefonNr = view.findViewById(R.id.textview_android_contact_phoneNr);
 
         textview_contact_Name.setText(mList_Android_Contacts.get(position).android_contact_Name);
         textview_contact_TelefonNr.setText(mList_Android_Contacts.get(position).android_contact_TelefonNr);
@@ -239,3 +241,4 @@ class Adapter_for_Android_Contacts extends BaseAdapter {
         view.setTag(mList_Android_Contacts.get(position).android_contact_Name);
         return view;
     }
+}
