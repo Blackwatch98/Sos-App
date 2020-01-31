@@ -30,7 +30,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
     private Button btn;
     private String[] functions = {"Personal Data", "Message", "Warning Targets", "Settings"};
     private ArrayList<String> funList;
-    private boolean isFilled[] = {false,false,false,false};
+    private boolean isFilled[] = {false, false, false, false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(validateClass.validateChanges(conf)) {
+                if (validateClass.validateChanges(conf)) {
                     String path = context.getExternalFilesDir("Configurations").toString();
                     File directory = new File(path);
                     File[] files = directory.listFiles();
@@ -67,9 +67,7 @@ public class CreateNewConfiguration extends AppCompatActivity {
                     setResult(RESULT_OK, resultIntent);
 
                     finish();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(v.getContext(), "You did not fill everything properly!",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -115,7 +113,6 @@ public class CreateNewConfiguration extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-
         if (requestCode == 1) {
             if (data != null) {
                 Bundle extras = data.getExtras();
@@ -125,18 +122,15 @@ public class CreateNewConfiguration extends AppCompatActivity {
                 isFilled[0] = true;
             }
         }
-            if (requestCode == 2) {
-                if (data != null) {
-                    Bundle extras = data.getExtras();
-                    conf.setMessageText(extras.get("message").toString());
-                    isFilled[1] = true;
-                }
+        if (requestCode == 2) {
+            if (data != null) {
+                Bundle extras = data.getExtras();
+                conf.setMessageText(extras.get("message").toString());
+                isFilled[1] = true;
             }
         }
-        if(requestCode == 3)
-        {
-            if(data != null)
-            {
+        if (requestCode == 3) {
+            if (data != null) {
                 Bundle args = data.getBundleExtra("finalList");
                 conf.setTargets((ArrayList<AndroidContact>) args.getSerializable("fList"));
             }
@@ -147,11 +141,12 @@ public class CreateNewConfiguration extends AppCompatActivity {
 
                     View row = super.getView(position, convertView, parent);
 
-                    if(isFilled[position])
-                        row.setBackgroundColor (Color.GREEN);
+                    if (isFilled[position])
+                        row.setBackgroundColor(Color.GREEN);
                     return row;
                 }
             });
 
         }
     }
+}

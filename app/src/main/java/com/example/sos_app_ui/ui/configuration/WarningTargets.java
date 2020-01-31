@@ -130,10 +130,10 @@ public class WarningTargets extends AppCompatActivity {
         currentContactsList2 = (ArrayList)saveInstanceState.getSerializable("currentList2");
         currentContactsSet = (Set)saveInstanceState.getSerializable("currentSet");
 
-        Adapter_for_Android_Contacts adapter = new Adapter_for_Android_Contacts(this,  currentContactsList2, "dark");
+        AndroidContactsAdapter adapter = new AndroidContactsAdapter(this,  currentContactsList2, "dark");
         finalList.setAdapter(adapter);
 
-        for(Android_Contact p1 : currentContactsList2)
+        for(AndroidContact p1 : currentContactsList2)
         {
             System.out.println(p1.getAndroid_contact_Name());
         }
