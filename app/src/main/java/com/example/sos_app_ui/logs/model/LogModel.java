@@ -22,9 +22,7 @@ public class LogModel {
 
     @Override
     public String toString() {
-        return
-                timestamp +
-                ", \nmessage='" + message + '\'' +
-                '}';
+        return timestamp +
+                ", \n" + message;
     }
 }
