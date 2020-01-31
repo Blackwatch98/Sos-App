@@ -1,6 +1,7 @@
 package com.example.sos_app_ui;
 
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -22,12 +23,13 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
-import com.example.sos_app_ui.ui.configuration.AndroidContact;
-import com.example.sos_app_ui.ui.configuration.ConfigurationFragment;
-import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
 import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.List;
 
 
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_logs)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -113,13 +115,30 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
         }
     }
+    public String gps(){
+        String cord = "Wspolrzedne";
 
-    public static void sendSms(){
-
-        String phoneNo = "500859950";
+        GPSTracker gps = new GPSTracker(this);
+        double latitude = gps.getLatitude();
+        DecimalFormat df = new DecimalFormat("##.####");
+        double longitude = gps.getLongitude();
+        cord = df.format(latitude) + " " + df.format(longitude);
+        return cord;
+    }
+    public static void sendSms(Context context){
+        String phoneNo = "604584611";
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, "test sms",
                 BackgroundNotificationService.sentPI, null);
+
+//        Toast toast = Toast.makeText(getApplicationContext(), "SMS sent to " + phoneNo, Toast.LENGTH_LONG);
+//        //toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+//        toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
+//        toast.show();
+        LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Warning sms sent");
+        LastActivityFragment.logs.add(logModel);
+
+       BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
     }
 
 //    PENDING CHANGES IN CONFIGURATION FRAGMENT AND LOCATION SPECIFICS

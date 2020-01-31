@@ -7,11 +7,15 @@ import android.hardware.SensorEventListener;
 import android.os.Vibrator;
 
 import com.example.sos_app_ui.MainActivity;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
+
+import java.sql.Timestamp;
 
 public class SensorListeners {
-    private float gyroscopeStrX = (float) 0;
-    private float gyroscopeStrY = (float) 0;
-    private float gyroscopeStrZ = (float) 0;
+    //private float gyroscopeStrX = (float) 0;
+    //private float gyroscopeStrY = (float) 0;
+    //private float gyroscopeStrZ = (float) 0;
     private float accValX = (float) 0;
     private float accValY = (float) 0;
     private float accValZ = (float) 0;
@@ -32,6 +36,13 @@ public class SensorListeners {
     private BackgroundNotificationService backgroundNotificationService;
 
     public SensorListeners(Context context, BackgroundNotificationService backgroundNotificationService) {
+        setCalculations();
+
+        this.context = context;
+        this.backgroundNotificationService = backgroundNotificationService;
+    }
+
+    private void setCalculations(){
         int listOfImpactLength = 3;
         int listofNotMoveLength = 3000;
         int highimpactValue = 35;
@@ -47,37 +58,6 @@ public class SensorListeners {
         calculateZ = new CalculateSensorClass(listLength);
         calculateFall = new CalculateFallClass(listOfImpactLength, listofNotMoveLength, highimpactValue,
                 lowImpactValue, notMoveValue, stopAlarmMaxCounterValue, timeAfterImpact, notMoveTime);
-
-        this.context = context;
-        this.backgroundNotificationService = backgroundNotificationService;
-    }
-
-    public boolean getFALL() {
-        return FALL;
-    }
-
-    public float getGyroscopeStrX() {
-        return gyroscopeStrX;
-    }
-
-    public float getGyroscopeStrY() {
-        return gyroscopeStrY;
-    }
-
-    public float getGyroscopeStrZ() {
-        return gyroscopeStrZ;
-    }
-
-    public float getaccValX() {
-        return accValX;
-    }
-
-    public float getaccValY() {
-        return accValY;
-    }
-
-    public float getaccValZ() {
-        return accValZ;
     }
 
     SensorEventListener setAccelerometerEventListener() {
@@ -89,6 +69,8 @@ public class SensorListeners {
                 calculateFall.setAccValueX(val);
                 //calculateFall.setAccValueX(calculateX.addElement(accValX));
                 //accelerometerStrX.append(accValX+" : "+val+"\n");
+
+                System.out.println(val);
 
                 accValY = sensorEvent.values[1];
                 //calculateFall.setAccValueY(calculateY.addElement(accValY));
@@ -105,11 +87,13 @@ public class SensorListeners {
                 if (calculateFall.calculate()) {
                     if(!FALL) {
                         FALL = true;
-                        MainActivity.sendSms();
-                        //saveResults();
-                        backgroundNotificationService.startForeground(getFALL());
+                        setCalculations();
+                        backgroundNotificationService.startForeground();
                         vibrate(2000);
+                        backgroundNotificationService.sendSmsDelay(30000);
                     }
+                    LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Fall detected");
+                    LastActivityFragment.logs.add(logModel);
                 }
             }
 

@@ -44,7 +44,7 @@ public class WarningTargets extends AppCompatActivity {
 
         if(currentContactsList2 == null)
             currentContactsList2 = new ArrayList<Android_Contact>();
-        removeList = new ArrayList<Android_Contact>();
+
 
         Button btn = findViewById(R.id.chooseBtn);
         btn.setOnClickListener(new View.OnClickListener() {
