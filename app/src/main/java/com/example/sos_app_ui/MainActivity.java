@@ -1,6 +1,8 @@
 package com.example.sos_app_ui;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,17 +26,10 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
-import com.example.sos_app_ui.logs.LastActivityFragment;
-import com.example.sos_app_ui.logs.model.LogModel;
-import com.example.sos_app_ui.ui.configuration.AndroidContact;
-import com.example.sos_app_ui.ui.configuration.ConfigurationFragment;
 import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
-import com.example.sos_app_ui.ui.configuration.MessagePanel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -65,15 +60,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getConfig();
-        if (!checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_CODE);
+        checkPermissions(this);
 
-        if (!checkPermission(android.Manifest.permission.SEND_SMS))
-            requestPermission(android.Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SEND_SMS);
-
-        if (!checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-            requestPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, PERMISSION_REQUEST_CODE);
-        }
+//        if (!checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+//            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_CODE);
+//
+//        if (!checkPermission(android.Manifest.permission.SEND_SMS))
+//            requestPermission(android.Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SEND_SMS);
+//
+//        if (!checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+//            requestPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, PERMISSION_REQUEST_CODE);
+//        }
 
         activityOn = false;
         super.onCreate(savedInstanceState);
@@ -90,6 +87,31 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    private static void checkPermissions(Context context){
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                android.Manifest.permission.READ_CONTACTS,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.SEND_SMS,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        if (!hasPermissions(context, PERMISSIONS)) {
+            ActivityCompat.requestPermissions((Activity) context, PERMISSIONS, PERMISSION_ALL);
+        }
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void getConfig()
@@ -156,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
     public static int sendSms(Context context) {
         System.out.println("flag is " + smsFlag);
         if (smsFlag) {
-            String phoneNo = "500859950";
+            String phoneNo = "604584611";
 //            CurrentConfiguration config = ConfigurationFragment.getWorkingConf();
 //            List<AndroidContact> contacts = config.getTargets();
 //            StringBuilder textMessage = new StringBuilder(config.getMessageText());
@@ -178,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         BackgroundNotificationService.sentPI,
                         null);
             System.out.println("sent");
-            BackgroundNotificationService.createNotification("SOS", "messages sent!", context);
+            BackgroundNotificationService.createNotification("SOS", "messages have been sent!", context);
             MainActivity.setSmsFlag(true);
             return 0;
         } else {

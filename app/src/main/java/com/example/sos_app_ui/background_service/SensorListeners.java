@@ -44,12 +44,12 @@ public class SensorListeners {
 
     private void setCalculations(){
         int listOfImpactLength = 3;
-        int listofNotMoveLength = 3000;
+        int listofNotMoveLength = 2000;
         int highimpactValue = 35;
         int lowImpactValue = 10;
         double notMoveValue = 2;
         int stopAlarmMaxCounterValue = 300;
-        double timeAfterImpact = 5;
+        double timeAfterImpact = 2;
         double notMoveTime = 10;
         int listLength = 4;
 
@@ -70,7 +70,7 @@ public class SensorListeners {
                 //calculateFall.setAccValueX(calculateX.addElement(accValX));
                 //accelerometerStrX.append(accValX+" : "+val+"\n");
 
-                System.out.println(val);
+                //System.out.println(val);
 
                 accValY = sensorEvent.values[1];
                 //calculateFall.setAccValueY(calculateY.addElement(accValY));
@@ -88,10 +88,8 @@ public class SensorListeners {
                     if(!FALL) {
                         FALL = true;
                         setCalculations();
-                        backgroundNotificationService.startForeground(true);
+                        backgroundNotificationService.createForeground();
                         vibrate(2000);
-//                        backgroundNotificationService.sendSmsDelay(30000);
-                        MainActivity.sendSms(context);
                     }
                     LogModel logModel = new LogModel(new Timestamp(System.currentTimeMillis()), "Fall detected");
                     LastActivityFragment.logs.add(logModel);
