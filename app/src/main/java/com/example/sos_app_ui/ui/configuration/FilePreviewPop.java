@@ -1,7 +1,5 @@
 package com.example.sos_app_ui.ui.configuration;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +13,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+
+/**
+ * Created by Daniel Duczymiński
+ * Activity that enable to preview currently chosen config file content
+ */
 
 public class FilePreviewPop extends Activity {
 
@@ -39,10 +43,12 @@ public class FilePreviewPop extends Activity {
 
         getWindow().setLayout((int)(width*.8),(int)(height*.6));
 
-        //this.setOutsideTouchable(true);
         showFileContent();
     }
 
+    /**
+     * This method fill pop-up window with file content
+     */
     public void showFileContent()
     {
         Intent i = this.getIntent();

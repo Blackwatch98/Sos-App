@@ -12,6 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.sos_app_ui.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+
+/**
+ * Created by Daniel Duczymiński
+ *
+ * This is an activity where user input his pesonal data like:
+ * first name, second name and age
+ */
 public class PersonalDataPanel extends AppCompatActivity {
 
 
@@ -66,6 +73,10 @@ public class PersonalDataPanel extends AppCompatActivity {
 
     }
 
+    /**
+     * Method that checks if the data were filled correctly
+     * @return true if yes, false if not
+     */
     public boolean dataValidate()
     {
         String str = this.fname.getText().toString().toLowerCase();

@@ -21,6 +21,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Created by Daniel Duczymiński
+ *
+ * This is an activity where user create new configuration file
+ * From here he is able to move into different parts of full configuration to edit them
+ */
+
 public class CreateNewConfiguration extends AppCompatActivity {
 
     private CurrentConfiguration conf;
@@ -108,6 +115,12 @@ public class CreateNewConfiguration extends AppCompatActivity {
     }
 
 
+    /**
+     * This method enable to exchange data between activities
+     * @param requestCode which method
+     * @param resultCode is data sent successfully
+     * @param data  data that has been sent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

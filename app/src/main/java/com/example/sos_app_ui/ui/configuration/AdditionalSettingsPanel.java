@@ -21,6 +21,14 @@ import android.widget.Toast;
 
 import com.example.sos_app_ui.R;
 
+
+/**
+ *  Created by Daniel Duczymiński
+ *
+ *  That is an activity with additional options for app (still in progress)
+ *  Here user can check or uncheck options he wants to add
+ */
+
 public class AdditionalSettingsPanel extends AppCompatActivity {
 
     private CheckBox ch1;
@@ -46,7 +54,9 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
         checkBoxSettings();
     }
 
-
+    /**
+     * Method that fill window with all options checkboxes (needs to be optimized)
+     */
     public void checkBoxSettings()
     {
         this.ch1 = findViewById(R.id.checkBox1);
@@ -103,8 +113,6 @@ public class AdditionalSettingsPanel extends AppCompatActivity {
                     alert11.show();
                 else
                 {
-                    //metoda do pobrania danych
-                    //setContentView(R.layout.smile_popup);
                     Intent i = new Intent(AdditionalSettingsPanel.this,PopActivity.class);
                     startActivity(i);
                     finish();

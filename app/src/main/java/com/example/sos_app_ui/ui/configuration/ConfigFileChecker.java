@@ -18,10 +18,17 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ *  Created by Daniel Duczymiński
+ *  That is an activity which contains all configuration files that user has already created
+ */
+
 public class ConfigFileChecker extends AppCompatActivity {
 
-       private ListView fileList;
+    private ListView fileList;
     private List<MyFiles> listOfFiles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -50,21 +57,10 @@ public class ConfigFileChecker extends AppCompatActivity {
         });
     }
 
-    public ListView getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(ListView fileList) {
-        this.fileList = fileList;
-    }
-
-    public List<MyFiles> getListOfFiles() {
-        return listOfFiles;
-    }
-
-    public void setListOfFiles(List<MyFiles> listOfFiles) {
-        this.listOfFiles = listOfFiles;
-    }
+    /**
+     * Method that gets all configuration files in external files directory
+     * @return  list of all found files
+     */
 
     public List<MyFiles> loadFiles()
     {
@@ -86,7 +82,6 @@ public class ConfigFileChecker extends AppCompatActivity {
                     continue;
                 BufferedReader brTest = new BufferedReader(new FileReader(files[i]));
                 String test = brTest.readLine();
-                //System.out.println(test);
 
                 String[] strArray = test.split(" ");
                 date += strArray[3];
@@ -99,13 +94,15 @@ public class ConfigFileChecker extends AppCompatActivity {
             list.add(new MyFiles(files[i].getName(),date));
         }
 
-
-
-
         return list;
     }
 
-
+    /**
+     * Class that represents each file
+     *
+     * filename - name of file
+     * createDate - accurate time of creating the file
+     */
     private class MyFiles
     {
         private String filename;
@@ -133,6 +130,11 @@ public class ConfigFileChecker extends AppCompatActivity {
             this.createDate = createDate;
         }
     }
+
+    /**
+     * Adapter class that determine how representation of each file should be projected
+     * to enable clear reading
+     */
 
     private class Adapter_for_My_Files extends BaseAdapter {
         Context mContext;

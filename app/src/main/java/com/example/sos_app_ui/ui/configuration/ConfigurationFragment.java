@@ -31,11 +31,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * Created by Daniel Duczymiński
+ *
+ * That is main window seen by user at the beginning
+ * From here he can load previous configurations or move into creating new config file menu
+ *
+ * workingConf variable is the final one confirmed by user
+ */
 public class ConfigurationFragment extends Fragment {
-
-    public CurrentConfiguration getWorkingConf() {
-        return workingConf;
-    }
 
     private CurrentConfiguration workingConf;
     private ConfigurationViewModel homeViewModel;
@@ -47,12 +51,15 @@ public class ConfigurationFragment extends Fragment {
     private String fileName;
     private String pathName;
 
+    public CurrentConfiguration getWorkingConf() {
+        return workingConf;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         homeViewModel = ViewModelProviders.of(this).get(ConfigurationViewModel.class);
         View root = inflater.inflate(R.layout.fragment_configuration, container, false);
-        //final TextView textView = root.findViewById(R.id.text_home);
 
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -147,6 +154,11 @@ public class ConfigurationFragment extends Fragment {
         return root;
     }
 
+    /**
+     * That method checks are there any other config files in directory
+     * @return true - if there are, false if not
+     */
+
     public boolean checkIfAnyFile()
     {
         String path = this.getContext().getExternalFilesDir("Configurations").toString();
@@ -164,6 +176,11 @@ public class ConfigurationFragment extends Fragment {
         else
             return false;
     }
+
+    /**
+     * This method updates unseen by user text file which contains information
+     * about previously used config files
+     */
 
     public void updateHistoryFile()
     {
@@ -199,6 +216,10 @@ public class ConfigurationFragment extends Fragment {
         }
     }
 
+    /**
+     * This method gets from history file last used config file
+     * @return name of this file
+     */
     public String getLastFile()
     {
         File file = new File(this.getContext().getExternalFilesDir("Configurations"), "History.txt");
@@ -232,8 +253,6 @@ public class ConfigurationFragment extends Fragment {
                 pathName = pathName +'/'+ fileName;
                 pathView.setText(pathName);
 
-                //System.out.println("-------------------CURRENT WORKING CONFIG-------------------");
-                //this.workingConf.display();
             }
 
         }

@@ -18,6 +18,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is an activity where user load all contacts from his mobile phone
+ */
+
 public class ContactsList extends AppCompatActivity {
 
     private ListView lista;
@@ -83,17 +87,16 @@ public class ContactsList extends AppCompatActivity {
                     selectedContacts.remove(arrayList_Android_Contacts.get(i));
                 }
 
-
-                System.out.println("ID " + i);
             }
         });
     }
 
-
+    /**
+     * This method sets all contacts got earlier on ListView to enable seeing them by user
+     */
     public void fp_get_Android_Contacts(){
         arrayList_Android_Contacts = new ArrayList<AndroidContact>();
 
-        //--< get all Contacts >--
         Cursor cursor_Android_Contacts = null;
         ContentResolver contentResolver = getContentResolver();
         try

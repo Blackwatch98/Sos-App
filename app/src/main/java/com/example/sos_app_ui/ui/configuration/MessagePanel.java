@@ -11,6 +11,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.sos_app_ui.R;
 
+/**
+ * Created by Daniel Duczymiński
+ *
+ * This activity is a panel where user can modify template of message he wants to be sent
+ */
 public class MessagePanel extends AppCompatActivity {
 
 

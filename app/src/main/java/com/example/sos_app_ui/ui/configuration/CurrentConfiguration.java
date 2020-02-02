@@ -15,6 +15,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Created by Daniel Duczymiński
+ *
+ * That is main configuration data class
+ * It contains all data filled by user like:
+ * Personal data: first name, second name, age
+ * Message Content
+ * Chosen contact targets
+ */
+
 public class CurrentConfiguration implements Serializable
 {
     private String fName;
@@ -27,6 +37,9 @@ public class CurrentConfiguration implements Serializable
 
     private File file;
 
+    /**
+     * This is constructor to initialize configuration object with empty data
+     */
     CurrentConfiguration()
     {
         this.fName="None";
@@ -60,21 +73,21 @@ public class CurrentConfiguration implements Serializable
         this.age = age;
     }
 
-    public String getMessageText() {
-        return messageText;
-    }
-
     public void setMessageText(String messageText) {
         this.messageText = messageText;
-    }
-
-    public List<AndroidContact> getTargets() {
-        return targets;
     }
 
     public void setTargets(List<AndroidContact> targets) {
         this.targets = targets;
     }
+
+    /**
+     * This method creates new configuration file and fill it with data
+     * @param fileName name of file (normally ,,Config" with its number in directory)
+     * @param data data that file should be fulfilled with
+     * @param context context of activity
+     * @return true if operation was successful, false if not
+     */
 
     public boolean writeConfigToFile(String fileName, CurrentConfiguration data, Context context)
     {
@@ -104,6 +117,13 @@ public class CurrentConfiguration implements Serializable
         return true;
 
     }
+
+    /**
+     * This method load data from chosen file to CurrentConfiguration attributes
+     * @param path path to chosen file
+     * @param context activity context
+     * @return true if operation was successful, false if not
+     */
 
     public boolean getDataFromConfigFile(String path, Context context)
     {
@@ -141,13 +161,11 @@ public class CurrentConfiguration implements Serializable
             while(true)
             {
                 st = br.readLine();
-                //System.out.println("LINIA: "+st +"kaka");
                 if(!st.equals("Targets: "))
                     this.messageText += st;
                 else
                     break;
             }
-            //System.out.println(this.messageText);
 
             this.targets = new ArrayList<>();
             while((st = br.readLine()) != null)
@@ -202,6 +220,9 @@ public class CurrentConfiguration implements Serializable
         return false;
     }
 
+    /**
+     * Method to display whole class content
+     */
     public void display()
     {
         String classContent = "";
@@ -213,6 +234,12 @@ public class CurrentConfiguration implements Serializable
 
         System.out.println(classContent);
     }
+
+
+    /**
+     * Method that converts class attributes into a string
+     * @return class content as string
+     */
 
     @Override
     public String toString() {
@@ -230,6 +257,12 @@ public class CurrentConfiguration implements Serializable
         return classContent;
     }
 
+    /**
+     * Method that converts list of android contacts into a string
+     * @param list list of contacts
+     * @return  list of contscts in a string
+     */
+
     public static String listToString(List<AndroidContact> list) {
         if(list != null)
         {
@@ -243,6 +276,11 @@ public class CurrentConfiguration implements Serializable
         return null;
     }
 
+    /**
+     * That method checks if all config attributes are correctly changed
+     * @param tested class that is being tested
+     * @return true if everything is correct, false if not
+     */
 
     public boolean validateChanges(CurrentConfiguration tested)
     {

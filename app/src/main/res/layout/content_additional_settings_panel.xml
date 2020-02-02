@@ -7,6 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ui.configuration.AdditionalSettingsPanel"
     tools:layout_editor_absoluteY="56dp"
+
     tools:showIn="@layout/activity_additional_settings_panel" >
 
     <LinearLayout
@@ -37,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Allow" />
 
             <CheckBox
@@ -44,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Deny" />
 
         </LinearLayout>
@@ -64,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Allow" />
 
             <CheckBox
@@ -71,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Deny" />
         </LinearLayout>
 
@@ -90,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Allow" />
 
             <CheckBox
@@ -97,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Deny" />
 
         </LinearLayout>
@@ -117,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Allow" />
 
             <CheckBox
@@ -124,6 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Deny" />
 
         </LinearLayout>
@@ -144,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Immediate" />
 
             <CheckBox
@@ -151,6 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/colorWhite"
                 android:text="Wait 30 seconds" />
         </LinearLayout>
 

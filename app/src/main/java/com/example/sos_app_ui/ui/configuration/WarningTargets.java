@@ -24,6 +24,14 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Created by Daniel Duczymiński
+ *
+ * This is an activity where user modifies final list of message targets
+ * Contains previous, current lists and also set to eliminate duplicates
+ */
+
 public class WarningTargets extends AppCompatActivity {
 
     private ListView finalList;
@@ -114,6 +122,11 @@ public class WarningTargets extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to prevent losing content by activity when phone orientation is changed
+     * It makes copy in memory to restore later
+     * @param outState currenct state
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
@@ -122,6 +135,9 @@ public class WarningTargets extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Method to restore data from previous one
+     */
     @Override
     protected  void onRestoreInstanceState(Bundle saveInstanceState)
     {
@@ -139,6 +155,12 @@ public class WarningTargets extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method enable to exchange data between activities
+     * @param requestCode which method
+     * @param resultCode is data sent successfully
+     * @param data  data that has been sent
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -172,6 +194,9 @@ public class WarningTargets extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method update final contacts list with new ones or delete chosen
+     */
     public void tabelViewUpdater()
     {
         currentContactsList2.clear();
