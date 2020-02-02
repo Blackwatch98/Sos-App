@@ -60,7 +60,7 @@ public class BackgroundNotificationService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
         context = getApplicationContext();
-        //createForeground();
+        createForeground();
         return START_STICKY;
     }
 

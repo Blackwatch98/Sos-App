@@ -31,9 +31,17 @@ public class CurrentConfiguration implements Serializable
     private String sName;
     private int age;
 
-    private String messageText;
+    private static String messageText;
 
-    private List<AndroidContact> targets;
+    public static String getMessageText() {
+        return messageText;
+    }
+
+    public List<AndroidContact> getTargets() {
+        return targets;
+    }
+
+    private static List<AndroidContact> targets;
 
     private File file;
 

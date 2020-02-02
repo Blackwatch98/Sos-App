@@ -26,10 +26,13 @@ import androidx.navigation.ui.NavigationUI;
 
 
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
+import com.example.sos_app_ui.ui.configuration.AndroidContact;
+import com.example.sos_app_ui.ui.configuration.ConfigurationFragment;
 import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -178,22 +181,21 @@ public class MainActivity extends AppCompatActivity {
     public static int sendSms(Context context) {
         System.out.println("flag is " + smsFlag);
         if (smsFlag) {
-            String phoneNo = "604584611";
-//            CurrentConfiguration config = ConfigurationFragment.getWorkingConf();
-//            List<AndroidContact> contacts = config.getTargets();
-//            StringBuilder textMessage = new StringBuilder(config.getMessageText());
-//            if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            String phoneNo = "500859950";
+            CurrentConfiguration config = ConfigurationFragment.getWorkingConf();
+            List<AndroidContact> contacts = config.getTargets();
+            StringBuilder textMessage = new StringBuilder(config.getMessageText());
 //                textMessage.append("My location is: ")
 //                        .append(MainActivity.gps());
-//            }
+
             SmsManager smsManager = SmsManager.getDefault();
-//            for (AndroidContact contact : contacts) {
-//                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
-//                        null,
-//                        textMessage.toString(),
-//                        BackgroundNotificationService.sentPI,
-//                        null);
-//            }
+            for (AndroidContact contact : contacts) {
+                smsManager.sendTextMessage(contact.android_contact_TelefonNr,
+                        null,
+                        textMessage.toString(),
+                        BackgroundNotificationService.sentPI,
+                        null);
+            }
             smsManager.sendTextMessage(phoneNo,
                         null,
                         "Something bad might have happened to me.",

@@ -41,7 +41,7 @@ import java.util.Date;
  */
 public class ConfigurationFragment extends Fragment {
 
-    private CurrentConfiguration workingConf;
+    private static CurrentConfiguration workingConf;
     private ConfigurationViewModel homeViewModel;
     private ListView list;
     private TextView pathView;
@@ -51,7 +51,7 @@ public class ConfigurationFragment extends Fragment {
     private String fileName;
     private String pathName;
 
-    public CurrentConfiguration getWorkingConf() {
+    public static CurrentConfiguration getWorkingConf() {
         return workingConf;
     }
 
