@@ -150,6 +150,9 @@ public class BackgroundNotificationService extends Service{
         notificationManager.notify(notificationId, builder.build());
     }
 
+    /**
+     * Creates channel for communicating with the rest of the app
+     */
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
@@ -161,6 +164,12 @@ public class BackgroundNotificationService extends Service{
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+    /**
+     * runs the notifications channel
+     * @param context
+     * context of the app that will create notifications
+     */
 
     private static void initChannels(Context context) {
         if (Build.VERSION.SDK_INT < 26) {

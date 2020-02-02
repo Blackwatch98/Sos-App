@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 import com.example.sos_app_ui.R;
 import com.example.sos_app_ui.logs.model.LogModel;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * class runs in foreground and listens for important events that are to be logged and added to the LogsList
+ */
 public class LastActivityFragment extends Fragment {
 
     public static List<LogModel> logs = new ArrayList<>();
@@ -24,8 +26,6 @@ public class LastActivityFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         super.onStart();
-//        logs = new ArrayList<>();
-
         View root = inflater.inflate(R.layout.fragment_last_activity, container, false);
 
         ListView list = root.findViewById(R.id.listView_Android_logs);
@@ -49,9 +49,5 @@ public class LastActivityFragment extends Fragment {
         }, delay);
 
         return root;
-    }
-
-    public void updateListView(LogModel logModel){
-        this.logs.add(logModel);
     }
 }
