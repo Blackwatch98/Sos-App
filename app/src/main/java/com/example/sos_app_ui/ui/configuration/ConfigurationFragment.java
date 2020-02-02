@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.R;
+import com.example.sos_app_ui.ui.current_activity.CurrentActivityFragment;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,6 +79,7 @@ public class ConfigurationFragment extends Fragment {
                 Intent i = new Intent(getActivity().getBaseContext(),MainActivity.class);
                 i.putExtra("FinalConfig", workingConf);
                 getActivity().startActivity(i);
+                CurrentActivityFragment.buttonActiveFlag = true;
             }
         });
 

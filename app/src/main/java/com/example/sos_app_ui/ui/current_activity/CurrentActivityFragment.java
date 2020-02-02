@@ -24,7 +24,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public class CurrentActivityFragment extends Fragment {
-
+    public static boolean buttonActiveFlag = false;
     public boolean activity;
     private CurrentActivityViewModel currentActivityViewModel;
 
@@ -68,24 +68,28 @@ public class CurrentActivityFragment extends Fragment {
     }
 
     private void startActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
-        textView.setText("Stop\nactivity");
-        progressBar.setVisibility(View.VISIBLE);
-        clickButton.setScaleX(0.9f);
-        clickButton.setScaleY(0.9f);
-        MainActivity.activityOn = true;
+        if(buttonActiveFlag) {
+            textView.setText("Stop\nactivity");
+            progressBar.setVisibility(View.VISIBLE);
+            clickButton.setScaleX(0.9f);
+            clickButton.setScaleY(0.9f);
+            MainActivity.activityOn = true;
 
-        Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
-        getActivity().startService(intent);
+            Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
+            getActivity().startService(intent);
+        }
     }
     private void stopActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
-        textView.setText("Start\nactivity");
-        progressBar.setVisibility(View.INVISIBLE);
-        clickButton.setScaleX(1f);
-        clickButton.setScaleY(1f);
-        MainActivity.activityOn = false;
+        if(buttonActiveFlag) {
+            textView.setText("Start\nactivity");
+            progressBar.setVisibility(View.INVISIBLE);
+            clickButton.setScaleX(1f);
+            clickButton.setScaleY(1f);
+            MainActivity.activityOn = false;
 
-        Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
-        getActivity().stopService(intent);
+            Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
+            getActivity().stopService(intent);
+        }
     }
 
     private void logActivityStart(boolean hasStarted){
