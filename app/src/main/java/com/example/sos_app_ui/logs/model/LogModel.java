@@ -2,6 +2,9 @@ package com.example.sos_app_ui.logs.model;
 
 import java.sql.Timestamp;
 
+/**
+ * Model of log to b saved in the external list
+ */
 public class LogModel {
 
     private Timestamp timestamp;

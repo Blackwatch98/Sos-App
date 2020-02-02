@@ -63,12 +63,12 @@ public class CurrentActivityFragment extends Fragment {
                 stopActivityButton(view, textView, progressBar, clickButton);
             else
                 startActivityButton(view, textView, progressBar, clickButton);
-            logActivityStart(MainActivity.activityOn);
         });
     }
 
     private void startActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {
         if(buttonActiveFlag) {
+            logActivityStart(MainActivity.activityOn);
             textView.setText("Stop\nactivity");
             progressBar.setVisibility(View.VISIBLE);
             clickButton.setScaleX(0.9f);
@@ -94,7 +94,7 @@ public class CurrentActivityFragment extends Fragment {
 
     private void logActivityStart(boolean hasStarted){
         Timestamp now = new Timestamp(System.currentTimeMillis());
-        String message = hasStarted ? "Activity started" : "Activity stopped";
+        String message = hasStarted ? "Activity stopped" : "Activity started";
         LogModel logModel = new LogModel(now, message);
 
         LastActivityFragment.logs.add(logModel);
