@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
+
+/**
+ * Class that was using to save sensors records
+ */
 public class FileHelper {
     private File file;
 

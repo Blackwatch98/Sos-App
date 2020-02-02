@@ -5,6 +5,9 @@ import android.os.Handler;
 
 import com.example.sos_app_ui.MainActivity;
 
+/**
+ * Simple class that wait periond of time to start Send Sms method.
+ */
 public class SendSmsDelayClass {
     private int timeMillis;
     private Context context;

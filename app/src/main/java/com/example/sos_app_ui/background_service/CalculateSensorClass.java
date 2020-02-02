@@ -7,6 +7,9 @@ import com.example.sos_app_ui.ui.configuration.PersonalDataPanel;
 import java.security.PermissionCollection;
 import java.util.LinkedList;
 
+/**
+ * Class that calculate diffrence of new record compared to last few.
+ */
 public class CalculateSensorClass {
     public LinkedList<Float> list;
     private Integer listCapacity;

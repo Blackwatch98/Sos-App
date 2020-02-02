@@ -12,6 +12,9 @@ import com.example.sos_app_ui.logs.model.LogModel;
 
 import java.sql.Timestamp;
 
+/**
+ * Class that keep accelerometer Listeners and use Calculate classes to detect impact
+ */
 public class SensorListeners {
     //private float gyroscopeStrX = (float) 0;
     //private float gyroscopeStrY = (float) 0;
@@ -42,6 +45,9 @@ public class SensorListeners {
         this.backgroundNotificationService = backgroundNotificationService;
     }
 
+    /**
+     * Method sets calculate classes
+     */
     private void setCalculations(){
         int listOfImpactLength = 3;
         int listofNotMoveLength = 2000;
@@ -60,6 +66,10 @@ public class SensorListeners {
                 lowImpactValue, notMoveValue, stopAlarmMaxCounterValue, timeAfterImpact, notMoveTime);
     }
 
+    /**
+     * Method start accelerometer event listener to calculate impact
+     * @return sensor event listener
+     */
     SensorEventListener setAccelerometerEventListener() {
         SensorEventListener accelerometerListener = new SensorEventListener() {
             @Override

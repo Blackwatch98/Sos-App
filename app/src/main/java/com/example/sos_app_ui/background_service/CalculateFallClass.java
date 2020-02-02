@@ -37,6 +37,17 @@ public class CalculateFallClass {
     private Double startedNotMovingTime = (double)0;
     private Double notMoveTime;
 
+    /**
+     * That class calculate if fall has been happened.
+     * @param listOfImpactLength list which keep possible impact records from sensor
+     * @param listofNotMoveLength list which keep possible not moving records from sensor
+     * @param highImpactValue Value for one of axis that have to be exceeded to detect fall
+     * @param lowImpactValue Value for every ax that have to be exceded to detect fall
+     * @param notMoveValue Value for every ax, exceed mean that smartphone moves
+     * @param stopAlarmValue Amount of records that have to reached to dismiss alarm
+     * @param timeAfterImpact Period of time that smartphone can bump after impact
+     * @param notMoveTime Period of time that smarthpone has to lie after impact
+     */
     public CalculateFallClass(int listOfImpactLength, int listofNotMoveLength,
                               Integer highImpactValue, Integer lowImpactValue,
                               Double notMoveValue, int stopAlarmValue, double timeAfterImpact,
@@ -65,6 +76,10 @@ public class CalculateFallClass {
         this.accZValue = accZValue;
     }
 
+    /**
+     * Main method that calculate possibility of impact.
+     * @return Return true if impact has been happened and False otherwise.
+     */
     public Boolean calculate(){
         if(impactAlarm) {
             if(calculateImpact())

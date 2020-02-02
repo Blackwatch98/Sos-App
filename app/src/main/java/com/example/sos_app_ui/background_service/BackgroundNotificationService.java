@@ -29,6 +29,10 @@ import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+
+/**
+ * That class is responsible for work in background and shows notifications
+ */
 public class BackgroundNotificationService extends Service{
     private static final String SMS_SENT_INTENT_FILTER = "com.yourapp.sms_send";
     private static final String SMS_DELIVERED_INTENT_FILTER = "com.yourapp.sms_delivered";
@@ -82,6 +86,10 @@ public class BackgroundNotificationService extends Service{
         sensorManager.unregisterListener(accelerometerSensorListener);
     }
 
+    /**
+     * Method creates and show Foreground that fall has been happened.
+     * Also sets delay to send messages
+     */
     public void createForeground() {
         SendSmsDelayClass sendSmsDelay = new SendSmsDelayClass(30000, this);
         sendSmsDelay.sendSms();
@@ -118,6 +126,9 @@ public class BackgroundNotificationService extends Service{
         createNotificationChannel();
     }
 
+    /**
+     * Method creates and show notifications.
+     */
     public static void createNotification(String notificationTitle, String notificationText, Context context){
         initChannels(context);
         //Intent notificationIntent = new Intent(context, MainActivity.class);
@@ -151,7 +162,7 @@ public class BackgroundNotificationService extends Service{
         }
     }
 
-    public static void initChannels(Context context) {
+    private static void initChannels(Context context) {
         if (Build.VERSION.SDK_INT < 26) {
             return;
         }
