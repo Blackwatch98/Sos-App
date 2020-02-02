@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -93,6 +94,8 @@ public class BackgroundNotificationService extends Service{
     public void createForeground() {
         SendSmsDelayClass sendSmsDelay = new SendSmsDelayClass(30000, this);
         sendSmsDelay.sendSms();
+        MediaPlayer player = MediaPlayer.create(this, R.raw.alarm);
+        player.start();
         initChannels(context);
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
