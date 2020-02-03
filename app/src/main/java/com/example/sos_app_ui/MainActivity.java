@@ -34,21 +34,10 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     private CurrentConfiguration workingConfig;
-    private ListView listView_Android_Contacts;
-    private ListView list;
-    private ArrayAdapter<String> adapter;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     private static final int PERMISSION_REQUEST_CODE = 100;
     public static boolean activityOn;
     public static boolean smsFlag = true;
-
-    public static int getMyPermissionsRequestSendSms() {
-        return MY_PERMISSIONS_REQUEST_SEND_SMS;
-    }
 
     @Override
     public void onAttachedToWindow() {
@@ -61,16 +50,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getConfig();
         checkPermissions(this);
-
-//        if (!checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-//            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_CODE);
-//
-//        if (!checkPermission(android.Manifest.permission.SEND_SMS))
-//            requestPermission(android.Manifest.permission.SEND_SMS, MY_PERMISSIONS_REQUEST_SEND_SMS);
-//
-//        if (!checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            requestPermission(android.Manifest.permission.ACCESS_FINE_LOCATION, PERMISSION_REQUEST_CODE);
-//        }
 
         activityOn = false;
         super.onCreate(savedInstanceState);
@@ -118,44 +97,6 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent i = getIntent();
         this.workingConfig = (CurrentConfiguration)i.getSerializableExtra("FinalConfig");
-        /*
-        if(workingConfig != null)
-            workingConfig.display();
-        */
-    }
-
-    private static boolean isExternalStorageReadOnly() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean isExternalStorageAvailable() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
-            return true;
-        }
-        return false;
-    }
-
-
-    private boolean checkPermission(String permission) {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, permission);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void requestPermission(String permission, int permissionCode) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
-            Toast.makeText(MainActivity.this, "Write External Storage permission allows us to save files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
-        }
     }
 
     public String gps(){

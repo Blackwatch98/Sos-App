@@ -1,17 +1,16 @@
 package com.example.sos_app_ui;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Service;
-import android.content.Intent;
-import android.location.LocationListener;
 import android.os.IBinder;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
 import java.util.Timer;
@@ -23,12 +22,6 @@ public class Localization
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_localization_panel);
-        //TextView TextView14 = (TextView)findViewById(R.id.textView14);
-
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //TextView14.setText("gps: "+gps());
 
         new Timer().schedule(new TimerTask() {
 
@@ -36,9 +29,6 @@ public class Localization
             public void run() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        //setContentView(R.layout.activity_localization_panel);
-                        //TextView TextView14 = (TextView)findViewById(R.id.textView14);
-                        //TextView14.setText("gps: "+gps());
                         System.out.println("Moj gps: "+gps());
                     }
                 });
@@ -190,40 +180,6 @@ class GPSTracker extends Service implements LocationListener {
      * lauch Settings Options
      * */
 
-    /*
-    public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-
-        // Setting DialogHelp Title
-        alertDialog.setTitle("GPS is settings");
-
-        // Setting DialogHelp Message
-        alertDialog
-                .setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Settings",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(
-                                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        mContext.startActivity(intent);
-                    }
-                });
-
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        // Showing Alert Message
-        alertDialog.show();
-    }
-    */
-
     @Override
     public void onLocationChanged(Location location) {
         float bestAccuracy = -1f;
@@ -250,10 +206,4 @@ class GPSTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
-
-    /*public float getAccurecy()
-    {
-        return location.getAccuracy();
-    }*/
-
 }
