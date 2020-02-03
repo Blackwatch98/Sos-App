@@ -1,7 +1,6 @@
 package com.example.sos_app_ui;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.os.Environment;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,11 +22,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-
 import com.example.sos_app_ui.background_service.BackgroundNotificationService;
+import com.example.sos_app_ui.logs.LastActivityFragment;
+import com.example.sos_app_ui.logs.model.LogModel;
 import com.example.sos_app_ui.ui.configuration.CurrentConfiguration;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 
 
@@ -36,19 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private CurrentConfiguration workingConfig;
     private ListView listView_Android_Contacts;
     private ListView list;
-    private ArrayAdapter<String> adapter;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 0;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 0;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
     private static final int PERMISSION_REQUEST_CODE = 100;
     public static boolean activityOn;
     public static boolean smsFlag = true;
-
-    public static int getMyPermissionsRequestSendSms() {
-        return MY_PERMISSIONS_REQUEST_SEND_SMS;
-    }
 
     @Override
     public void onAttachedToWindow() {
@@ -156,6 +147,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, permissionCode);
         }
+    }
+
+
+    private void logCoordinates() {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        String message = gps();
+        LogModel logModel = new LogModel(now, message);
+
+        LastActivityFragment.logs.add(logModel);
     }
 
     public String gps(){

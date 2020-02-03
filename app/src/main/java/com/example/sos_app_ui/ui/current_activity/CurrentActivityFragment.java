@@ -106,5 +106,4 @@ public class CurrentActivityFragment extends Fragment {
         LastActivityFragment.logs.add(logModel);
     }
 
-
 }
