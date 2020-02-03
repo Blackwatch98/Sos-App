@@ -21,14 +21,14 @@ import java.util.ArrayList;
 
 public class ContactsFragment extends Fragment {
 
-    private ContatsViewModel contatsViewModel;
+    private ContactsViewModel contactsViewModel;
     private ListView listView_Android_Contacts;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        //contatsViewModel =
-                //ViewModelProviders.of(this).get(ContatsViewModel.class);
+        //contactsViewModel =
+                //ViewModelProviders.of(this).get(ContactsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_last_activity, container, false);
 
 //        Button button = root.findViewById(R.id.btnLoad_AndroidContacts);
