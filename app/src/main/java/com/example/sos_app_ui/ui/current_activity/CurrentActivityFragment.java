@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -77,6 +79,10 @@ public class CurrentActivityFragment extends Fragment {
 
             Intent intent = new Intent(getActivity(), BackgroundNotificationService.class);
             getActivity().startService(intent);
+        }
+        else {
+            Toast.makeText(getContext(), "You have to confirm configuration first!",
+                    Toast.LENGTH_SHORT).show();
         }
     }
     private void stopActivityButton(final View view, final TextView textView, final ProgressBar progressBar, final Button clickButton) {

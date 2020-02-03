@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -94,8 +95,11 @@ public class BackgroundNotificationService extends Service{
     public void createForeground() {
         SendSmsDelayClass sendSmsDelay = new SendSmsDelayClass(30000, this);
         sendSmsDelay.sendSms();
+
+        setVolume(0.9f);
         MediaPlayer player = MediaPlayer.create(this, R.raw.alarm);
         player.start();
+
         initChannels(context);
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -127,6 +131,13 @@ public class BackgroundNotificationService extends Service{
                 .build());
 
         createNotificationChannel();
+    }
+
+    private void setVolume(float percent){
+        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int myVolume = (int) (maxVolume*percent);
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, myVolume, 0);
     }
 
     /**
