@@ -6,7 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Vibrator;
 
-import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.logs.LastActivityFragment;
 import com.example.sos_app_ui.logs.model.LogModel;
 
@@ -16,9 +15,6 @@ import java.sql.Timestamp;
  * Class that keep accelerometer Listeners and use Calculate classes to detect impact
  */
 public class SensorListeners {
-    //private float gyroscopeStrX = (float) 0;
-    //private float gyroscopeStrY = (float) 0;
-    //private float gyroscopeStrZ = (float) 0;
     private float accValX = (float) 0;
     private float accValY = (float) 0;
     private float accValZ = (float) 0;
@@ -28,13 +24,7 @@ public class SensorListeners {
     private CalculateSensorClass calculateY;
     private CalculateSensorClass calculateZ;
 
-    private StringBuilder accelerometerStrX = new StringBuilder();
-    private StringBuilder accelerometerStrY = new StringBuilder();
-    private StringBuilder accelerometerStrZ = new StringBuilder();
-
     private boolean FALL;
-
-    private boolean saved;
     private Context context;
     private BackgroundNotificationService backgroundNotificationService;
 
@@ -77,22 +67,14 @@ public class SensorListeners {
                 accValX = sensorEvent.values[0];
                 float val = calculateX.addElement(accValX);
                 calculateFall.setAccValueX(val);
-                //calculateFall.setAccValueX(calculateX.addElement(accValX));
-                //accelerometerStrX.append(accValX+" : "+val+"\n");
-
-                //System.out.println(val);
 
                 accValY = sensorEvent.values[1];
-                //calculateFall.setAccValueY(calculateY.addElement(accValY));
                 val = calculateY.addElement(accValY);
                 calculateFall.setAccValueY(val);
-                //accelerometerStrY.append(accValY+" : "+val+"\n");
 
                 accValZ = sensorEvent.values[2];
-                //calculateFall.setAccValueZ(calculateZ.addElement(accValZ));
                 val = calculateZ.addElement(accValZ);
                 calculateFall.setAccValueZ(val);
-                //accelerometerStrZ.append(accValZ+" : "+val+"\n");
 
                 if (calculateFall.calculate()) {
                     if(!FALL) {
@@ -111,35 +93,6 @@ public class SensorListeners {
             }
         };
         return accelerometerListener;
-    }
-
-
-//    SensorEventListener setGyroscopeEventListener() {
-//        return new SensorEventListener() {
-//            @Override
-//            public void onSensorChanged(SensorEvent sensorEvent) {
-//                gyroscopeStrX = sensorEvent.values[0];
-//
-//                gyroscopeStrY = sensorEvent.values[1];
-//
-//                gyroscopeStrZ = sensorEvent.values[2];
-//            }
-//
-//            @Override
-//            public void onAccuracyChanged(Sensor sensor, int i) {
-//            }
-//        };
-//    }
-
-    // saving
-    private void saveResults() {
-        FileHelper fileAccelerometerX = new FileHelper("accX.txt", context);
-        FileHelper fileAccelerometerY = new FileHelper("accY.txt", context);
-        FileHelper fileAccelerometerZ = new FileHelper("accZ.txt", context);
-
-        fileAccelerometerX.writeToFile(accelerometerStrX.toString());
-        fileAccelerometerY.writeToFile(accelerometerStrY.toString());
-        fileAccelerometerZ.writeToFile(accelerometerStrZ.toString());
     }
 
     private void vibrate(Integer time){

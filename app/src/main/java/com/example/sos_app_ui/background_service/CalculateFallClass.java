@@ -6,8 +6,6 @@ public class CalculateFallClass {
 
     // alarms
     private Boolean impactAlarm = false;
-    private Boolean possibleImpact = false;
-    private Boolean possibleNotMove = false;
     private Boolean notMoveAlarm = false;
 
     // xyz values
@@ -20,7 +18,6 @@ public class CalculateFallClass {
     private Integer listOfImpactLength;
     private LinkedList<Boolean> listOfPossibleNotMove;
     private Integer listofNotMoveLength;
-    //private Integer notMoveCounter;
 
     // risk values
     private Integer highImpactValue;
@@ -112,7 +109,6 @@ public class CalculateFallClass {
                     }
                 }
             }
-            //notMoveAlarm = checkNotMoveList();
             if(startedNotMovingTime != 0 && getCurrentSeconds() - startedNotMovingTime > notMoveTime && impactAlarm)
                 notMoveAlarm = true;
         }
@@ -170,14 +166,11 @@ public class CalculateFallClass {
         listOfPossibleNotMove.add(bool);
         if(listOfPossibleNotMove.size() > listofNotMoveLength)
             listOfPossibleNotMove.remove();
-        //if(!bool)
-            //System.out.println("ruszam sie");
     }
 
     private boolean checkImpactList(){
         if(listOfPossibleImpact.size() != listOfImpactLength)
             return false;
-        //System.out.println(listOfPossibleImpact);
         for (Boolean bool: listOfPossibleImpact) {
             if(!bool)
                 return false;

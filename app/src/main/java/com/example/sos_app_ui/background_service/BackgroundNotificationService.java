@@ -1,7 +1,6 @@
 package com.example.sos_app_ui.background_service;
 
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,9 +12,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
@@ -26,27 +23,18 @@ import com.example.sos_app_ui.MainActivity;
 import com.example.sos_app_ui.NotificationIntentService;
 import com.example.sos_app_ui.R;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
 
 /**
  * That class is responsible for work in background and shows notifications
  */
 public class BackgroundNotificationService extends Service{
-    private static final String SMS_SENT_INTENT_FILTER = "com.yourapp.sms_send";
-    private static final String SMS_DELIVERED_INTENT_FILTER = "com.yourapp.sms_delivered";
     public static PendingIntent sentPI = null;
-    public static PendingIntent deliveredPI = null;
     private static final int NOTIF_ID = 1;
     private static final String CHANNEL_ID = "1";
     private static int notificationId = 0;
     private SensorListeners sensorListeners;
     private SensorManager sensorManager;
     private SensorEventListener accelerometerSensorListener;
-    //ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private static Context context;
 
     public BackgroundNotificationService() {
@@ -62,7 +50,6 @@ public class BackgroundNotificationService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
         setUpSensors();
         context = getApplicationContext();
-        //createForeground();
         return START_STICKY;
     }
 
@@ -101,16 +88,11 @@ public class BackgroundNotificationService extends Service{
         player.start();
 
         initChannels(context);
-//        Intent intent = new Intent(this, MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        PendingIntent dismissIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent cancelSmsIntent = new Intent(this, NotificationIntentService.class);
         cancelSmsIntent.setAction(NotificationIntentService.CANCEL_SMS);
         PendingIntent cancelSmsPendingIntent = PendingIntent.getService(this, 0,
                 cancelSmsIntent, 0);
-        //cancelSmsPendingIntent.getActivity(this, 0, intent, 0);
 
         startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
                 "default") // don't forget create a notification channel first
@@ -145,12 +127,6 @@ public class BackgroundNotificationService extends Service{
      */
     public static void createNotification(String notificationTitle, String notificationText, Context context){
         initChannels(context);
-        //Intent notificationIntent = new Intent(context, MainActivity.class);
-
-//        Intent cancelSmsIntent = new Intent(context, NotificationIntentService.class);
-//        cancelSmsIntent.setAction(NotificationIntentService.CANCEL_SMS);
-//        PendingIntent cancelSmsPendingIntent = PendingIntent.getService(context, 0,
-//                cancelSmsIntent, 0);
 
         MainActivity.setSmsFlag(true);
 
